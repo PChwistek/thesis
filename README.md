@@ -1,89 +1,59 @@
 # Thesis 
 
-One Paragraph of project description goes here
-Readme comning soon....
+This repo holds my project for my 2018 Honors Thesis. Ideally, this project will offer an alternative method of funding independent content creators through cryptocurrencies, or more specifically, an Ethereum token (e.g. ERC20).
+
+This Trello board shows the current phase of development: https://trello.com/b/a6F0U7Tl/thesis
+
+## Current Goal
+
+Allow users to subscribe to a creator and allow creators access to those funds after a certain period of time. 
+
+## Prerequisites
+
+Make sure you have the following installed:
+
+Yarn
+```
+npm install -g yarn
+```
+Truffle
+```
+npm install -g truffle
+```
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+For this application to function properly, fire up two terminal instances: one to serve the React app and the other to run a local Ethereum instance using Truffle. If using Windows, make sure to run Truffle using PowerShell. 
 
-### Prerequisites
-
-What things you need to install the software and how to install them
-
+First, clone this repo:
 ```
-Give examples
+git clone https://github.com/PChwistek/thesis.git
 ```
-
-### Installing
-
-A step by step series of examples that tell you have to get a development env running
-
-Say what the step will be
-
+Then, install dependencies:
 ```
-Give the example
+yarn install
 ```
-
-And repeat
-
+Start Truffle in the first terminal instance:
 ```
-until finished
+truffle develop
+compile
 ```
-
-End with an example of getting some data out of the system or using it for a little demo
-
-## Running the tests
-
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
+Start the development server in the second terminal instance:
 ```
-Give an example
+yarn start
 ```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
 
 ## Built With
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-
-## Contributing
-
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
-
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+* React:  https://github.com/facebook/react
+* Redux:  https://github.com/reduxjs/redux
+* Truffle: https://github.com/trufflesuite/truffle
 
 ## Authors
 
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+* **Philip Chwistek** - [PChwistek](https://github.com/PChwistek)
 
 ## Acknowledgments
 
-* Hat tip to anyone who's code was used
-* Inspiration
-* etc
+* TBD
 
