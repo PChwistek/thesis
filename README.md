@@ -1,6 +1,6 @@
 # Thesis 
 
-This repo holds my project for my 2018 Honors Thesis. Ideally, this project will offer an alternative method of funding independent content creators through cryptocurrencies, or more specifically, an Ethereum token (e.g. ERC20).
+This repo holds my project for my Honors Thesis (Spring 2019). Ideally, this project will offer an alternative method of funding independent content creators through cryptocurrencies, or more specifically, an Ethereum token (e.g. ERC20).
 
 This Trello board shows the current phase of development: https://trello.com/b/a6F0U7Tl/thesis
 
