@@ -43,7 +43,7 @@ Start the development server in the second terminal instance:
 yarn start
 ```
 At the current moment, you need MetaMask installed as an extension.
-If you have issues connected MetaMask to your local network, consult this page: http://truffleframework.com/docs/advanced/truffle-with-metamask
+If you have issues connecting MetaMask to your local network, consult this page: http://truffleframework.com/docs/advanced/truffle-with-metamask
 
 ## Built With
 
