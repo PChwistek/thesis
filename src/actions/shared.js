@@ -2,7 +2,7 @@ import getWeb3 from '../utils/web3'
 import { setAuthedUser } from './authedUser'
 import { showLoading, hideLoading } from 'react-redux-loading'
 
-export function handleInitialData () {
+export function fetchWeb3Data () {
   return (dispatch) => {
     dispatch(showLoading())
     return getWeb3.then(({web3}) => {

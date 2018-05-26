@@ -1,1 +1,0 @@
-/* this will help update the state according to the network and transactions */

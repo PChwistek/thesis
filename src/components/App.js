@@ -1,34 +1,37 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { handleInitialData } from '../actions/shared'
+import { fetchWeb3Data } from '../actions/shared'
 import LoadingBar from 'react-redux-loading'
-import '../App.css';
+import MetaMaskError from './MetaMaskError'
+import Dashboard from './Dashboard.js'
+import 'bulma/css/bulma.min.css'
+import '../css/app.css'
 
 class App extends Component {
   
   componentDidMount() {
-    this.props.dispatch(handleInitialData())
+    this.props.dispatch(fetchWeb3Data())
   }
 
   render() {
     return (
-      <div>
+      <div className='hero'>
         <LoadingBar />
-        <div>
+        <div className='container'>
           {this.props.authed === true
-            ? <div> Please launch MetaMask. </div>
-            : <div> Works correctly! </div>
+            ? <MetaMaskError />
+            : <Dashboard />
           }
         </div>
       </div>
-    );
+    )
   }
 }
 
-function mapStateToProps({authedUser}) {
+function mapStateToProps({ authedUser }) {
   return {
     authed: authedUser === null
   }
 }
 
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps)(App)
