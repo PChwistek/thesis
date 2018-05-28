@@ -28,6 +28,7 @@ module.exports = {
         "indent": ["error", 2, { "SwitchCase": 1 }],
         "linebreak-style": [ "error", "unix" ],
         "quotes": [ "error", "single" ],
+        "no-console": 0,
         "semi": [ "error", "never"],
         "react/jsx-boolean-value": 0,
         "react/jsx-closing-bracket-location": 1,
