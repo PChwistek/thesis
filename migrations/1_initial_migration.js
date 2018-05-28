@@ -3,6 +3,7 @@ const Subscription = artifacts.require("./Subscription.sol")
 const Ownable = artifacts.require("./Ownable.sol")
 const CloneFactory = artifacts.require("./CloneFactory.sol")
 const SubscriptionFactory = artifacts.require("./SubscriptionFactory.sol")
+const NaiveSubscriptionFactory = artifacts.require("./NaiveSubscriptionFactory.sol")
 
 module.exports = function(deployer) {
   let MasterAddress = ''
@@ -11,6 +12,7 @@ module.exports = function(deployer) {
     MasterAddress = instance.address
   })
   deployer.deploy(Ownable)
+  deployer.deploy(NaiveSubscriptionFactory)
   deployer.deploy(CloneFactory)
   deployer.deploy(SubscriptionFactory, MasterAddress)
 }

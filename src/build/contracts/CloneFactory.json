@@ -19,14 +19,14 @@
       "type": "event"
     }
   ],
-  "bytecode": "0x6080604052348015600f57600080fd5b50603580601d6000396000f3006080604052600080fd00a165627a7a72305820748bfb98746f758c8f67353156ef16d575c95e84d6551fe1ef9540937bd00e320029",
-  "deployedBytecode": "0x6080604052600080fd00a165627a7a72305820748bfb98746f758c8f67353156ef16d575c95e84d6551fe1ef9540937bd00e320029",
+  "bytecode": "0x6080604052348015600f57600080fd5b50603580601d6000396000f3006080604052600080fd00a165627a7a72305820a8166cf0dab05d290f9f3809333b2bb634e0e7c17a1aea972f56908ecd3325220029",
+  "deployedBytecode": "0x6080604052600080fd00a165627a7a72305820a8166cf0dab05d290f9f3809333b2bb634e0e7c17a1aea972f56908ecd3325220029",
   "sourceMap": "180:607:0:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;180:607:0;;;;;;;",
   "deployedSourceMap": "180:607:0:-;;;;;",
   "source": "/* this contract plays around with some bytecode to create the new instance as efficient as possible\r\nhttps://github.com/optionality/clone-factory\r\n */\r\npragma solidity 0.4.23;\r\n\r\ncontract CloneFactory {\r\n\r\n  event CloneCreated(address indexed target, address clone);\r\n\r\n  function createClone(address target) internal returns (address result) {\r\n    bytes memory clone = hex\"600034603b57603080600f833981f36000368180378080368173bebebebebebebebebebebebebebebebebebebebe5af43d82803e15602c573d90f35b3d90fd\";\r\n    bytes20 targetBytes = bytes20(target);\r\n    for (uint i = 0; i < 20; i++) {\r\n      clone[26 + i] = targetBytes[i];\r\n    }\r\n    assembly {\r\n      let len := mload(clone)\r\n      let data := add(clone, 0x20)\r\n      result := create(0, data, len)\r\n    }\r\n    return result;\r\n  }\r\n}",
-  "sourcePath": "C:\\Users\\Philz zee Kill\\desktop\\webprojects\\thesis\\contracts\\CloneFactory.sol",
+  "sourcePath": "C:\\Users\\Philz zee Kill\\Desktop\\WebProjects\\thesis\\contracts\\CloneFactory.sol",
   "ast": {
-    "absolutePath": "/C/Users/Philz zee Kill/desktop/webprojects/thesis/contracts/CloneFactory.sol",
+    "absolutePath": "/C/Users/Philz zee Kill/Desktop/WebProjects/thesis/contracts/CloneFactory.sol",
     "exportedSymbols": {
       "CloneFactory": [
         51
@@ -706,7 +706,7 @@
     "src": "153:634:0"
   },
   "legacyAST": {
-    "absolutePath": "/C/Users/Philz zee Kill/desktop/webprojects/thesis/contracts/CloneFactory.sol",
+    "absolutePath": "/C/Users/Philz zee Kill/Desktop/WebProjects/thesis/contracts/CloneFactory.sol",
     "exportedSymbols": {
       "CloneFactory": [
         51
@@ -1393,10 +1393,10 @@
     "4447": {
       "events": {},
       "links": {},
-      "address": "0xecfcab0a285d3380e488a39b4bb21e777f8a4eac",
-      "transactionHash": "0xb78141e45f2b97013618f7de6b1929e302bf791da8b5f5442c0391d93dae1bb3"
+      "address": "0x4e72770760c011647d4873f60a3cf6cdea896cd8",
+      "transactionHash": "0x7848aef2a42fc71a3870c007ea72696516e5aca67a8c9d6f31ff7904621225ad"
     }
   },
   "schemaVersion": "2.0.0",
-  "updatedAt": "2018-05-28T07:51:34.527Z"
+  "updatedAt": "2018-05-28T08:17:05.393Z"
 }
