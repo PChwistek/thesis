@@ -20,7 +20,7 @@ class Dashboard extends Component {
         <div className='hero-body has-text-centered'>
           Click the button below to start a subscription contract!
           <br />
-          (This will cost some ether... approximately $0.04)
+          (This will cost some ether... approximately $2.00)
           <br />
           <button className='button'>
             Start a subscription contract!
