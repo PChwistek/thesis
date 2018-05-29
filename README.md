@@ -20,6 +20,10 @@ Truffle
 ```
 npm install -g truffle
 ```
+and Ganache
+```
+npm install -g ganache-cli
+```
 
 ## Getting Started
 
@@ -37,11 +41,14 @@ Start Truffle in the first terminal instance:
 ```
 truffle develop
 compile
+migrate
 ```
 Start the development server in the second terminal instance:
 ```
 yarn start
 ```
+Finally, run an instance of Ganache Cli. 
+
 At the current moment, you need MetaMask installed as an extension.
 If you have issues connecting MetaMask to your local network, consult this page: http://truffleframework.com/docs/advanced/truffle-with-metamask
 
