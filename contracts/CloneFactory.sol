@@ -18,6 +18,5 @@ contract CloneFactory {
       let data := add(clone, 0x20)
       result := create(0, data, len)
     }
-    return result;
   }
 }

@@ -19,20 +19,20 @@
       "type": "event"
     }
   ],
-  "bytecode": "0x6080604052348015600f57600080fd5b50603580601d6000396000f3006080604052600080fd00a165627a7a72305820a8166cf0dab05d290f9f3809333b2bb634e0e7c17a1aea972f56908ecd3325220029",
-  "deployedBytecode": "0x6080604052600080fd00a165627a7a72305820a8166cf0dab05d290f9f3809333b2bb634e0e7c17a1aea972f56908ecd3325220029",
-  "sourceMap": "180:607:0:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;180:607:0;;;;;;;",
-  "deployedSourceMap": "180:607:0:-;;;;;",
-  "source": "/* this contract plays around with some bytecode to create the new instance as efficient as possible\r\nhttps://github.com/optionality/clone-factory\r\n */\r\npragma solidity 0.4.23;\r\n\r\ncontract CloneFactory {\r\n\r\n  event CloneCreated(address indexed target, address clone);\r\n\r\n  function createClone(address target) internal returns (address result) {\r\n    bytes memory clone = hex\"600034603b57603080600f833981f36000368180378080368173bebebebebebebebebebebebebebebebebebebebe5af43d82803e15602c573d90f35b3d90fd\";\r\n    bytes20 targetBytes = bytes20(target);\r\n    for (uint i = 0; i < 20; i++) {\r\n      clone[26 + i] = targetBytes[i];\r\n    }\r\n    assembly {\r\n      let len := mload(clone)\r\n      let data := add(clone, 0x20)\r\n      result := create(0, data, len)\r\n    }\r\n    return result;\r\n  }\r\n}",
+  "bytecode": "0x6080604052348015600f57600080fd5b50603580601d6000396000f3006080604052600080fd00a165627a7a723058205da7a5ebe502e83c85c0509cce2fc92af0d9991480d43bcaaca91e39c7ad31170029",
+  "deployedBytecode": "0x6080604052600080fd00a165627a7a723058205da7a5ebe502e83c85c0509cce2fc92af0d9991480d43bcaaca91e39c7ad31170029",
+  "sourceMap": "180:587:0:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;180:587:0;;;;;;;",
+  "deployedSourceMap": "180:587:0:-;;;;;",
+  "source": "/* this contract plays around with some bytecode to create the new instance as efficient as possible\r\nhttps://github.com/optionality/clone-factory\r\n */\r\npragma solidity 0.4.23;\r\n\r\ncontract CloneFactory {\r\n\r\n  event CloneCreated(address indexed target, address clone);\r\n\r\n  function createClone(address target) internal returns (address result) {\r\n    bytes memory clone = hex\"600034603b57603080600f833981f36000368180378080368173bebebebebebebebebebebebebebebebebebebebe5af43d82803e15602c573d90f35b3d90fd\";\r\n    bytes20 targetBytes = bytes20(target);\r\n    for (uint i = 0; i < 20; i++) {\r\n      clone[26 + i] = targetBytes[i];\r\n    }\r\n    assembly {\r\n      let len := mload(clone)\r\n      let data := add(clone, 0x20)\r\n      result := create(0, data, len)\r\n    }\r\n  }\r\n}",
   "sourcePath": "C:\\Users\\Philz zee Kill\\Desktop\\WebProjects\\thesis\\contracts\\CloneFactory.sol",
   "ast": {
     "absolutePath": "/C/Users/Philz zee Kill/Desktop/WebProjects/thesis/contracts/CloneFactory.sol",
     "exportedSymbols": {
       "CloneFactory": [
-        51
+        49
       ]
     },
-    "id": 52,
+    "id": 50,
     "nodeType": "SourceUnit",
     "nodes": [
       {
@@ -51,9 +51,9 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 51,
+        "id": 49,
         "linearizedBaseContracts": [
-          51
+          49
         ],
         "name": "CloneFactory",
         "nodeType": "ContractDefinition",
@@ -129,9 +129,9 @@
           },
           {
             "body": {
-              "id": 49,
+              "id": 47,
               "nodeType": "Block",
-              "src": "344:440:0",
+              "src": "344:420:0",
               "statements": [
                 {
                   "assignments": [
@@ -143,7 +143,7 @@
                       "id": 15,
                       "name": "clone",
                       "nodeType": "VariableDeclaration",
-                      "scope": 50,
+                      "scope": 48,
                       "src": "351:18:0",
                       "stateVariable": false,
                       "storageLocation": "memory",
@@ -197,7 +197,7 @@
                       "id": 19,
                       "name": "targetBytes",
                       "nodeType": "VariableDeclaration",
-                      "scope": 50,
+                      "scope": 48,
                       "src": "510:19:0",
                       "stateVariable": false,
                       "storageLocation": "default",
@@ -480,7 +480,7 @@
                         "id": 25,
                         "name": "i",
                         "nodeType": "VariableDeclaration",
-                        "scope": 50,
+                        "scope": 48,
                         "src": "559:6:0",
                         "stateVariable": false,
                         "storageLocation": "default",
@@ -573,15 +573,6 @@
                       }
                     },
                     {
-                      "result": {
-                        "declaration": 12,
-                        "isOffset": false,
-                        "isSlot": false,
-                        "src": "722:6:0",
-                        "valueSize": 1
-                      }
-                    },
-                    {
                       "clone": {
                         "declaration": 15,
                         "isOffset": false,
@@ -589,36 +580,26 @@
                         "src": "702:5:0",
                         "valueSize": 1
                       }
+                    },
+                    {
+                      "result": {
+                        "declaration": 12,
+                        "isOffset": false,
+                        "isSlot": false,
+                        "src": "722:6:0",
+                        "valueSize": 1
+                      }
                     }
                   ],
                   "id": 46,
                   "nodeType": "InlineAssembly",
                   "operations": "{\n    let len := mload(clone)\n    let data := add(clone, 0x20)\n    result := create(0, data, len)\n}",
-                  "src": "637:134:0"
-                },
-                {
-                  "expression": {
-                    "argumentTypes": null,
-                    "id": 47,
-                    "name": "result",
-                    "nodeType": "Identifier",
-                    "overloadedDeclarations": [],
-                    "referencedDeclaration": 12,
-                    "src": "772:6:0",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_address",
-                      "typeString": "address"
-                    }
-                  },
-                  "functionReturnParameters": 13,
-                  "id": 48,
-                  "nodeType": "Return",
-                  "src": "765:13:0"
+                  "src": "637:127:0"
                 }
               ]
             },
             "documentation": null,
-            "id": 50,
+            "id": 48,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
@@ -634,7 +615,7 @@
                   "id": 9,
                   "name": "target",
                   "nodeType": "VariableDeclaration",
-                  "scope": 50,
+                  "scope": 48,
                   "src": "294:14:0",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -668,7 +649,7 @@
                   "id": 12,
                   "name": "result",
                   "nodeType": "VariableDeclaration",
-                  "scope": 50,
+                  "scope": 48,
                   "src": "328:14:0",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -692,27 +673,27 @@
               ],
               "src": "327:16:0"
             },
-            "scope": 51,
-            "src": "273:511:0",
+            "scope": 49,
+            "src": "273:491:0",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "internal"
           }
         ],
-        "scope": 52,
-        "src": "180:607:0"
+        "scope": 50,
+        "src": "180:587:0"
       }
     ],
-    "src": "153:634:0"
+    "src": "153:614:0"
   },
   "legacyAST": {
     "absolutePath": "/C/Users/Philz zee Kill/Desktop/WebProjects/thesis/contracts/CloneFactory.sol",
     "exportedSymbols": {
       "CloneFactory": [
-        51
+        49
       ]
     },
-    "id": 52,
+    "id": 50,
     "nodeType": "SourceUnit",
     "nodes": [
       {
@@ -731,9 +712,9 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 51,
+        "id": 49,
         "linearizedBaseContracts": [
-          51
+          49
         ],
         "name": "CloneFactory",
         "nodeType": "ContractDefinition",
@@ -809,9 +790,9 @@
           },
           {
             "body": {
-              "id": 49,
+              "id": 47,
               "nodeType": "Block",
-              "src": "344:440:0",
+              "src": "344:420:0",
               "statements": [
                 {
                   "assignments": [
@@ -823,7 +804,7 @@
                       "id": 15,
                       "name": "clone",
                       "nodeType": "VariableDeclaration",
-                      "scope": 50,
+                      "scope": 48,
                       "src": "351:18:0",
                       "stateVariable": false,
                       "storageLocation": "memory",
@@ -877,7 +858,7 @@
                       "id": 19,
                       "name": "targetBytes",
                       "nodeType": "VariableDeclaration",
-                      "scope": 50,
+                      "scope": 48,
                       "src": "510:19:0",
                       "stateVariable": false,
                       "storageLocation": "default",
@@ -1160,7 +1141,7 @@
                         "id": 25,
                         "name": "i",
                         "nodeType": "VariableDeclaration",
-                        "scope": 50,
+                        "scope": 48,
                         "src": "559:6:0",
                         "stateVariable": false,
                         "storageLocation": "default",
@@ -1253,15 +1234,6 @@
                       }
                     },
                     {
-                      "result": {
-                        "declaration": 12,
-                        "isOffset": false,
-                        "isSlot": false,
-                        "src": "722:6:0",
-                        "valueSize": 1
-                      }
-                    },
-                    {
                       "clone": {
                         "declaration": 15,
                         "isOffset": false,
@@ -1269,36 +1241,26 @@
                         "src": "702:5:0",
                         "valueSize": 1
                       }
+                    },
+                    {
+                      "result": {
+                        "declaration": 12,
+                        "isOffset": false,
+                        "isSlot": false,
+                        "src": "722:6:0",
+                        "valueSize": 1
+                      }
                     }
                   ],
                   "id": 46,
                   "nodeType": "InlineAssembly",
                   "operations": "{\n    let len := mload(clone)\n    let data := add(clone, 0x20)\n    result := create(0, data, len)\n}",
-                  "src": "637:134:0"
-                },
-                {
-                  "expression": {
-                    "argumentTypes": null,
-                    "id": 47,
-                    "name": "result",
-                    "nodeType": "Identifier",
-                    "overloadedDeclarations": [],
-                    "referencedDeclaration": 12,
-                    "src": "772:6:0",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_address",
-                      "typeString": "address"
-                    }
-                  },
-                  "functionReturnParameters": 13,
-                  "id": 48,
-                  "nodeType": "Return",
-                  "src": "765:13:0"
+                  "src": "637:127:0"
                 }
               ]
             },
             "documentation": null,
-            "id": 50,
+            "id": 48,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
@@ -1314,7 +1276,7 @@
                   "id": 9,
                   "name": "target",
                   "nodeType": "VariableDeclaration",
-                  "scope": 50,
+                  "scope": 48,
                   "src": "294:14:0",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1348,7 +1310,7 @@
                   "id": 12,
                   "name": "result",
                   "nodeType": "VariableDeclaration",
-                  "scope": 50,
+                  "scope": 48,
                   "src": "328:14:0",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1372,31 +1334,31 @@
               ],
               "src": "327:16:0"
             },
-            "scope": 51,
-            "src": "273:511:0",
+            "scope": 49,
+            "src": "273:491:0",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "internal"
           }
         ],
-        "scope": 52,
-        "src": "180:607:0"
+        "scope": 50,
+        "src": "180:587:0"
       }
     ],
-    "src": "153:634:0"
+    "src": "153:614:0"
   },
   "compiler": {
     "name": "solc",
     "version": "0.4.23+commit.124ca40d.Emscripten.clang"
   },
   "networks": {
-    "4447": {
+    "5777": {
       "events": {},
       "links": {},
-      "address": "0x4e72770760c011647d4873f60a3cf6cdea896cd8",
-      "transactionHash": "0x7848aef2a42fc71a3870c007ea72696516e5aca67a8c9d6f31ff7904621225ad"
+      "address": "0x77cf4579f7115a3aeaa5282c0d8e54e6c74dbc30",
+      "transactionHash": "0x83d0d9a237250cda23fb7c75236db01526c9ab01925a07f63eb1bdf9494bd052"
     }
   },
   "schemaVersion": "2.0.0",
-  "updatedAt": "2018-05-28T08:17:05.393Z"
+  "updatedAt": "2018-05-29T07:58:15.769Z"
 }

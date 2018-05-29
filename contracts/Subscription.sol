@@ -1,32 +1,34 @@
-pragma solidity ^0.4.23;
+pragma solidity 0.4.23;
+
+//solhint-disable max-line-length
+//solhint-disable no-inline-assembly
 
 contract Subscription {
-    
-    string public owner;
-    uint public subscribers;
-    uint public totalFunds;
 
-    event confirmedCreation(address sender, string name, uint numSubs, uint funds);
-    event someEvent(address sender, string someWords);
+  string public name;
+  uint public funds;
 
-    constructor() public {
-        //no values, since will be dynamically initialized in factory
-    }
-    
-    function init(string _name) public {
-        require(bytes(_name).length == 0); //ensures that the contract has not already been initialized
-        owner = _name;
-    }
+  event CreateSubscription(address sender, string name, uint funds);
 
-    function doIt() public {
-        emit someEvent(address(this), owner);
-    }
+  constructor() public {
+    name = "master"; // force default deployment to be init'd
+  }
 
-    function subbed() public returns (string) {
-        subscribers++;
-        require(false, "Hello world");
-        return "Goodbye sweet world!";
-    }
+  function init(string _name, uint _funds) public {
+    require(bytes(name).length == 0); // ensure not init'd already.
+    require(bytes(_name).length > 0);
 
+    name = _name;
+    funds = _funds;
+  }
 
+  function doit() public {
+    emit CreateSubscription(address(this), name, funds);
+  }
+
+  function epicfail() public returns (string){
+    funds++;
+    require(false, "Hello world!");
+    return "Goodbye sweet world!";
+  }
 }

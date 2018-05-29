@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { fetchWeb3Data, createContracts } from '../actions/shared'
+import { fetchWeb3Data, createContracts, createSubscriptionFromFactory } from '../actions/shared'
 import LoadingBar from 'react-redux-loading'
 import MetaMaskError from './MetaMaskError'
 import Dashboard from './Dashboard.js'
@@ -11,7 +11,10 @@ class App extends Component {
   
   componentDidMount() {
     this.props.dispatch(fetchWeb3Data())
-    this.props.dispatch(createContracts())
+    if(this.props.authed === true) {
+      this.props.dispatch(createSubscriptionFromFactory())
+      this.props.dispatch(createContracts())
+    }
   }
 
   render() {

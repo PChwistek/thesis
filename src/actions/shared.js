@@ -2,7 +2,9 @@ import getWeb3 from '../utils/web3'
 import { setAuthedUser } from './authedUser'
 import { showLoading, hideLoading } from 'react-redux-loading'
 import TruffleContract from 'truffle-contract'
-import SubscriptionFactoryJSON from '../build/contracts/SubscriptionFactory.json'
+import NaiveSubscriptionFactory from '../build/contracts/NaiveSubscriptionFactory.json'
+import SubscriptionFactory from '../build/contracts/SubscriptionFactory.json'
+import Subscription from '../build/contracts/Subscription.json'
 
 
 export function fetchWeb3Data () {
@@ -25,14 +27,66 @@ export function createContracts () {
   return (dispatch) => {
     dispatch(showLoading())
     return getWeb3.then(({web3}) => {
-      const SubscriptionFactory = TruffleContract(SubscriptionFactoryJSON)
-      SubscriptionFactory.setProvider(web3.currentProvider)
-      SubscriptionFactory.deployed().then((instance) => {
-        return instance.createSubscription('test', {from: '0x627306090abaB3A6e1400e9345bC60c78a8BEf57'}).then((result) => {
-          console.log(result)
+      const NaiveSubscriptionFactoryContract = TruffleContract(NaiveSubscriptionFactory)
+      NaiveSubscriptionFactoryContract.setProvider(web3.currentProvider)
+      NaiveSubscriptionFactoryContract.deployed()
+        .then((instance) => {
+          return instance.newSubscription({from: '0xd707343B9290caddC9014474079427590231e5ae'})
         })
-      })
+        .then((result) => {
+          // we want to use normal JavaScript b/c of the break
+          for (let i = 0; i < result.logs.length; i++) {
+            var log = result.logs[i]
+            if (log.event === 'DeployedSubscription') {
+              break
+            }
+          }
+          return 
+        })
+        .catch(function(err) {
+          console.log('error', err)
+        })
       dispatch(hideLoading())
     })
   }
 }
+
+export function createSubscriptionFromFactory () {
+  return (dispatch) => {
+    dispatch(showLoading())
+    return getWeb3.then(({web3}) => {
+      const SubscriptionFactoryContract = TruffleContract(SubscriptionFactory)
+      SubscriptionFactoryContract.setProvider(web3.currentProvider)
+      SubscriptionFactoryContract.deployed()
+        .then((instance) => {
+          return instance.createThing('test', 0, {from: '0xd707343B9290caddC9014474079427590231e5ae'})
+        })
+        .then((result) => {
+          // we want to use normal JavaScript b/c of the break
+          let newAddress = ''
+          for (let i = 0; i < result.logs.length; i++) {
+            var log = result.logs[i]
+            if (log.event === 'SubscriptionCreated') {
+              newAddress = log.args.newSubAddress
+              console.log(newAddress)
+              break
+            }
+          }
+          const NewContract = TruffleContract(Subscription)
+          NewContract.setProvider(web3.currentProvider)
+          return NewContract.at(newAddress)
+            .then((instance) => {
+              return instance.doit({from: '0xd707343B9290caddC9014474079427590231e5ae'})
+            })
+            .then((result) => {
+              console.log(result)
+            })
+        })
+        .catch(function(err) {
+          console.log('error', err)
+        })
+      dispatch(hideLoading())
+    })
+  }
+}
+
