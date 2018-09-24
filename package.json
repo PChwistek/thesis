@@ -1,0 +1,18 @@
+{
+  "dependencies": {
+    "eosjs": "^16.0.9",
+    "global": "^4.3.2",
+    "icepick": "^2.3.1",
+    "prop-types": "^15.6.2",
+    "react-redux": "^5.0.7",
+    "react-router-dom": "^4.3.1",
+    "redux": "^4.0.0",
+    "redux-devtools": "^3.4.1"
+  },
+  "devDependencies": {
+    "eslint": "^5.6.0",
+    "eslint-plugin-babel": "^5.2.0",
+    "sass": "^1.14.0",
+    "webpack-dashboard": "^2.0.0"
+  }
+}
