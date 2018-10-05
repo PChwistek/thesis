@@ -8,7 +8,7 @@
     "sass": "^1.14.0"
   },
   "dependencies": {
-    "eosjs": "^16.0.9",
+    "eosjs": "^20.0.0-beta1",
     "global": "^4.3.2",
     "icepick": "^2.3.1",
     "prop-types": "^15.6.2",

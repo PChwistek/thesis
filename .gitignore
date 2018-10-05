@@ -3,6 +3,7 @@
 # dependencies
 /node_modules
 /eosiolib
+/thesis-node-server/node_modules
 
 # testing
 /coverage
