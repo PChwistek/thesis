@@ -8,6 +8,7 @@
     "sass": "^1.14.0"
   },
   "dependencies": {
+    "connected-react-router": "^4.5.0",
     "eosjs": "^20.0.0-beta1",
     "global": "^4.3.2",
     "icepick": "^2.3.1",
@@ -20,7 +21,7 @@
     "redux": "^4.0.0",
     "redux-devtools": "^3.4.1",
     "redux-logger": "^3.0.6",
-    "redux-saga": "^0.16.0",
+    "redux-thunk": "^2.3.0",
     "scatter-js": "^2.5.2"
   },
   "scripts": {

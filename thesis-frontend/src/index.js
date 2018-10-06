@@ -1,21 +1,19 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import './index.css'
-import App from './App'
 import registerServiceWorker from './registerServiceWorker'
-import { createStore } from 'redux'
 import { Provider } from 'react-redux'
-import reducer from './reducer'
-import middleware from './middleware'
-
-const store = createStore(reducer, middleware)
+import Routes from './features/Routes'
+import { ConnectedRouter } from 'connected-react-router'
+import { store, history } from './store/configureStore'
 
 ReactDOM.render(
   <Provider store={ store }>
-    <App />
+    <ConnectedRouter history={ history }>
+      <div> 
+        <Routes />
+      </div>
+    </ConnectedRouter>
   </Provider>,
   document.getElementById('root')
 )
-
-ReactDOM.render(<App />, document.getElementById('root'))
 registerServiceWorker()

@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
-import blockchain  from './features/blockchain/blockchain.reducer'
+import Scatter  from './features/Scatter/Scatter.reducer'
 
 export default combineReducers({
-  blockchain,
+  Scatter,
 })
