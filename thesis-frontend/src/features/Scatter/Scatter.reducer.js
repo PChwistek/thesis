@@ -2,8 +2,10 @@ import i from 'icepick'
 
 const initialState = {
   available: false,
+  unlocked: false,
   isFetching: false,
   ref: null,
+  account: null,
 }
 
 export default function scatter (state = initialState, action) {
@@ -18,8 +20,11 @@ export default function scatter (state = initialState, action) {
       return i.chain(state)
         .assoc('available', true)
         .assoc('isFetching', false)
+        .assoc('unlocked', !!action.payload.identity)
         .assoc('ref', action.payload)
         .value()
+    case 'SCATTER/SET_SCATTER_ACCOUNT_SUCCEEDED':
+      return i.assoc(state, 'account', action.payload)
     default:
       return state
   }

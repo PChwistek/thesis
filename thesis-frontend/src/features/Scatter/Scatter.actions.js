@@ -6,14 +6,37 @@ export const setScatter = () => (dispatch) => {
   ScatterJS.scatter.connect('thesis').then(connected => {
     
     if(!connected) return dispatch(setScatterRejected())
-    
     dispatch({
       type: 'SCATTER/SET_SCATTER_SUCCEEDED',
       payload: ScatterJS.scatter,
     })
-    
+
     window.scatter = null
   })
+  
+}
+
+export const setScatterAccount = () => (dispatch, getState) => {
+  const scatter = getState().scatter.ref
+  console.log(getState())
+  if(!scatter) return dispatch(setScatterRejected)
+  const requiredFields = { accounts:[network] }
+  console.log('in scatter account')
+  dispatch({
+    type: 'SCATTER/SET_SCATTER_ACCOUNT_PENDING',
+  })
+
+  scatter.getIdentity(requiredFields).then(() => {
+    const account = scatter.identity.accounts.find(x => x.blockchain === 'eos')
+    return dispatch({
+      type: 'SCATTER/SET_SCATTER_ACCOUNT_SUCCEEDED',
+      payload: account,
+    })
+  }).catch((error) => {
+    console.log(error)
+    return dispatch({ type: 'SCATTER/SET_SCATTER_ACCOUNT_FAILED'})
+  })
+
 }
 
 export const setScatterPending = () => ({
@@ -21,5 +44,5 @@ export const setScatterPending = () => ({
 })
 
 export const setScatterRejected = () => ({
-  type: 'SCATTER/SET_SCATTER_REJECTED'
+  type: 'SCATTER/SET_SCATTER_REJECTED',
 })
