@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 
 class App extends Component {
 
@@ -6,6 +7,10 @@ class App extends Component {
     return (
       <div>
         This is the home page!
+        <br />
+        <Link to="/get-started">
+          Get started!
+        </Link>
       </div>
     )
   }

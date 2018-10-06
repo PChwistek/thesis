@@ -1,14 +1,25 @@
 import i from 'icepick'
 
 const initialState = {
-  'test': 0,
+  available: false,
+  isFetching: false,
+  ref: null,
 }
 
 export default function scatter (state = initialState, action) {
   switch (action.type) {
+    case 'SCATTER/SET_SCATTER_PENDING':
+      return i.assoc(state, 'isFetching', true)
+    case 'SCATTER/SET_SCATTER_REJECTED':
+      return i.chain(state)
+        .assoc('isFetching', false)
+        .value()
     case 'SCATTER/SET_SCATTER_SUCCEEDED':
-      console.log('right here!!')
-      return state
+      return i.chain(state)
+        .assoc('available', true)
+        .assoc('isFetching', false)
+        .assoc('ref', action.payload)
+        .value()
     default:
       return state
   }
