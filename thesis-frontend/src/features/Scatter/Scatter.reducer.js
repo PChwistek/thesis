@@ -4,6 +4,7 @@ const initialState = {
   available: false,
   unlocked: false,
   isFetching: false,
+  isFetchingAccount: false,
   ref: null,
   account: null,
 }
@@ -24,7 +25,14 @@ export default function scatter (state = initialState, action) {
         .assoc('ref', action.payload)
         .value()
     case 'SCATTER/SET_SCATTER_ACCOUNT_SUCCEEDED':
-      return i.assoc(state, 'account', action.payload)
+      return i.chain(state)
+        .assoc('account', action.payload)
+        .assoc('isFetchingAccount', false)
+        .value()
+    case 'SCATTER/SET_SCATTER_ACCOUNT_PENDING':
+      return i.assoc(state, 'isFetchingAccount', true)
+    case 'SCATTER/SET_SCATTER_ACCOUNT_REJECTED':
+      return i.assoc(state, 'isFetchingAccount', false)
     default:
       return state
   }

@@ -18,10 +18,8 @@ export const setScatter = () => (dispatch) => {
 
 export const setScatterAccount = () => (dispatch, getState) => {
   const scatter = getState().scatter.ref
-  console.log(getState())
   if(!scatter) return dispatch(setScatterRejected)
   const requiredFields = { accounts:[network] }
-  console.log('in scatter account')
   dispatch({
     type: 'SCATTER/SET_SCATTER_ACCOUNT_PENDING',
   })
