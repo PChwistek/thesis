@@ -1,4 +1,4 @@
-const network = {
+export const network = {
   blockchain:'eos',
   protocol:'http',
   host:'localhost',
@@ -6,4 +6,3 @@ const network = {
   chainId:''
 }
 
-export default network
