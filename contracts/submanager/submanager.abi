@@ -1,0 +1,72 @@
+{
+    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Mon Oct  8 21:13:34 2018",
+    "version": "eosio::abi/1.0",
+    "structs": [
+        {
+            "name": "asset",
+            "base": "",
+            "fields": [
+                {
+                    "name": "amount",
+                    "type": "int64"
+                },
+                {
+                    "name": "symbol",
+                    "type": "symbol_type"
+                }
+            ]
+        },
+        {
+            "name": "sub",
+            "base": "",
+            "fields": [
+                {
+                    "name": "key",
+                    "type": "name"
+                },
+                {
+                    "name": "quantity",
+                    "type": "asset"
+                }
+            ]
+        },
+        {
+            "name": "subscribe",
+            "base": "",
+            "fields": [
+                {
+                    "name": "user",
+                    "type": "name"
+                },
+                {
+                    "name": "quantity",
+                    "type": "asset"
+                }
+            ]
+        }
+    ],
+    "types": [
+        {
+            "new_type_name": "account_name",
+            "type": "name"
+        }
+    ],
+    "actions": [
+        {
+            "name": "subscribe",
+            "type": "subscribe",
+            "ricardian_contract": ""
+        }
+    ],
+    "tables": [
+        {
+            "name": "subs",
+            "type": "sub",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        }
+    ],
+    "ricardian_clauses": [],
+    "abi_extensions": []
+}
