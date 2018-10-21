@@ -1,18 +1,14 @@
 {
-    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Mon Oct  8 21:13:34 2018",
+    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Sun Oct 21 01:50:20 2018",
     "version": "eosio::abi/1.0",
     "structs": [
         {
-            "name": "asset",
-            "base": "",
+            "name": "basic_string",
+            "base": "__basic_string_common<true>",
             "fields": [
                 {
-                    "name": "amount",
-                    "type": "int64"
-                },
-                {
-                    "name": "symbol",
-                    "type": "symbol_type"
+                    "name": "__r_",
+                    "type": "allocator_type>"
                 }
             ]
         },
@@ -35,12 +31,16 @@
             "base": "",
             "fields": [
                 {
-                    "name": "user",
+                    "name": "from",
                     "type": "name"
                 },
                 {
-                    "name": "quantity",
-                    "type": "asset"
+                    "name": "to",
+                    "type": "name"
+                },
+                {
+                    "name": "memo",
+                    "type": "string"
                 }
             ]
         }
@@ -49,6 +49,10 @@
         {
             "new_type_name": "account_name",
             "type": "name"
+        },
+        {
+            "new_type_name": "string",
+            "type": "basic_string<char>"
         }
     ],
     "actions": [

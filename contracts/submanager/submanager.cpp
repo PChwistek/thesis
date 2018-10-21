@@ -1,6 +1,7 @@
 #include <eosiolib/eosio.hpp>
 #include <eosiolib/print.hpp>
 #include <eosiolib/asset.hpp>
+#include <eosiolib/transaction.hpp>
 
 using namespace eosio;
 
@@ -8,17 +9,17 @@ class submanager : public contract {
 
   public:
     using contract::contract;
-    submanager(account_name self): contract(self) {}
+    submanager(name self): contract(self) {}
 
     [[eosio::action]]
-    void subscribe(account_name user, asset quantity) {
-      require_auth( user );
+    void subscribe(name from, name to, std::string memo) {
+      require_auth( from );
+      
       sub_index subs(_self, _self);
-      auto iterator = subs.find( user );
+      auto iterator = subs.find( from );
       if(iterator == subs.end() ){
-        subs.emplace(user, [&](auto& row){
-          row.key = user;
-          row.quantity = quantity;
+        subs.emplace(from, [&](auto& row){
+          row.key = from;
         });
       } else {
         print( "============= Already exists ============== ");
