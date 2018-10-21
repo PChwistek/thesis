@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import './GetStarted.css'
+import './GetStarted.scss'
 
 class GetStarted extends Component {
 
