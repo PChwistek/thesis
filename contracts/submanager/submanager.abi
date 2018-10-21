@@ -1,31 +1,7 @@
 {
-    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Sun Oct 21 01:50:20 2018",
+    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Sun Oct 21 15:10:48 2018",
     "version": "eosio::abi/1.0",
     "structs": [
-        {
-            "name": "basic_string",
-            "base": "__basic_string_common<true>",
-            "fields": [
-                {
-                    "name": "__r_",
-                    "type": "allocator_type>"
-                }
-            ]
-        },
-        {
-            "name": "sub",
-            "base": "",
-            "fields": [
-                {
-                    "name": "key",
-                    "type": "name"
-                },
-                {
-                    "name": "quantity",
-                    "type": "asset"
-                }
-            ]
-        },
         {
             "name": "subscribe",
             "base": "",
@@ -39,22 +15,31 @@
                     "type": "name"
                 },
                 {
+                    "name": "quantity",
+                    "type": "asset"
+                },
+                {
                     "name": "memo",
                     "type": "string"
                 }
             ]
-        }
-    ],
-    "types": [
-        {
-            "new_type_name": "account_name",
-            "type": "name"
         },
         {
-            "new_type_name": "string",
-            "type": "basic_string<char>"
+            "name": "subscriber",
+            "base": "",
+            "fields": [
+                {
+                    "name": "key",
+                    "type": "uint64"
+                },
+                {
+                    "name": "quantity_subscribed",
+                    "type": "asset"
+                }
+            ]
         }
     ],
+    "types": [],
     "actions": [
         {
             "name": "subscribe",
@@ -65,7 +50,7 @@
     "tables": [
         {
             "name": "subs",
-            "type": "sub",
+            "type": "subscriber",
             "index_type": "i64",
             "key_names": [],
             "key_types": []

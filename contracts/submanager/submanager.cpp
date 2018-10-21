@@ -1,40 +1,43 @@
 #include <eosiolib/eosio.hpp>
-#include <eosiolib/print.hpp>
 #include <eosiolib/asset.hpp>
 #include <eosiolib/transaction.hpp>
 
 using namespace eosio;
 
-class submanager : public contract {
+CONTRACT submanager : public eosio::contract {
 
   public:
     using contract::contract;
-    submanager(name self): contract(self) {}
-
-    [[eosio::action]]
-    void subscribe(name from, name to, std::string memo) {
+    ACTION subscribe(name from, name to, asset quantity, std::string memo) {
       require_auth( from );
-      
-      sub_index subs(_self, _self);
-      auto iterator = subs.find( from );
-      if(iterator == subs.end() ){
-        subs.emplace(from, [&](auto& row){
-          row.key = from;
+      eosio::transaction txn{};
+      txn.actions.emplace_back(
+        eosio::permission_level(from, "active"_n),
+        "eosio.token"_n,
+        "transfer"_n,
+        std::make_tuple(from, to, quantity, memo)).send();
+
+      subs_table subs(_self, to.value);
+      auto iterator = subs.find( from.value );
+      if( iterator == subs.end() ) {
+        subs.emplace(_self, [&]( auto& row){
+          row.key = from.value;
+          row.quantity_subscribed = quantity;
         });
       } else {
-        print( "============= Already exists ============== ");
+        print("========== ALREADY EXISTS =============");
       }
+
     }
 
-
   private:
-    struct [[eosio::table]] sub {
-      account_name key;
-      asset quantity;
-      uint64_t primary_key() const { return key; }
+    TABLE subscriber {
+      uint64_t key;
+      asset quantity_subscribed;
+      uint64_t primary_key() const { return key; }    
     };
-    typedef eosio::multi_index<N(subs), sub> sub_index;
 
+    typedef eosio::multi_index<"subs"_n, subscriber> subs_table;
 };
 
-EOSIO_ABI( submanager, (subscribe) )
+EOSIO_DISPATCH( submanager, (subscribe) )
