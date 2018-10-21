@@ -1,5 +1,5 @@
 {
-    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Sun Sep 30 12:47:05 2018",
+    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Sun Oct 21 02:49:05 2018",
     "version": "eosio::abi/1.0",
     "structs": [
         {
@@ -13,12 +13,7 @@
             ]
         }
     ],
-    "types": [
-        {
-            "new_type_name": "account_name",
-            "type": "name"
-        }
-    ],
+    "types": [],
     "actions": [
         {
             "name": "hi",

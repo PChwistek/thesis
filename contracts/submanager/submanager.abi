@@ -1,0 +1,61 @@
+{
+    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Sun Oct 21 15:10:48 2018",
+    "version": "eosio::abi/1.0",
+    "structs": [
+        {
+            "name": "subscribe",
+            "base": "",
+            "fields": [
+                {
+                    "name": "from",
+                    "type": "name"
+                },
+                {
+                    "name": "to",
+                    "type": "name"
+                },
+                {
+                    "name": "quantity",
+                    "type": "asset"
+                },
+                {
+                    "name": "memo",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "subscriber",
+            "base": "",
+            "fields": [
+                {
+                    "name": "key",
+                    "type": "uint64"
+                },
+                {
+                    "name": "quantity_subscribed",
+                    "type": "asset"
+                }
+            ]
+        }
+    ],
+    "types": [],
+    "actions": [
+        {
+            "name": "subscribe",
+            "type": "subscribe",
+            "ricardian_contract": ""
+        }
+    ],
+    "tables": [
+        {
+            "name": "subs",
+            "type": "subscriber",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        }
+    ],
+    "ricardian_clauses": [],
+    "abi_extensions": []
+}

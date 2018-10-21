@@ -1,17 +1,14 @@
 #include <eosiolib/eosio.hpp>
-#include <eosiolib/print.hpp>
 
 using namespace eosio;
 
-class hello : public contract {
+CONTRACT hello : public eosio::contract {
   public:
-    using contract::contract;
+      using contract::contract;
 
-    [[eosio::action]]
-    void hi( account_name user ) {
-      require_auth( user );
-      print( "Hello, ", name{user});
-    }
+      ACTION hi( name user ) {
+         print( "Hello, ", name{user} );
+      }
 };
 
-EOSIO_ABI( hello, (hi))
+EOSIO_DISPATCH( hello, (hi) )

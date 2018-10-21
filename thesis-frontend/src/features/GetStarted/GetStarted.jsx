@@ -14,13 +14,25 @@ class GetStarted extends Component {
     sayHello()
   }
 
+  submitCart = cart => {
+    const { transferMoney } = this.props
+    cart.map(account => transferMoney(account))
+  }
+
+  handleAddToCart = () => {
+    const { addSubscriptionToCart } = this.props
+    addSubscriptionToCart( {name: 'bobmanager', amount: '1.000 SYS'}  )
+  }
+
   componentDidMount(){
     const { setScatter } = this.props
     setScatter()
   }
 
+  
+
   render() {
-    const { accountExists, account } = this.props
+    const { accountExists, account, subs, cart } = this.props
     return (
       <div>
         { accountExists 
@@ -39,6 +51,36 @@ class GetStarted extends Component {
               <li className={ 'clickable' } onClick={ this.sayHello }>
                 Say hello!
               </li>
+              <br />
+              <h2 className={ 'clickable' } onClick={ this.handleAddToCart }>
+                Subscribe to Bob's programming tutorials!
+              </h2>
+              <br />
+              <h2>
+                Your subscription cart :
+                {
+                  cart.map((item) => (
+                    <div key={ item.name }>
+                      <p>{ item.name }</p>
+                      <p> { item.amount } </p> 
+                      <br />
+                    </div>
+                  ))
+                }
+                <br />
+                { cart && <p onClick={ () => this.submitCart(cart) } className={ 'clickable' }> Pay for your subscriptions </p> }
+              </h2>
+              <h2>
+                Your subscriptions: 
+                {
+                  subs.map((item) => (
+                    <div key={ item.name }>
+                      <p>{ item.name }</p>
+                      <p> { item.amount } </p> 
+                    </div>
+                  ))
+                }
+              </h2>
             </ul>
           </div>
           : <div>

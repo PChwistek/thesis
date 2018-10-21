@@ -10,7 +10,7 @@ export const history = createBrowserHistory()
 
 const middleware = [
   routerMiddleware(history),
-  createLogger({ collapsed: true }),
+  createLogger({ collapsed: true },),
   thunk,
 ]
 
