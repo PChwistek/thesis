@@ -1,26 +1,15 @@
 import React, { Component } from 'react'
-import { Navbar, NavbarBrand, NavbarItem, Icon } from 'bloomer'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Navbar, NavbarBrand, NavbarItem } from 'bloomer'
 
+import s from './Header'
 
 export default class Header extends Component {
   render() {
     return (
-      <Navbar>
+      <Navbar className={ s.header }>
         <NavbarBrand>
           <NavbarItem>
-            Bloomer
-          </NavbarItem>
-          <NavbarItem>
-          <label>
-            <FontAwesomeIcon
-              icon="github"
-            />
-            Username
-          </label>
-          </NavbarItem>
-          <NavbarItem>
-            <Icon className='fa fa-twitter' style={{ color: '#55acee' }} />
+            Thesis
           </NavbarItem>
         </NavbarBrand>
       </Navbar>

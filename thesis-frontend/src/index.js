@@ -8,10 +8,9 @@ import { store, history } from './store/configureStore'
 import Header from './components/Navigation/Header'
 import 'bulma/css/bulma.css'
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faEnvelope, faKey } from '@fortawesome/free-solid-svg-icons';
+import { faEnvelope, faKey, faPenSquare } from '@fortawesome/free-solid-svg-icons';
 
-library.add(faEnvelope, faKey);
-
+library.add(faEnvelope, faKey, faPenSquare)
 
 ReactDOM.render(
   <Provider store={ store }>
