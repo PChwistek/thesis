@@ -5,7 +5,6 @@ import { setScatter, setScatterAccount } from '../Scatter/Scatter.actions'
 import { sayHello, transferMoney } from '../Blockchain/Blockchain.actions'
 import { addSubscriptionToCart } from '../Subscribe/Subscribe.actions'
 
-
 const stateToProps = ({ scatter, subscribe }) => ({
   accountExists: !!scatter.account,
   account: scatter.account,
