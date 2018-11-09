@@ -32,7 +32,7 @@ export default props => (
       <Tile isChild className={ 'tile-box' } render={
         props => (
           <Box {...props} >
-            <div className={'tile-text'}> I don't have Scatter installed </div>
+            <div className={'tile-text'}> I don't have Scatter installed <br /> Coming soon... </div>
           </Box>
         )
       } />
