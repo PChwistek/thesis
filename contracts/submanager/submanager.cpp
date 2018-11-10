@@ -9,6 +9,16 @@ CONTRACT submanager : public eosio::contract {
   public:
     using contract::contract;
     submanager(name receiver, name code,  datastream<const char*> ds): contract(receiver, code, ds) {}
+
+
+    struct st_transfer {
+        name from;
+        name to;
+        asset quantity;
+        std::string memo;
+    };
+
+
     ACTION subscribe(name from, name to, asset quantity, std::string memo) {
       require_auth( from );
       subs_table subs(_self, to.value);
@@ -24,6 +34,10 @@ CONTRACT submanager : public eosio::contract {
     }
 
     ACTION transfer() {
+      auto transfer_data = eosio::unpack_action_data<st_transfer>();
+      print(transfer_data.from);
+      print(transfer_data.quantity);
+      print(transfer_data.to);
       print(">>>>>>>>>>>>>>>>>>>> SOMETHING SENT >>>>>>>>>>>>>>>>>>>>");
     }
 
@@ -43,8 +57,7 @@ extern "C" {
     if(code==receiver && action== name("subscribe").value) {
       execute_action(name(receiver), name(code), &submanager::subscribe );
     }
-    else if(code==name("eosio.token").value && action== name("transfer").value) {
-      print(" FOUND SOMETHING ");
+    else if(code==name("eosio.token").value && action==name("transfer").value) {
       execute_action(name(receiver), name(code), &submanager::transfer );
     }
   }
