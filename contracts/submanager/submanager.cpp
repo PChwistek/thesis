@@ -34,10 +34,7 @@ CONTRACT submanager : public eosio::contract {
           });
         } else {
           print("============ Subscription Already EXISTS ===============");
-          subs.modify(iterator, _self, [&]( auto& row){
-            row.key = from;
-            row.quantity_subscribed.set_amount(quantity.amount);
-          });
+          // build out reduce/increase/cancel subcription
         }
       }  else if( _self == from) {
         name content_creator = transfer_data.to;
@@ -68,10 +65,20 @@ CONTRACT submanager : public eosio::contract {
     }
 
     ACTION rollfunds(name content_creator, name subber) {
+      require_auth( _self );
       subs_table subs(_self, content_creator.value);
       auto theSub = subs.get(subber.value);
       asset quantity = theSub.quantity_subscribed;
       send_money(content_creator, quantity, subber.to_string());
+    }
+
+    /* FOR DEBUGGING PURPOSES */
+    ACTION erasesub(name content_creator, name subber) {
+      print("============ Removing ===============");
+      subs_table subs(_self, content_creator.value);
+      auto iterator = subs.find(subber.value);
+      eosio_assert(iterator != subs.end(), "Record does not exist");
+      subs.erase(iterator);
     }
 
   private:
@@ -116,6 +123,8 @@ extern "C" {
       execute_action(name(receiver), name(code), &submanager::openstore );
     } else if(code==receiver && action==name("rollfunds").value) {
       execute_action(name(receiver), name(code), &submanager::rollfunds );
+    } else if (code==receiver && action==name("erasesub").value){
+      execute_action(name(receiver), name(code), &submanager::erasesub );
     }
   }
 };
