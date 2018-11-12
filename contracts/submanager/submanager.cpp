@@ -1,6 +1,7 @@
 #include <eosiolib/eosio.hpp>
 #include <eosiolib/asset.hpp>
 #include <eosiolib/transaction.hpp>
+#include <eosiolib/name.hpp>
 
 using namespace eosio;
 
@@ -13,38 +14,30 @@ CONTRACT submanager : public eosio::contract {
     ACTION subscribe() {
       auto transfer_data = eosio::unpack_action_data<st_transfer>();
       name from = transfer_data.from;
-      name to = transfer_data.to;
+      name to = name(transfer_data.memo);
       asset quantity = transfer_data.quantity;
       
-      if( _self == from){
-        return;
-      }
-
-      stores_table stores(_self, _self.value);
-      auto storeIterator = stores.find(to.value);
-      if( storeIterator != stores.end() ){
+      if( _self != from) {
+        stores_table stores(_self, _self.value);
+        auto storeIterator = stores.find(to.value);
+        eosio_assert(storeIterator != stores.end(), "store does not exist" );
         auto theStore = stores.get(to.value);
-        // eventually should be built out with assertions.... 
-        if(quantity.amount < theStore.minimum_price.amount 
-          || quantity.symbol != theStore.minimum_price.symbol) {
-          send_money_back(from, quantity, "insufficient amount or wrong token type");
-          return;
+        eosio_assert(quantity.amount >= theStore.minimum_price.amount, "insufficient funds");
+        eosio_assert(quantity.symbol.code() == theStore.minimum_price.symbol.code(), "incorrect symbol"); 
+        subs_table subs(_self, to.value);
+        auto iterator = subs.find( from.value );
+        if( iterator == subs.end() ) {
+          subs.emplace(_self, [&]( auto& row){
+            row.key = from;
+            row.quantity_subscribed = quantity;
+          });
+        } else {
+          print("============ Subscription Already EXISTS ===============");
+          subs.modify(iterator, _self, [&]( auto& row){
+            row.key = from;
+            row.quantity_subscribed.set_amount(row.quantity_subscribed.amount + quantity.amount);
+          });
         }
-      } else {
-        send_money_back(from, quantity, "store does not exist");
-        return;
-      }
-
-      subs_table subs(_self, to.value);
-      auto iterator = subs.find( from.value );
-      if( iterator == subs.end() ) {
-        subs.emplace(_self, [&]( auto& row){
-          row.key = from;
-          row.quantity_subscribed = quantity;
-        });
-      } else {
-        print("============ Subscription Already EXISTS ===============");
-        // needs to be a bit more built out
       }
     }
 
