@@ -23,7 +23,8 @@ CONTRACT submanager : public eosio::contract {
         eosio_assert(storeIterator != stores.end(), "store does not exist" );
         auto theStore = stores.get(to.value);
         eosio_assert(quantity.amount >= theStore.minimum_price.amount, "insufficient funds");
-        eosio_assert(quantity.symbol.code() == theStore.minimum_price.symbol.code(), "incorrect symbol"); 
+        eosio_assert(quantity.symbol.code() == theStore.minimum_price.symbol.code(), "incorrect symbol");
+
         subs_table subs(_self, to.value);
         auto iterator = subs.find( from.value );
         if( iterator == subs.end() ) {
@@ -35,9 +36,16 @@ CONTRACT submanager : public eosio::contract {
           print("============ Subscription Already EXISTS ===============");
           subs.modify(iterator, _self, [&]( auto& row){
             row.key = from;
-            row.quantity_subscribed.set_amount(row.quantity_subscribed.amount + quantity.amount);
+            row.quantity_subscribed.set_amount(quantity.amount);
           });
         }
+      }  else if( _self == from) {
+        name content_creator = transfer_data.to;
+        print("============ Removing ===============");
+        subs_table subs(_self, content_creator.value);
+        auto iterator = subs.find(to.value);
+        eosio_assert(iterator != subs.end(), "Record does not exist");
+        subs.erase(iterator);
       }
     }
 
@@ -57,6 +65,13 @@ CONTRACT submanager : public eosio::contract {
           row.minimum_price = minimum_price;
         });
       }
+    }
+
+    ACTION rollfunds(name content_creator, name subber) {
+      subs_table subs(_self, content_creator.value);
+      auto theSub = subs.get(subber.value);
+      asset quantity = theSub.quantity_subscribed;
+      send_money(content_creator, quantity, subber.to_string());
     }
 
   private:
@@ -79,12 +94,12 @@ CONTRACT submanager : public eosio::contract {
       uint64_t primary_key() const { return key.value; }
     };
 
-    void send_money_back(name sender, asset quantity, std::string error) {
+    void send_money(name to, asset quantity, std::string msg) {
       action(
         permission_level{ _self, "active"_n },
         "eosio.token"_n,
         "transfer"_n,
-        std::make_tuple(_self, sender, quantity, error)
+        std::make_tuple(get_self(), to, quantity, msg)
       ).send();
     }
 
@@ -99,8 +114,8 @@ extern "C" {
       execute_action(name(receiver), name(code), &submanager::subscribe );
     } else if(code==receiver && action==name("openstore").value) {
       execute_action(name(receiver), name(code), &submanager::openstore );
-    } else if(code==receiver && action==name("subscribe").value) {
-      execute_action(name(receiver), name(code), &submanager::subscribe );
+    } else if(code==receiver && action==name("rollfunds").value) {
+      execute_action(name(receiver), name(code), &submanager::rollfunds );
     }
   }
 };
