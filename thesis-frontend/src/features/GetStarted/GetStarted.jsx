@@ -6,8 +6,10 @@ import {
   Title,
 } from 'bloomer'
 
-import s from './GetStarted.scss'
+import s from '../../styles/layout.scss'
+
 import CreateAccountTiles from './CreateAccountTiles'
+import AccountCreationForm from './AccountCreationForm'
 
 class GetStarted extends Component {
 
@@ -37,17 +39,36 @@ class GetStarted extends Component {
   }
 
   render() {
-    const { accountExists, account, subs, cart } = this.props
+    const { accountExists, account, unlocked, subs, cart, activeIndex, getStartedNext } = this.props
+    if(activeIndex === 0) {
+      return (
+        <div>
+          <Hero isColor='info' isSize='medium' isFullHeight>
+            <HeroBody>
+              <Container hasTextAlign='centered'>
+                <Title> Create an Account</Title>
+                <CreateAccountTiles getStartedNext={ getStartedNext } />
+              </Container>
+            </HeroBody>
+          </Hero>
+        </div>
+        )
+    } else if (activeIndex === 1){
+      return (
+        <div>
+          <Hero isColor='info' isSize='medium' isFullHeight>
+            <HeroBody>
+              <Container hasTextAlign='centered'>
+                <AccountCreationForm isScatter unlocked={ unlocked } accountExists={ accountExists } account= { account } />
+              </Container>
+            </HeroBody>
+          </Hero>
+        </div>
+      )
+    }
     return (
       <div>
-        <Hero isColor='info' isSize='medium' isFullHeight>
-          <HeroBody>
-            <Container hasTextAlign='centered'>
-              <Title> Create an Account</Title>
-              <CreateAccountTiles />
-            </Container>
-          </HeroBody>
-        </Hero>
+      
         
         { /* accountExists 
           ? <div>
