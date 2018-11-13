@@ -1,6 +1,13 @@
 import React, { Component } from 'react'
+import { 
+  Hero, 
+  HeroBody, 
+  Container,
+  Title,
+} from 'bloomer'
 
-import './GetStarted.css'
+import s from './GetStarted.scss'
+import CreateAccountTiles from './CreateAccountTiles'
 
 class GetStarted extends Component {
 
@@ -29,13 +36,20 @@ class GetStarted extends Component {
     setScatter()
   }
 
-  
-
   render() {
     const { accountExists, account, subs, cart } = this.props
     return (
       <div>
-        { accountExists 
+        <Hero isColor='info' isSize='medium' isFullHeight>
+          <HeroBody>
+            <Container hasTextAlign='centered'>
+              <Title> Create an Account</Title>
+              <CreateAccountTiles />
+            </Container>
+          </HeroBody>
+        </Hero>
+        
+        { /* accountExists 
           ? <div>
             You got an account
             <ul>
@@ -90,7 +104,7 @@ class GetStarted extends Component {
               Create an account with Scatter 
             </div>
           </div>
-        }
+              */} 
       </div>
     )
   }

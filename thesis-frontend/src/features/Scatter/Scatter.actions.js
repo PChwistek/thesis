@@ -1,5 +1,8 @@
 import { network } from '../../api/scatterConfig'
-import ScatterJS from 'scatter-js/dist/scatter.esm'
+import ScatterJS from 'scatterjs-core'
+import ScatterEOS from 'scatterjs-plugin-eosjs'
+
+ScatterJS.plugins( new ScatterEOS() )
 
 export const setScatter = () => (dispatch) => {
   dispatch(setScatterPending())
