@@ -9,6 +9,7 @@ import { getStartedNext, getStartedBack, getStartedAt } from '../GetStarted/GetS
 const stateToProps = ({ scatter, subscribe, getStarted }) => ({
   accountExists: !!scatter.account,
   account: scatter.account,
+  identity: get(scatter, 'ref.identity', {}),
   unlocked: scatter.unlocked,
   subs: get(subscribe, 'subs', []),
   cart: get(subscribe, 'cart', []),

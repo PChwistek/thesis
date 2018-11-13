@@ -6,17 +6,11 @@ import {
   Title,
 } from 'bloomer'
 
-import s from '../../styles/layout.scss'
 
 import CreateAccountTiles from './CreateAccountTiles'
-import AccountCreationForm from './AccountCreationForm'
+import AccountCreationTile from './AccountCreationTile'
 
 class GetStarted extends Component {
-
-  createWithScatter = () => {
-    const { setScatterAccount } = this.props
-    setScatterAccount()
-  }
 
   sayHello = () => {
     const { sayHello } = this.props
@@ -39,7 +33,7 @@ class GetStarted extends Component {
   }
 
   render() {
-    const { accountExists, account, unlocked, subs, cart, activeIndex, getStartedNext } = this.props
+    const { accountExists, account, identity, unlocked, subs, cart, activeIndex, setScatterAccount, getStartedNext, getStartedBack } = this.props
     if(activeIndex === 0) {
       return (
         <div>
@@ -54,12 +48,21 @@ class GetStarted extends Component {
         </div>
         )
     } else if (activeIndex === 1){
+      unlocked && setScatterAccount()
       return (
         <div>
           <Hero isColor='info' isSize='medium' isFullHeight>
             <HeroBody>
               <Container hasTextAlign='centered'>
-                <AccountCreationForm isScatter unlocked={ unlocked } accountExists={ accountExists } account= { account } />
+                <AccountCreationTile 
+                  isScatter 
+                  unlocked={ unlocked } 
+                  accountExists={ accountExists } 
+                  account={ account }
+                  identity={ identity }
+                  getStartedBack={ getStartedBack } 
+                  getStartedNext={ getStartedNext }
+                />
               </Container>
             </HeroBody>
           </Hero>
