@@ -48,8 +48,8 @@ class GetStarted extends Component {
             </Container>
           </HeroBody>
         </Hero>
-
-        { accountExists 
+        
+        { /* accountExists 
           ? <div>
             You got an account
             <ul>
@@ -104,7 +104,7 @@ class GetStarted extends Component {
               Create an account with Scatter 
             </div>
           </div>
-        }
+              */} 
       </div>
     )
   }
