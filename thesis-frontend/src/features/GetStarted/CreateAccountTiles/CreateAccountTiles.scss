@@ -1,0 +1,28 @@
+@import '../../../styles/layout.scss';
+
+.tile-title {
+  color: #444444 !important;
+}
+
+.tile-text {
+  display: flex;
+  justify-content: center;
+  align-self: center;
+}
+
+.tile-box {
+  display: flex !important;
+  justify-content: center !important;
+}
+
+.tile-image {
+  font-size: 120px;
+}
+
+.scatter-image {
+  padding-bottom: 30px;
+}
+
+.clickable {
+  cursor: pointer;
+}

@@ -1,1 +1,1 @@
-# Some stuff will come here eventually.
+# This part of the repo is responsible for the frontend of the thesis project.

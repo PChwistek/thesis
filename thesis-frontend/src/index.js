@@ -1,21 +1,26 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import './index.css'
-import App from './App'
 import registerServiceWorker from './registerServiceWorker'
-import { createStore } from 'redux'
 import { Provider } from 'react-redux'
-import reducer from './reducer'
-import middleware from './middleware'
+import Routes from './features/Routes'
+import { ConnectedRouter } from 'connected-react-router'
+import { store, history } from './store/configureStore'
+import Header from './components/Navigation/Header'
+import 'bulma/css/bulma.css'
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faEnvelope, faKey, faPenSquare } from '@fortawesome/free-solid-svg-icons';
 
-const store = createStore(reducer, middleware)
+library.add(faEnvelope, faKey, faPenSquare)
 
 ReactDOM.render(
   <Provider store={ store }>
-    <App />
+    <ConnectedRouter history={ history }>
+      <div>
+        <Header />
+        <Routes />
+      </div>
+    </ConnectedRouter>
   </Provider>,
   document.getElementById('root')
 )
-
-ReactDOM.render(<App />, document.getElementById('root'))
 registerServiceWorker()
