@@ -9,7 +9,7 @@ import AccountCreationForm from './AccountCreationForm'
 
 class AccountCreationTile extends Component {
   render() {
-    const { getStartedNext, getStartedBack, unlocked, isScatter, account, identity } = this.props
+    const { getStartedNext, getStartedBack, unlocked, isScatter } = this.props
     return (
       <div>
         <Tile isAncestor style={ { justifyContent: 'center' } }>
@@ -22,7 +22,7 @@ class AccountCreationTile extends Component {
                       ? <div>
                         Scatter not unlocked. Please unlock scatter and refresh the page. 
                       </div>
-                      : <AccountCreationForm account={ account } identity={ identity } />
+                      : <AccountCreationForm getStartedNext={ getStartedNext } />
                   }
                 </Box>
               )

@@ -26,9 +26,6 @@ export const setScatterAccount = () => (dispatch, getState) => {
     accounts:[network], 
     personal:['firstname', 'lastname', 'email'], 
   }
-  dispatch({
-    type: 'SCATTER/SET_SCATTER_ACCOUNT_PENDING',
-  })
 
   scatter.getIdentity(requiredFields).then(identity => {
     const account = scatter.identity.accounts.find(x => x.blockchain === 'eos')

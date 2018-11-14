@@ -4,6 +4,7 @@ import {
   HeroBody, 
   Container,
   Title,
+  Button,
 } from 'bloomer'
 
 
@@ -30,6 +31,10 @@ class GetStarted extends Component {
   componentDidMount(){
     const { setScatter } = this.props
     setScatter()
+  }
+
+  handleEnter = () => {
+    this.props.history.push('/dashboard')
   }
 
   render() {
@@ -71,9 +76,17 @@ class GetStarted extends Component {
     }
     return (
       <div>
-      
-        
-        { /* accountExists 
+      <Hero isColor='info' isSize='medium' isFullHeight>
+        <HeroBody>
+          <Container hasTextAlign='centered'>
+            <div> You're all set! </div>
+            <div className={ 'continue-button' }>
+              <Button isColor='white' isOutlined onClick={ () => this.handleEnter() }> Enter! </Button>
+            </div>         
+            </Container>
+        </HeroBody>
+      </Hero>
+      { /* accountExists 
           ? <div>
             You got an account
             <ul>
@@ -129,7 +142,7 @@ class GetStarted extends Component {
             </div>
           </div>
               */} 
-      </div>
+    </div>      
     )
   }
 }

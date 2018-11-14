@@ -8,13 +8,11 @@ import {
   Button, 
 } from 'bloomer'
 
-import s from './LandingPage.scss'
-
 class App extends Component {
 
   render() {
     return (
-      <Hero isColor='info' isSize='medium' className={ s.hero } isFullHeight>
+      <Hero isColor='info' isSize='medium' isFullHeight>
         <HeroBody>
           <Container hasTextAlign='centered'>
             <Title>
