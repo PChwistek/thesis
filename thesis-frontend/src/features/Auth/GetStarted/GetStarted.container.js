@@ -1,27 +1,22 @@
 import { connect } from 'react-redux'
 import { get } from 'lodash'
 import GetStarted from './GetStarted'
-import { setScatter, setScatterAccount } from '../Scatter/Scatter.actions'
-import { sayHello, transferMoney } from '../Blockchain/Blockchain.actions'
-import { addSubscriptionToCart } from '../Subscribe/Subscribe.actions'
-import { getStartedNext, getStartedBack, getStartedAt } from '../GetStarted/GetStarted.actions'
+import { setScatter, setScatterAccount } from '../../Scatter/Scatter.actions'
+import { getStartedNext, getStartedBack, getStartedAt } from '../Auth.actions'
 
-const stateToProps = ({ scatter, subscribe, getStarted }) => ({
+const stateToProps = ({ scatter, subscribe, auth }) => ({
   accountExists: !!scatter.account,
   account: scatter.account,
   identity: get(scatter, 'ref.identity', {}),
   unlocked: scatter.unlocked,
   subs: get(subscribe, 'subs', []),
   cart: get(subscribe, 'cart', []),
-  activeIndex: get(getStarted, 'activeIndex', 0),
+  activeIndex: get(auth, 'activeIndex', 0),
 })
 
 const dispatchToProps = {
   setScatter,
   setScatterAccount,
-  sayHello,
-  transferMoney,
-  addSubscriptionToCart,
   getStartedNext,
   getStartedBack,
   getStartedAt,

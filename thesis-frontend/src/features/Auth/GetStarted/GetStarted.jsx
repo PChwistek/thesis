@@ -13,21 +13,6 @@ import AccountCreationTile from './AccountCreationTile'
 
 class GetStarted extends Component {
 
-  sayHello = () => {
-    const { sayHello } = this.props
-    sayHello()
-  }
-
-  submitCart = cart => {
-    const { transferMoney } = this.props
-    cart.map(account => transferMoney(account))
-  }
-
-  handleAddToCart = () => {
-    const { addSubscriptionToCart } = this.props
-    addSubscriptionToCart( {name: 'bobmanager', amount: '1.000 SYS'}  )
-  }
-
   componentDidMount(){
     const { setScatter } = this.props
     setScatter()

@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import cn from 'classnames'
 
 import './CreateAccountTiles.scss'
-import imgScatter from '../../../static/images/scatter.png'
+import imgScatter from '../../../../static/images/scatter.png'
 
 class CreateAccountTiles extends Component {
 

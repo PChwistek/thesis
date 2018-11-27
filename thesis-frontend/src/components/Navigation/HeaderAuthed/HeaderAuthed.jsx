@@ -7,10 +7,9 @@ import {
   NavbarEnd 
 } from 'bloomer'
 
+import s from './HeaderAuthed.scss'
 
-import s from './Header'
-
-export default class Header extends Component {
+export default class HeaderAuthed extends Component {
   render() {
     return (
       <Navbar className={ s.header }>
@@ -22,14 +21,19 @@ export default class Header extends Component {
           </NavbarItem>
         </NavbarBrand>
         <NavbarEnd>
+        <NavbarItem>
+            <Link to="/dashboard">
+              Dashboard
+            </Link>
+          </NavbarItem>
           <NavbarItem>
             <Link to="/get-started">
-              Sign Up
+              Your Subscriptions
             </Link>
           </NavbarItem>
           <NavbarItem>
             <Link to="/">
-              Log In
+              Your Profile
             </Link>
           </NavbarItem>
         </NavbarEnd>
@@ -37,3 +41,4 @@ export default class Header extends Component {
     )
   }
 }
+

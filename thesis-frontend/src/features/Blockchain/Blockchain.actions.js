@@ -33,6 +33,4 @@ export const transferMoney = account => (dispatch, getStore) => {
   })
 }
 
-
-
 export const payForSubscriptionCart = accounts => (dispatch, getStore) => true

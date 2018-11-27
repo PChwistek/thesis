@@ -2,11 +2,13 @@ import { combineReducers } from 'redux'
 import { reducer as form } from 'redux-form'
 import scatter  from './features/Scatter/Scatter.reducer'
 import subscribe from './features/Subscribe/Subscribe.reducer'
-import getStarted from './features/GetStarted/GetStarted.reducer'
+import auth from './features/Auth/Auth.reducer'
+import market from './features/Market/Market.reducer'
 
 export default combineReducers({
   scatter,
   subscribe,
-  getStarted,
+  auth,
+  market,
   form,
 })
