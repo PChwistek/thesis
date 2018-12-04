@@ -23,7 +23,7 @@ class GetStarted extends Component {
   }
 
   render() {
-    const { accountExists, account, identity, unlocked, subs, cart, activeIndex, setScatterAccount, getStartedNext, getStartedBack } = this.props
+    const { accountExists, account, identity, unlocked, subs, cart, available, activeIndex, setScatterAccount, getStartedNext, getStartedBack } = this.props
     if(activeIndex === 0) {
       return (
         <div>
@@ -38,7 +38,7 @@ class GetStarted extends Component {
         </div>
         )
     } else if (activeIndex === 1){
-      unlocked && setScatterAccount()
+      available && !account && setScatterAccount()
       return (
         <div>
           <Hero isColor='info' isSize='medium' isFullHeight>
@@ -46,12 +46,7 @@ class GetStarted extends Component {
               <Container hasTextAlign='centered'>
                 <AccountCreationTile 
                   isScatter 
-                  unlocked={ unlocked } 
-                  accountExists={ accountExists } 
-                  account={ account }
-                  identity={ identity }
-                  getStartedBack={ getStartedBack } 
-                  getStartedNext={ getStartedNext }
+                  { ...this.props }
                 />
               </Container>
             </HeroBody>

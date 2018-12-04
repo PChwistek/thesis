@@ -1,27 +1,26 @@
-import { network } from '../../api/scatterConfig'
+import { network, endpoint } from '../../api/scatterConfig'
 import ScatterJS from 'scatterjs-core'
-import ScatterEOS from 'scatterjs-plugin-eosjs'
+import ScatterEOS from 'scatterjs-plugin-eosjs2'
+import { Api, JsonRpc } from 'eosjs';
 
 ScatterJS.plugins( new ScatterEOS() )
 
 export const setScatter = () => (dispatch) => {
-  dispatch(setScatterPending())
+  dispatch({type: 'SCATTER/SET_SCATTER_PENDING'})
   ScatterJS.scatter.connect('thesis').then(connected => {
-    
     if(!connected) return dispatch(setScatterRejected())
     dispatch({
       type: 'SCATTER/SET_SCATTER_SUCCEEDED',
       payload: ScatterJS.scatter,
     })
-
     window.scatter = null
-  })
+  }).catch(err => console.log('error', err))
   
 }
 
 export const setScatterAccount = () => (dispatch, getState) => {
   const scatter = getState().scatter.ref
-  if(!scatter) return dispatch(setScatterRejected)
+  if(!scatter) return dispatch(setScatterRejected())
   const requiredFields = { 
     accounts:[network], 
     personal:['firstname', 'lastname', 'email'], 
@@ -31,18 +30,16 @@ export const setScatterAccount = () => (dispatch, getState) => {
     const account = scatter.identity.accounts.find(x => x.blockchain === 'eos')
     return dispatch({
       type: 'SCATTER/SET_SCATTER_ACCOUNT_SUCCEEDED',
-      payload: account,
+      payload: {
+        account,
+      }
     })
   }).catch((error) => {
     console.log(error)
     return dispatch({ type: 'SCATTER/SET_SCATTER_ACCOUNT_FAILED'})
   })
-
 }
 
-export const setScatterPending = () => ({
-  type: 'SCATTER/SET_SCATTER_PENDING',
-})
 
 export const setScatterRejected = () => ({
   type: 'SCATTER/SET_SCATTER_REJECTED',

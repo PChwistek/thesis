@@ -7,8 +7,8 @@ import { getStartedNext, getStartedBack, getStartedAt } from '../Auth.actions'
 const stateToProps = ({ scatter, subscribe, auth }) => ({
   accountExists: !!scatter.account,
   account: scatter.account,
+  available: scatter.available,
   identity: get(scatter, 'ref.identity', {}),
-  unlocked: scatter.unlocked,
   subs: get(subscribe, 'subs', []),
   cart: get(subscribe, 'cart', []),
   activeIndex: get(auth, 'activeIndex', 0),

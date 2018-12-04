@@ -1,15 +1,12 @@
-import Eos from 'eosjs'
+import { JsonRpc } from 'eosjs'
+import { endpoint } from '../../api/scatterConfig'
 
 /* eslint-disable */
 
-const config = {
-  httpEndpoint: 'http://127.0.0.1:7777',
-}
-
 
 export const getStores = () => dispatch=> {
-  const eos = Eos(config)
-  eos.getTableRows({
+  const rpc = new JsonRpc(endpoint)
+  rpc.get_table_rows({
     code: 'submanager',
     scope: 'submanager',
     table: 'stores',
