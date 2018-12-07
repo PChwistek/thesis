@@ -39,7 +39,7 @@ module.exports = {
         "react/jsx-no-undef": 1,
         "react/jsx-uses-react": 1,
         "react/jsx-uses-vars": 1,
-        "react/wrap-multilines": 1,
+        "react/wrap-multilines": 0,
         "react/react-in-jsx-scope": 1,
         "react/prefer-es6-class": 1,
         "react/jsx-no-bind": 0,

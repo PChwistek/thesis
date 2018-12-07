@@ -26,7 +26,8 @@ class AccountCreationTile extends Component {
                   }
                 </Box>
               )
-            } />
+            } 
+            />
           </Tile>
         </Tile>
         <div onClick={ getStartedBack } className={ 'clickable' }> Back </div>

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
-    "eslint": "^5.6.0",
+    "eslint": "4.1.1",
     "eslint-plugin-babel": "^5.2.0",
     "sass": "^1.14.0"
   },
@@ -31,7 +31,6 @@
     "dotenv": "4.0.0",
     "dotenv-expand": "4.2.0",
     "eosjs": "^20.0.0-beta2",
-    "eslint": "^5.6.0",
     "eslint-config-react-app": "^2.1.0",
     "eslint-loader": "1.9.0",
     "eslint-plugin-flowtype": "2.39.1",

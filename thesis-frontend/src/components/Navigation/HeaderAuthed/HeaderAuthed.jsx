@@ -21,7 +21,7 @@ export default class HeaderAuthed extends Component {
           </NavbarItem>
         </NavbarBrand>
         <NavbarEnd>
-        <NavbarItem>
+          <NavbarItem>
             <Link to="/dashboard">
               Dashboard
             </Link>

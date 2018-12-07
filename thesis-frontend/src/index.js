@@ -7,8 +7,8 @@ import { ConnectedRouter } from 'connected-react-router'
 import { store, history } from './store/configureStore'
 import Navigation from './features/Navigation'
 import 'bulma/css/bulma.css'
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faEnvelope, faKey, faPenSquare } from '@fortawesome/free-solid-svg-icons';
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faEnvelope, faKey, faPenSquare } from '@fortawesome/free-solid-svg-icons'
 
 library.add(faEnvelope, faKey, faPenSquare)
 
