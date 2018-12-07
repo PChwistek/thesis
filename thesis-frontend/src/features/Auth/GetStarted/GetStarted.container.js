@@ -2,21 +2,18 @@ import { connect } from 'react-redux'
 import { get } from 'lodash'
 import GetStarted from './GetStarted'
 import { setScatter, setScatterAccount } from '../../Scatter/Scatter.actions'
-import { getStartedNext, getStartedBack, getStartedAt } from '../Auth.actions'
+import { getStartedNext, getStartedBack, getStartedAt, createScatterAssocAccount } from '../Auth.actions'
 
-const stateToProps = ({ scatter, subscribe, auth }) => ({
-  accountExists: !!scatter.account,
-  account: scatter.account,
+const stateToProps = ({ scatter, auth }) => ({
+  identity: scatter.identity,
   available: scatter.available,
-  identity: get(scatter, 'ref.identity', {}),
-  subs: get(subscribe, 'subs', []),
-  cart: get(subscribe, 'cart', []),
   activeIndex: get(auth, 'activeIndex', 0),
 })
 
 const dispatchToProps = {
   setScatter,
   setScatterAccount,
+  createScatterAssocAccount,
   getStartedNext,
   getStartedBack,
   getStartedAt,

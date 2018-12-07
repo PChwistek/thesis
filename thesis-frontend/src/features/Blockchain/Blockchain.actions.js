@@ -5,7 +5,7 @@ import { transaction } from './Blockchain.utils'
 export const sayHello = () => (dispatch, getState) => {
   const store = getState()
   const scatter = store.scatter.ref
-  const account = store.scatter.account
+  const account = store.scatter.identity.accounts[0]
   const rpc = new JsonRpc(endpoint)
   const api = scatter.eos(network, Api, { rpc })
   dispatch({ type: 'BLOCKCHAIN/SAY_HELLO_PENDING' })
@@ -20,7 +20,7 @@ export const sayHello = () => (dispatch, getState) => {
 export const openStore = minimumPrice => (dispatch, getState) => {
   const store = getState()
   const scatter = store.scatter.ref
-  const account = store.scatter.account
+  const account = store.scatter.identity.accounts[0]
   const rpc = new JsonRpc(endpoint)
   const api = scatter.eos(network, Api, { rpc })
   dispatch({ type: 'BLOCKCHAIN/OPEN_STORE_PENDING' })
@@ -34,7 +34,7 @@ export const openStore = minimumPrice => (dispatch, getState) => {
 export const subscribe = (contentCreator, amount) => (dispatch, getState) => {
   const store = getState()
   const scatter = store.scatter.ref
-  const account = store.scatter.account
+  const account = store.scatter.identity.accounts[0]
   const rpc = new JsonRpc(endpoint)
   const api = scatter.eos(network, Api, { rpc })
   dispatch({ type: 'BLOCKCHAIN/SUBSCRIBE_PENDING' })

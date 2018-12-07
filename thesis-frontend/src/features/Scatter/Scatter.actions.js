@@ -19,23 +19,36 @@ export const setScatter = () => (dispatch) => {
 
 export const setScatterAccount = () => (dispatch, getState) => {
   const scatter = getState().scatter.ref
-  dispatch({type: 'SCATTER/SET_ACCOUNT_PENDING'})
-  if(!scatter) return dispatch({ type: 'SCATTER/SET_ACCOUNT_REJECTED'})
+  dispatch({type: 'SCATTER/SET_IDENTITY_PENDING'})
+  if(!scatter) return dispatch({ type: 'SCATTER/SET_IDENTITY_REJECTED'})
   const requiredFields = { 
     accounts:[network], 
     personal:['firstname', 'lastname', 'email'], 
   }
-  scatter.getIdentity(requiredFields).then(() => {
-    const account = scatter.identity.accounts.find(x => x.blockchain === 'eos')
-    return dispatch({
-      type: 'SCATTER/SET_ACCOUNT_SUCCEEDED',
-      payload: {
-        account,
-      }
+
+  scatter.getIdentity(requiredFields).then(identity => {
+    scatter.authenticate('123456789101').then(() => {
+      dispatch({
+        type: 'SCATTER/SET_IDENTITY_SUCCEEDED',
+        payload: {
+          identity,
+        }
+      })
+    }).catch(failedAuthentication => {
+      dispatch({ type: 'SCATTER/SET_IDENTITY_REJECTED'})
+      throw new Error('An Imposter!', failedAuthentication)
     })
+
   }).catch((error) => {
     console.log(error)
-    dispatch({ type: 'SCATTER/SET_ACCOUNT_REJECTED'})
+    dispatch({ type: 'SCATTER/SET_IDENTITY_REJECTED'})
   })
 }
 
+export const signOutScatter = () => (dispatch, getState) => {
+  const scatter = getState().scatter.ref
+  return dispatch({
+    type: 'SCATTER/FORGET_IDENTITY',
+    payload: scatter.forgetIdentity(),
+  })
+}

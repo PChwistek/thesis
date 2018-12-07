@@ -23,7 +23,7 @@ class GetStarted extends Component {
   }
 
   render() {
-    const { account, available, activeIndex, setScatterAccount, getStartedNext } = this.props
+    const { identity, available, activeIndex, setScatterAccount, getStartedNext } = this.props
     if(activeIndex === 0) {
       return (
         <div>
@@ -38,7 +38,7 @@ class GetStarted extends Component {
         </div>
       )
     } else if (activeIndex === 1){
-      available && !account && setScatterAccount()
+      available && !identity && setScatterAccount()
       return (
         <div>
           <Hero isColor='info' isSize='medium' isFullHeight>

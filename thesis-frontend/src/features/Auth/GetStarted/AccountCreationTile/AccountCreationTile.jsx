@@ -9,7 +9,7 @@ import AccountCreationForm from './AccountCreationForm'
 
 class AccountCreationTile extends Component {
   render() {
-    const { getStartedNext, getStartedBack, available, account } = this.props
+    const { getStartedBack, available, identity } = this.props
     return (
       <div>
         <Tile isAncestor style={ { justifyContent: 'center' } }>
@@ -18,16 +18,16 @@ class AccountCreationTile extends Component {
               props => (
                 <Box { ...props } >
                   {
-                    !available && !account
+                    !available && !identity
                       ? <div>
                         Scatter not unlocked. Please unlock scatter and refresh the page. 
                       </div>
-                      : <AccountCreationForm getStartedNext={ getStartedNext } />
+                      : <AccountCreationForm { ...this.props }/>
                   }
                 </Box>
               )
             } />
-        </Tile>
+          </Tile>
         </Tile>
         <div onClick={ getStartedBack } className={ 'clickable' }> Back </div>
       </div>
