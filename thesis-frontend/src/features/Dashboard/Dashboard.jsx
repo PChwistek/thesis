@@ -16,6 +16,14 @@ import {
 import './Dashboard.scss'
 
 class Dashboard extends Component {
+  componentDidUpdate() {
+    const { isScatterSet, isScatterAccount, setScatter, setScatterAccount } = this.props
+    if(!isScatterSet) {
+      setScatter()
+    } else if (!isScatterAccount) {
+      setScatterAccount()
+    } 
+  }
   sayHello = () => {
     const { sayHello } = this.props
     sayHello()

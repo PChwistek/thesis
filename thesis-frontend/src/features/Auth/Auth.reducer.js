@@ -3,6 +3,7 @@ import i from 'icepick'
 const initialState = {
   activeIndex: 0,
   completed: false,
+  method: 'scatter',
 }
 
 export default function auth (state = initialState, action) {

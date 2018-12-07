@@ -12,27 +12,26 @@ const initialState = {
 
 export default function scatter (state = initialState, action) {
   switch (action.type) {
-    case 'SCATTER/SET_SCATTER_PENDING':
+    case 'SCATTER/CONNECT_SCATTER_PENDING':
       return i.assoc(state, 'isFetching', true)
-    case 'SCATTER/SET_SCATTER_REJECTED':
+    case 'SCATTER/CONNECT_SCATTER_REJECTED':
       return i.chain(state)
         .assoc('isFetching', false)
         .value()
-    case 'SCATTER/SET_SCATTER_SUCCEEDED':
+    case 'SCATTER/CONNECT_SCATTER_SUCCEEDED':
       return i.chain(state)
         .assoc('available', true)
         .assoc('isFetching', false)
         .assoc('ref', action.payload)
         .value()
-    case 'SCATTER/SET_SCATTER_ACCOUNT_SUCCEEDED':
+    case 'SCATTER/SET_ACCOUNT_SUCCEEDED':
       return i.chain(state)
         .assoc('account', action.payload.account)
-        .assoc('eos', action.payload.eos)
         .assoc('isFetchingAccount', false)
         .value()
-    case 'SCATTER/SET_SCATTER_ACCOUNT_PENDING':
+    case 'SCATTER/SET_ACCOUNT_PENDING':
       return i.assoc(state, 'isFetchingAccount', true)
-    case 'SCATTER/SET_SCATTER_ACCOUNT_REJECTED':
+    case 'SCATTER/SET_ACCOUNT_REJECTED':
       return i.assoc(state, 'isFetchingAccount', false)
     default:
       return state

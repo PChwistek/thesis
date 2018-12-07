@@ -29,6 +29,7 @@ module.exports = {
         "linebreak-style": [ "error", "unix" ],
         "quotes": [ "error", "single" ],
         "no-console": 0,
+        "no-case-declarations": 0,
         "semi": [ "error", "never"],
         "react/jsx-boolean-value": 0,
         "react/jsx-closing-bracket-location": 1,
