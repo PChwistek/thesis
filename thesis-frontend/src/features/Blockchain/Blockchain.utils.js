@@ -1,5 +1,5 @@
 export async function transaction(api, contractName, contractAction, account, actionParam) {
-  return await api.transact({
+  return api.transact({
     actions: [{
       account: contractName,
       name: contractAction,
@@ -12,6 +12,5 @@ export async function transaction(api, contractName, contractAction, account, ac
   }, {
     blocksBehind: 3,
     expireSeconds: 30,
-  });
+  })
 }
-

@@ -1,7 +1,6 @@
-import { network, endpoint } from '../../api/scatterConfig'
+import { network } from '../../api/scatterConfig'
 import ScatterJS from 'scatterjs-core'
 import ScatterEOS from 'scatterjs-plugin-eosjs2'
-import { Api, JsonRpc } from 'eosjs';
 
 ScatterJS.plugins( new ScatterEOS() )
 
@@ -26,9 +25,9 @@ export const setScatterAccount = () => (dispatch, getState) => {
     personal:['firstname', 'lastname', 'email'], 
   }
 
-  scatter.getIdentity(requiredFields).then(identity => {
+  scatter.getIdentity(requiredFields).then(() => {
     const account = scatter.identity.accounts.find(x => x.blockchain === 'eos')
-    return dispatch({
+    dispatch({
       type: 'SCATTER/SET_SCATTER_ACCOUNT_SUCCEEDED',
       payload: {
         account,
@@ -36,7 +35,7 @@ export const setScatterAccount = () => (dispatch, getState) => {
     })
   }).catch((error) => {
     console.log(error)
-    return dispatch({ type: 'SCATTER/SET_SCATTER_ACCOUNT_FAILED'})
+    dispatch({ type: 'SCATTER/SET_SCATTER_ACCOUNT_FAILED'})
   })
 }
 

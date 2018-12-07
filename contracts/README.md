@@ -21,7 +21,7 @@ cleos set contract submanager <path to submanager in main contract directory> -p
 
 Now give submanager access to eosio.code. This is necessary for the contract to listen to the whole network. 
 ```
-cleos set account permission submanager active '{"threshold": 1,"keys": [{"key": "<submanager public key>","weight": 1}], "accounts": [{"permission":{"actor”:"submanager","permission":"eosio.code"},"weight":1}]}' -p submanager@owner
+cleos set account permission submanager active '{"threshold": 1,"keys": [{"key": "<submanager public key>","weight": 1}], "accounts": [{"permission":{"actor":"submanager","permission":"eosio.code"},"weight":1}]}' -p submanager@owner
 ```
 
 All done!

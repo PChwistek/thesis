@@ -26,9 +26,9 @@ class Dashboard extends Component {
     cart.map(account => transferMoney(account))
   }
 
-  handleAddToCart = () => {
-    const { addSubscriptionToCart } = this.props
-    addSubscriptionToCart( {name: 'bobmanager', amount: '1.000 SYS'}  )
+  openStore = () => {
+    const { openStore } = this.props
+    openStore('1.0000')
   }
 
   componentDidMount() {
@@ -38,10 +38,10 @@ class Dashboard extends Component {
   }
 
   render() {
-    const { stores } = this.props
+    const { stores, subscribe } = this.props
     return (
       <Hero isColor='info' isSize='medium' isFullHeight>
-          <Container hasTextAlign='centered'>
+        <Container hasTextAlign='centered'>
           <Columns isCentered className={ 'dashboard-columns' }>
             <Column isSize='1/3'>
               <Notification isColor='white' hasTextAlign='centered'> 
@@ -49,11 +49,11 @@ class Dashboard extends Component {
                 <div className={ 'break' }/>
                 <Field>
                   <Label> Minimum subscription price </Label>
-                    <Control>
-                      <Input type="text" placeholder='1.0000 SYS' />
-                    </Control>
+                  <Control>
+                    <Input type="text" placeholder='1.0000 SYS' />
+                  </Control>
                 </Field>
-                <Button isColor='primary'>Open</Button>
+                <Button isColor='primary' onClick={ this.openStore }>Open</Button>
               </Notification>
             </Column>
             <Column isSize='2/3'>
@@ -63,10 +63,10 @@ class Dashboard extends Component {
                 <div className={ 'clickable' }>
                   { 
                     values(stores).map(store => (
-                      <div key={ store.key }>
-                          { store.key + ', ' }
-                          
-                          { store.minimum_price }
+                      <div key={ store.key } onClick={ () => subscribe(store.key, store.minimum_price) }>
+                        { store.key + ', ' }
+                        
+                        { store.minimum_price }
                       </div>
                     )) 
                   }

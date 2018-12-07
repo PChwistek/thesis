@@ -1,8 +1,7 @@
 import { connect } from 'react-redux'
 import { getStores } from '../Market/Market.actions'
 import { authCompleted } from '../Auth/Auth.actions'
-import { sayHello, transferMoney } from '../Blockchain/Blockchain.actions'
-import { addSubscriptionToCart } from '../Subscribe/Subscribe.actions'
+import { sayHello, openStore, subscribe } from '../Blockchain/Blockchain.actions'
 import Dashboard from './Dashboard'
 
 const stateToProps = ({ market }) => ({
@@ -13,8 +12,8 @@ const dispatchToProps = {
   getStores,
   authCompleted,
   sayHello,
-  transferMoney,
-  addSubscriptionToCart,
+  subscribe,
+  openStore,
 }
 
 export default connect(stateToProps, dispatchToProps)(Dashboard)
