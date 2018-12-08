@@ -1,5 +1,6 @@
 import { signOutScatter } from '../Scatter/Scatter.actions'
 import axios from 'axios'
+
 export const getStartedNext = () => ({
   type: 'AUTH/GET_STARTED_NEXT',
 })
@@ -26,7 +27,7 @@ export const signout = () => dispatch => {
 
 export const createScatterAssocAccount = () => (dispatch, getState) => {
   const scatter = getState().scatter
-  const { identity: { publicKey, personal: { firstname, lastname, email } } } = scatter
+  const { identity: { publicKey, hash, name, personal: { firstname, lastname, email } } } = scatter
   return dispatch({
     type: 'AUTH/CREATE_SCATTER_ASSOCIATED_ACCOUNT',
     payload: axios({
@@ -34,6 +35,8 @@ export const createScatterAssocAccount = () => (dispatch, getState) => {
       url: 'http://localhost:3009/api/auth',
       data: {
         publicKey,
+        hash,
+        username: name,
         first: firstname,
         last: lastname,
         email,
@@ -44,14 +47,15 @@ export const createScatterAssocAccount = () => (dispatch, getState) => {
 
 export const getScatterAssocAccount = () => (dispatch, getState) => {
   const scatter = getState().scatter
-  const { identity: { publicKey } } = scatter
+  const { identity: { publicKey, hash } } = scatter
   return dispatch({
-    type: 'AUTH/CREATE_SCATTER_ASSOCIATED_ACCOUNT',
+    type: 'AUTH/GET_SCATTER_ASSOCIATED_ACCOUNT',
     payload: axios({
-      method: 'GET',
-      url: 'http://localhost:3009/api/auth',
+      method: 'POST',
+      url: 'http://localhost:3009/api/auth/getScatterAccount',
       data: {
         publicKey,
+        hash,
       },
     }),
   })

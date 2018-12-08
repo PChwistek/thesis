@@ -1,6 +1,6 @@
 import { Get, Controller, Post, Body } from '@nestjs/common'
 import { AuthService } from 'Services/Auth/Auth.service'
-import { ScatterAccountReqBody } from 'Models/Auth/Auth.model'
+import { ScatterAccountReqBody, GetScatterAccountReqBody } from 'Models/Auth/Auth.model'
 
 @Controller('auth')
 export class AuthController {
@@ -16,9 +16,9 @@ export class AuthController {
     return this.authService.createScatterAccount(body)
   }
 
-  @Get('/getByPublicKey')
-  public getScatterAccount(@Body() body: ScatterAccountReqBody) {
-    return this.authService.getScatterAccount(body.publicKey)
+  @Post('/getScatterAccount')
+  public getScatterAccount(@Body() body: GetScatterAccountReqBody) {
+    return this.authService.getScatterAccount(body)
   }
 
 }

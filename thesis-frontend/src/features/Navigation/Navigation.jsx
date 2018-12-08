@@ -5,13 +5,13 @@ import HeaderAuthed from '../../components/Navigation/HeaderAuthed'
 
 class Navigation extends Component {
   render() {
-    const { completed } = this.props 
+    const { completed, loginScatter } = this.props 
     return (
       <div>
         {
           completed 
             ? <HeaderAuthed />
-            : <Header />
+            : <Header login={ loginScatter } />
         }
       </div>
     )

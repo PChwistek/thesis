@@ -12,6 +12,7 @@ import s from './Header'
 
 export default class Header extends Component {
   render() {
+    const { login } = this.props
     return (
       <Navbar className={ s.header }>
         <NavbarBrand>
@@ -28,9 +29,9 @@ export default class Header extends Component {
             </Link>
           </NavbarItem>
           <NavbarItem>
-            <Link to="/">
+            <div onClick={ login }>
               Log In
-            </Link>
+            </div>
           </NavbarItem>
         </NavbarEnd>
       </Navbar>

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { save, getSpecificDoc } from 'helpers/firestore'
-import { ScatterAccountReqBody } from 'Models/Auth/Auth.model'
+import { ScatterAccountReqBody, GetScatterAccountReqBody } from 'Models/Auth/Auth.model'
 
 @Injectable()
 export class AuthService {
@@ -10,11 +10,13 @@ export class AuthService {
   }
 
   createScatterAccount(body: ScatterAccountReqBody) {
-    const { first, last, email } = body
+    const { hash, username, first, last, email } = body
     const toFile = {
       collectionKey: 'scatter',
       documentKey: body.publicKey,
       documentBody: {
+        username,
+        hash,
         first,
         last,
         email,
@@ -23,7 +25,12 @@ export class AuthService {
     return save(toFile)
   }
 
-  async getScatterAccount(publicKey: string): Promise<FirebaseFirestore.DocumentData> {
-    return getSpecificDoc('scatter', publicKey)
+  async getScatterAccount(body: GetScatterAccountReqBody): Promise<FirebaseFirestore.DocumentData | boolean> {
+    const theDoc = await getSpecificDoc('scatter', body.publicKey)
+    if (!theDoc) return false
+    if (body.hash === theDoc.hash) {
+      return theDoc
+    }
+    return false
   }
 }
