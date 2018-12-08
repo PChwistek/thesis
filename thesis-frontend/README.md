@@ -1,1 +1,5 @@
-# This part of the repo is responsible for the frontend of the thesis project.
+## Running the frontend
+```
+yarn install
+yarn start
+```
