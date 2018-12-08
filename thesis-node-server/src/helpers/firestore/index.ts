@@ -1,6 +1,5 @@
 import admin from 'firebase-admin'
 import { IFirestoreFile } from 'Models/Storage/Storage.model'
-import { DocumentSnapshot } from '@google-cloud/firestore'
 /* tslint:disable */ 
 //this needs to be a module or TS freaks out
 var serviceAccount = require('./credentials.json');
@@ -20,7 +19,7 @@ export function save(file: IFirestoreFile) {
   })
 }
 
-export async function getSpecificDoc(collectionKey: string, documentKey: string) {
+export async function getSpecificDoc(collectionKey: string, documentKey: string): Promise<FirebaseFirestore.DocumentData> {
   const theDoc = await firestore.collection(collectionKey).doc(documentKey).get()
   return theDoc.data()
 }
