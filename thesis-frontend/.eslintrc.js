@@ -2,7 +2,8 @@ module.exports = {
     "env": {
         "browser": true,
         "es6": true,
-        "node": true
+        "node": true,
+        "jest": true
     },
     "globals": {
         "window": true,
@@ -29,6 +30,7 @@ module.exports = {
         "linebreak-style": [ "error", "unix" ],
         "quotes": [ "error", "single" ],
         "no-console": 0,
+        "no-case-declarations": 0,
         "semi": [ "error", "never"],
         "react/jsx-boolean-value": 0,
         "react/jsx-closing-bracket-location": 1,
@@ -37,9 +39,9 @@ module.exports = {
         "react/jsx-no-undef": 1,
         "react/jsx-uses-react": 1,
         "react/jsx-uses-vars": 1,
-        "react/wrap-multilines": 1,
+        "react/wrap-multilines": 0,
         "react/react-in-jsx-scope": 1,
         "react/prefer-es6-class": 1,
-        "react/jsx-no-bind": 1,
+        "react/jsx-no-bind": 0,
     }
 };

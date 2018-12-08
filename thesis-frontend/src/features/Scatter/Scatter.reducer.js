@@ -6,33 +6,36 @@ const initialState = {
   isFetching: false,
   isFetchingAccount: false,
   ref: null,
-  account: null,
+  identity: null,
+  publicKey: null,
+  eos: null,
 }
 
 export default function scatter (state = initialState, action) {
   switch (action.type) {
-    case 'SCATTER/SET_SCATTER_PENDING':
+    case 'SCATTER/CONNECT_SCATTER_PENDING':
       return i.assoc(state, 'isFetching', true)
-    case 'SCATTER/SET_SCATTER_REJECTED':
+    case 'SCATTER/CONNECT_SCATTER_REJECTED':
       return i.chain(state)
         .assoc('isFetching', false)
         .value()
-    case 'SCATTER/SET_SCATTER_SUCCEEDED':
+    case 'SCATTER/CONNECT_SCATTER_SUCCEEDED':
       return i.chain(state)
         .assoc('available', true)
         .assoc('isFetching', false)
-        .assoc('unlocked', !!action.payload.identity)
         .assoc('ref', action.payload)
         .value()
-    case 'SCATTER/SET_SCATTER_ACCOUNT_SUCCEEDED':
+    case 'SCATTER/SET_IDENTITY_SUCCEEDED':
       return i.chain(state)
-        .assoc('account', action.payload)
+        .assoc('identity', action.payload.identity)
         .assoc('isFetchingAccount', false)
         .value()
-    case 'SCATTER/SET_SCATTER_ACCOUNT_PENDING':
+    case 'SCATTER/SET_IDENTITY_PENDING':
       return i.assoc(state, 'isFetchingAccount', true)
-    case 'SCATTER/SET_SCATTER_ACCOUNT_REJECTED':
+    case 'SCATTER/SET_IDENTITY_REJECTED':
       return i.assoc(state, 'isFetchingAccount', false)
+    case 'SCATTER/FORGET_IDENTITY':
+      return initialState
     default:
       return state
   }
