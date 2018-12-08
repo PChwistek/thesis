@@ -16,4 +16,9 @@ export class AuthController {
     return this.authService.createScatterAccount(body)
   }
 
+  @Get('/getByPublicKey')
+  public getScatterAccount(@Body() body: ScatterAccountReqBody) {
+    return this.authService.getScatterAccount(body.publicKey)
+  }
+
 }

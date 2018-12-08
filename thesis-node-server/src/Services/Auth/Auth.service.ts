@@ -1,7 +1,9 @@
 import { Injectable } from '@nestjs/common'
 import { validate } from 'class-validator'
-import { save } from 'helpers/firestore'
+import { save, getSpecificDoc } from 'helpers/firestore'
 import { ScatterAccountReqBody } from 'Models/Auth/Auth.model'
+import { IFirestoreFile } from 'Models/Storage/Storage.model'
+import { DocumentSnapshot } from '@google-cloud/firestore'
 
 @Injectable()
 export class AuthService {
@@ -22,5 +24,9 @@ export class AuthService {
       },
     }
     return save(toFile)
+  }
+
+  async getScatterAccount(publicKey: string): Promise<DocumentSnapshot> {
+    return getSpecificDoc('scatter', publicKey)
   }
 }
