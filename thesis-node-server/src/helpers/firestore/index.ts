@@ -20,6 +20,13 @@ export function save(file: IFirestoreFile) {
 }
 
 export async function getSpecificDoc(collectionKey: string, documentKey: string): Promise<FirebaseFirestore.DocumentData> {
-  const theDoc = await firestore.collection(collectionKey).doc(documentKey).get()
-  return theDoc.data()
+  const theDocRef = await firestore.collection(collectionKey).doc(documentKey).get()
+  return theDocRef.data()
+}
+
+export async function merge(collectionKey: string, documentKey: string, dataToMerge: any) {
+  const theDocRef = await firestore.collection(collectionKey).doc(documentKey)
+  theDocRef.set({
+    ...dataToMerge,
+  }, { merge: true });
 }

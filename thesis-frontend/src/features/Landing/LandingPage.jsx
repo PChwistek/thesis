@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { 
-  Hero, 
-  HeroBody, 
-  Container, 
-  Title,
   Button, 
+  Container, 
+  Hero, 
+  HeroBody,
+  Title, 
 } from 'bloomer'
 
 class App extends Component {

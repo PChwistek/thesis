@@ -1,5 +1,7 @@
-import { signOutScatter } from '../Scatter/Scatter.actions'
 import axios from 'axios'
+import { get } from 'lodash'
+import { signOutScatter } from '../Scatter/Scatter.actions'
+import { push } from 'connected-react-router'
 
 export const getStartedNext = () => ({
   type: 'AUTH/GET_STARTED_NEXT',
@@ -18,13 +20,6 @@ export const authCompleted = () => ({
   type: 'AUTH/GET_STARTED_COMPLETED',
 })
 
-export const signout = () => dispatch => {
-  return dispatch({
-    type: 'AUTH/SIGNOUT',
-    payload: signOutScatter(),
-  })
-}
-
 export const createScatterAssocAccount = () => (dispatch, getState) => {
   const scatter = getState().scatter
   const { identity: { publicKey, hash, name, personal: { firstname, lastname, email } } } = scatter
@@ -41,22 +36,57 @@ export const createScatterAssocAccount = () => (dispatch, getState) => {
         last: lastname,
         email,
       }
-    }),
+    }).then(response => dispatch({
+      type: 'AUTH/CREATE_SCATTER_ASSOCIATED_ACCOUNT_FULFILLED',
+      payload: response.data,
+    })).catch(() => dispatch({ type: 'AUTH/CREATE_SCATTER_ASSOCIATED_ACCOUNT_REJECTED' })),
   })
 }
 
-export const getScatterAssocAccount = () => (dispatch, getState) => {
+export const verifyAccountByToken = () => (dispatch, getState) => {
+  const token = get(getState(), 'auth.token', false)
+  if(token) return false
+}
+
+export const loginScatter = () => (dispatch, getState) => {
   const scatter = getState().scatter
   const { identity: { publicKey, hash } } = scatter
   return dispatch({
-    type: 'AUTH/GET_SCATTER_ASSOCIATED_ACCOUNT',
+    type: 'AUTH/LOGIN_WITH_SCATTER',
     payload: axios({
       method: 'POST',
-      url: 'http://localhost:3009/api/auth/getScatterAccount',
+      url: 'http://localhost:3009/api/auth/sign-in-scatter',
       data: {
         publicKey,
         hash,
       },
-    }),
+    }).then(res => {
+      dispatch({
+        type: 'AUTH/LOGIN_WITH_SCATTER_FULFILLED',
+        payload: res.data,
+      })
+      dispatch(push('/dashboard'))
+    }).catch(() => dispatch({
+      type: 'AUTH/LOGIN_WITH_SCATTER_REJECTED',
+    }))
+  })
+}
+
+export const logout = () => (dispatch, getState) => {
+  const token = getState().auth.token
+  const publicKey = getState().scatter.identity.publicKey
+  const logout = () => {
+    axios({
+      method: 'POST',
+      url: 'http://localhost:3009/api/auth/logout',
+      data: {
+        publicKey,
+      },
+      headers: { 'Authorization' : `Bearer ${token}`},
+    })
+  }
+  return dispatch({
+    type: 'AUTH/LOGOUT',
+    payload: [signOutScatter(), logout()],
   })
 }

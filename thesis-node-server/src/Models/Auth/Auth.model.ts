@@ -14,6 +14,8 @@ export interface IGetScatterAccountReqBody {
   hash: string,
 }
 
+// there needs to be some for regular accounts later, with hashed passwords (Argon2) and the like
+
 // for validation
 export class ScatterAccountReqBody implements IScatterAccountReqBody {
 
@@ -57,4 +59,8 @@ export class GetScatterAccountReqBody implements IGetScatterAccountReqBody {
   constructor(data: IGetScatterAccountReqBody) {
       Object.assign(this, data)
   }
+}
+
+export interface IJwtPayloadScatter {
+  publicKey: string
 }

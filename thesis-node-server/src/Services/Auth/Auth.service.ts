@@ -1,16 +1,22 @@
-import { Injectable } from '@nestjs/common'
-import { save, getSpecificDoc } from 'helpers/firestore'
-import { ScatterAccountReqBody, GetScatterAccountReqBody } from 'Models/Auth/Auth.model'
+import { ForbiddenException, Injectable } from '@nestjs/common'
+import { JwtService } from '@nestjs/jwt'
+import { GetScatterAccountReqBody, IJwtPayloadScatter, ScatterAccountReqBody } from 'Models/Auth/Auth.model'
+import { UserService } from 'Services/User/User.service'
 
 @Injectable()
 export class AuthService {
+  constructor(
+    private readonly userService: UserService,
+    private readonly jwtService: JwtService,
+    ) {}
   root(): string {
-
     return 'Hello World! At auth!'
   }
 
-  createScatterAccount(body: ScatterAccountReqBody) {
+  createScatterAccount(body: ScatterAccountReqBody): any {
     const { hash, username, first, last, email } = body
+    const user: IJwtPayloadScatter = { publicKey: body.publicKey }
+    const token = this.jwtService.sign(user)
     const toFile = {
       collectionKey: 'scatter',
       documentKey: body.publicKey,
@@ -20,17 +26,40 @@ export class AuthService {
         first,
         last,
         email,
+        token,
       },
     }
-    return save(toFile)
+    this.userService.saveScatterAccount(toFile)
+    return {
+      token,
+    }
   }
 
-  async getScatterAccount(body: GetScatterAccountReqBody): Promise<FirebaseFirestore.DocumentData | boolean> {
-    const theDoc = await getSpecificDoc('scatter', body.publicKey)
-    if (!theDoc) return false
-    if (body.hash === theDoc.hash) {
-      return theDoc
+  async signInScatter(body: GetScatterAccountReqBody): Promise<any> {
+    const foundUser = await this.userService.findOneByPublicKey(body.publicKey)
+    if (foundUser) {
+      const user: IJwtPayloadScatter = { publicKey: body.publicKey }
+      const token = this.jwtService.sign(user)
+      this.userService.merge(body.publicKey, { token })
+      return {
+        ...foundUser,
+        token,
+      }
     }
-    return false
+    throw new ForbiddenException()
   }
+
+  async validateUser(payload: IJwtPayloadScatter): Promise<any> {
+    const theUser = await this.userService.findOneByPublicKey(payload.publicKey)
+    const isValidToken = this.jwtService.verify(theUser.token)
+    if (isValidToken) {
+      return theUser
+    }
+    throw new ForbiddenException()
+  }
+
+  logout(key: string) {
+    return this.userService.merge(key, { token: '' })
+  }
+
 }

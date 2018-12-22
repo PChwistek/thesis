@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import { getStores } from '../Market/Market.actions'
 import { authCompleted } from '../Auth/Auth.actions'
-import { sayHello, openStore, subscribe } from '../Blockchain/Blockchain.actions'
+import { openStore, sayHello, subscribe } from '../Blockchain/Blockchain.actions'
 import { setScatter, setScatterAccount } from '../Scatter/Scatter.actions'
 import Dashboard from './Dashboard'
 

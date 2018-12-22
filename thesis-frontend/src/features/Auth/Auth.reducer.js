@@ -5,6 +5,7 @@ const initialState = {
   completed: false,
   method: 'scatter',
   authenticated: null,
+  token: '',
 }
 
 export default function auth (state = initialState, action) {
@@ -20,11 +21,16 @@ export default function auth (state = initialState, action) {
         .assoc('completed', true)
         .assoc('authenticated', true)
         .value()
-    case 'AUTH/CREATE_SCATTER_ASSOCIATED_ACCOUNT':
+    case 'AUTH/CREATE_SCATTER_ASSOCIATED_ACCOUNT_FULFILLED':
       return i.chain(state)
-        .assoc('complted', true)
+        .assoc('completed', true)
         .assoc('authenticated', true)
+        .assoc('token', action.payload.token)
         .value()
+    case 'AUTH/LOGIN_WITH_SCATTER_FULFILLED':
+      return i.assoc(state, 'token', action.payload.token)
+    case 'AUTH/LOGOUT':
+      return i.assoc(state, 'token', false)
     case 'AUTH/SET_AUTHENTICATED':
       return i.chain(state)
         .assoc('authenticated', action.payload ? true : false)
