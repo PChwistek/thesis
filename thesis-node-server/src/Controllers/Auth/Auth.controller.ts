@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common'
+import { Body, Controller, Get, Post, Res, UseGuards } from '@nestjs/common'
 import { AuthGuard } from '@nestjs/passport'
 import { GetScatterAccountReqBody, ScatterAccountReqBody } from 'Models/Auth/Auth.model'
 import { AuthService } from 'Services/Auth/Auth.service'
@@ -20,6 +20,12 @@ export class AuthController {
   @Post('/sign-in-scatter')
   getScatterAccount(@Body() body: GetScatterAccountReqBody) {
     return this.authService.signInScatter(body)
+  }
+
+  @Post('/logout')
+  @UseGuards(AuthGuard())
+  logout(@Body() body: any) {
+    return this.authService.logout(body.publicKey)
   }
 
   @Get('/forbidden')

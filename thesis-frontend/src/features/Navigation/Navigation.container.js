@@ -1,11 +1,14 @@
 import { connect } from 'react-redux'
+import { loginScatter, logout } from '../Auth/Auth.actions'
 import Navigation from './Navigation'
 
 const stateToProps = ({ auth }) => ({
-  completed: auth.completed,
+  token: auth.token,
 })
 
 const dispatchToProps = {
+  loginScatter,
+  logout,
 }
 
 export default connect(stateToProps, dispatchToProps)(Navigation)

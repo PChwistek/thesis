@@ -61,6 +61,7 @@
     "redux-devtools": "^3.4.1",
     "redux-form": "^7.4.2",
     "redux-logger": "^3.0.6",
+    "redux-persist": "^5.10.0",
     "redux-thunk": "^2.3.0",
     "resolve": "1.6.0",
     "sass-loader": "^7.1.0",

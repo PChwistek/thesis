@@ -1,15 +1,13 @@
 import React, { Component } from 'react'
-import { 
-  Hero, 
-  HeroBody, 
-  Container,
-  Title,
-  Button,
-} from 'bloomer'
-
-
-import CreateAccountTiles from './CreateAccountTiles'
 import AccountCreationTile from './AccountCreationTile'
+import CreateAccountTiles from './CreateAccountTiles'
+import { 
+  Button, 
+  Container, 
+  Hero,
+  HeroBody,
+  Title,
+} from 'bloomer'
 
 class GetStarted extends Component {
 

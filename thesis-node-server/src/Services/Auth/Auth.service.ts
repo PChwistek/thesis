@@ -13,8 +13,10 @@ export class AuthService {
     return 'Hello World! At auth!'
   }
 
-  createScatterAccount(body: ScatterAccountReqBody) {
+  createScatterAccount(body: ScatterAccountReqBody): any {
     const { hash, username, first, last, email } = body
+    const user: IJwtPayloadScatter = { publicKey: body.publicKey }
+    const token = this.jwtService.sign(user)
     const toFile = {
       collectionKey: 'scatter',
       documentKey: body.publicKey,
@@ -24,21 +26,40 @@ export class AuthService {
         first,
         last,
         email,
+        token,
       },
     }
-    return this.userService.save(toFile)
+    this.userService.saveScatterAccount(toFile)
+    return {
+      token,
+    }
   }
 
-  async signInScatter(body: GetScatterAccountReqBody): Promise<string> {
-    const foundUser = this.userService.findOneByPublicKey(body.publicKey)
+  async signInScatter(body: GetScatterAccountReqBody): Promise<any> {
+    const foundUser = await this.userService.findOneByPublicKey(body.publicKey)
     if (foundUser) {
       const user: IJwtPayloadScatter = { publicKey: body.publicKey }
-      return this.jwtService.sign(user)
+      const token = this.jwtService.sign(user)
+      this.userService.merge(body.publicKey, { token })
+      return {
+        ...foundUser,
+        token,
+      }
     }
     throw new ForbiddenException()
   }
 
   async validateUser(payload: IJwtPayloadScatter): Promise<any> {
-    return await this.userService.findOneByPublicKey(payload.publicKey)
+    const theUser = await this.userService.findOneByPublicKey(payload.publicKey)
+    const isValidToken = this.jwtService.verify(theUser.token)
+    if (isValidToken) {
+      return theUser
+    }
+    throw new ForbiddenException()
   }
+
+  logout(key: string) {
+    return this.userService.merge(key, { token: '' })
+  }
+
 }

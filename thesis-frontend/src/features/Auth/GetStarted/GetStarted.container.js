@@ -2,7 +2,7 @@ import { connect } from 'react-redux'
 import { get } from 'lodash'
 import GetStarted from './GetStarted'
 import { setScatter, setScatterAccount } from '../../Scatter/Scatter.actions'
-import { getStartedNext, getStartedBack, getStartedAt, createScatterAssocAccount } from '../Auth.actions'
+import { createScatterAssocAccount, getStartedAt, getStartedBack, getStartedNext } from '../Auth.actions'
 
 const stateToProps = ({ scatter, auth }) => ({
   identity: scatter.identity,
