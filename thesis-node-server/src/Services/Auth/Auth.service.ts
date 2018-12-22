@@ -1,11 +1,15 @@
-import { Injectable } from '@nestjs/common'
-import { save, getSpecificDoc } from 'helpers/firestore'
-import { ScatterAccountReqBody, GetScatterAccountReqBody } from 'Models/Auth/Auth.model'
+import { ForbiddenException, Injectable } from '@nestjs/common'
+import { JwtService } from '@nestjs/jwt'
+import { GetScatterAccountReqBody, IJwtPayloadScatter, ScatterAccountReqBody } from 'Models/Auth/Auth.model'
+import { UserService } from 'Services/User/User.service'
 
 @Injectable()
 export class AuthService {
+  constructor(
+    private readonly userService: UserService,
+    private readonly jwtService: JwtService,
+    ) {}
   root(): string {
-
     return 'Hello World! At auth!'
   }
 
@@ -22,15 +26,19 @@ export class AuthService {
         email,
       },
     }
-    return save(toFile)
+    return this.userService.save(toFile)
   }
 
-  async getScatterAccount(body: GetScatterAccountReqBody): Promise<FirebaseFirestore.DocumentData | boolean> {
-    const theDoc = await getSpecificDoc('scatter', body.publicKey)
-    if (!theDoc) return false
-    if (body.hash === theDoc.hash) {
-      return theDoc
+  async signInScatter(body: GetScatterAccountReqBody): Promise<string> {
+    const foundUser = this.userService.findOneByPublicKey(body.publicKey)
+    if (foundUser) {
+      const user: IJwtPayloadScatter = { publicKey: body.publicKey }
+      return this.jwtService.sign(user)
     }
-    return false
+    throw new ForbiddenException()
+  }
+
+  async validateUser(payload: IJwtPayloadScatter): Promise<any> {
+    return await this.userService.findOneByPublicKey(payload.publicKey)
   }
 }

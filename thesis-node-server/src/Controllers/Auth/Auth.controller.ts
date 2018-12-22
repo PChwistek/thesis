@@ -1,24 +1,31 @@
-import { Get, Controller, Post, Body } from '@nestjs/common'
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common'
+import { AuthGuard } from '@nestjs/passport'
+import { GetScatterAccountReqBody, ScatterAccountReqBody } from 'Models/Auth/Auth.model'
 import { AuthService } from 'Services/Auth/Auth.service'
-import { ScatterAccountReqBody, GetScatterAccountReqBody } from 'Models/Auth/Auth.model'
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Get('/')
-  public root(): string {
+  root(): string {
     return this.authService.root()
   }
 
   @Post('/')
-  public createScatterAccount(@Body() body: ScatterAccountReqBody) {
+  createScatterAccount(@Body() body: ScatterAccountReqBody) {
     return this.authService.createScatterAccount(body)
   }
 
-  @Post('/getScatterAccount')
-  public getScatterAccount(@Body() body: GetScatterAccountReqBody) {
-    return this.authService.getScatterAccount(body)
+  @Post('/sign-in-scatter')
+  getScatterAccount(@Body() body: GetScatterAccountReqBody) {
+    return this.authService.signInScatter(body)
+  }
+
+  @Get('/forbidden')
+  @UseGuards(AuthGuard())
+  getForbidden() {
+    return 'should be forbidden...!'
   }
 
 }
