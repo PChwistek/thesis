@@ -2,7 +2,6 @@
 using namespace eosio;
 using std::string;
 
-
 ACTION submerged::version() {
   print("Version 0.2");
 }
@@ -43,7 +42,6 @@ ACTION submerged::transfer() {
   }
 }
 
-
 ACTION submerged::open(name owner, asset minimum_price) {
   require_auth( owner );
   channels_table channels(_self, _self.value);
@@ -75,13 +73,27 @@ ACTION submerged::rollfunds(name content_creator, name subber) {
 ACTION submerged::setproject(name creator, string projectId, string projectName, string contentType, uint32_t secondsToDeadline, uint64_t month) {
   require_auth(creator);
   uint32_t currentTime = current_time();
-  print("====== CURRENT TIME", currentTime);
   uint32_t deadline = current_time() + secondsToDeadline;
-  print("====== DEADLINE ", deadline);
-
+  uint32_t delay =  deadline - currentTime;
   projects_table projects(_self, creator.value);
+  uint64_t primaryKey = projects.available_primary_key();
+  // check if store exists, add transaction
+    eosio::transaction t{};
+      // always double check the action name as it will fail silently
+      // in the deferred transaction
+    t.actions.emplace_back(
+        permission_level(_self, "active"_n),
+        _self,
+        "fail"_n,
+        std::make_tuple(creator, primaryKey));
+
+    t.delay_sec = delay;
+    t.send(creator.value + primaryKey, _self);
+
+    print("Scheduled with a delay of ", delay);
+
   projects.emplace(_self, [&]( auto& row ) {
-    row.key = projects.available_primary_key();
+    row.key = primaryKey;
     row.isActive = true;
     row.status = "In Progress";
     row.projectId = projectId;
@@ -89,6 +101,30 @@ ACTION submerged::setproject(name creator, string projectId, string projectName,
     row.contentType = contentType;
     row.due = block_timestamp(deadline);
     row.month = month;
+  });
+}
+
+ACTION submerged::fulfill(name creator, uint64_t projectKey) {
+  print("========= FULFILL =========");
+  projects_table projects(_self, creator.value);
+  auto projectItr = projects.find(projectKey);
+
+  //check whether really fulfilled and if active
+  cancel_deferred(creator.value + projectKey);
+  projects.modify(projectItr, get_self(), [&](auto& row) {
+    row.status = "payment pending";
+    row.isActive = false;
+  });
+
+}
+
+ACTION submerged::fail(name creator, uint64_t projectKey) {
+  projects_table projects(_self, creator.value);
+  print("========= FAILURE!!! =========");
+  auto projectItr = projects.find(projectKey);
+  projects.modify(projectItr, get_self(), [&](auto& row) {
+    row.status = "failed to fulfill";
+    row.isActive = false;
   });
 }
 
@@ -117,4 +153,4 @@ extern "C" { \
    } \
 } \
 
-EOSIO_DISPATCH_CUSTOM( submerged, (version)(open)(transfer) )
+EOSIO_DISPATCH_CUSTOM( submerged, (version)(open)(transfer)(fulfill)(fail)(rollfunds)(erasesub)(setproject) )

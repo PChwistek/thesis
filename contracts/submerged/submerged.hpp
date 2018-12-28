@@ -32,7 +32,8 @@ CONTRACT submerged : public eosio::contract {
 
     //projects
     ACTION setproject(name creator, string projectId, string projectName, string contentType, uint32_t secondsToDeadline, uint64_t month);
-    ACTION fulfill();
+    ACTION fulfill(name creator, uint64_t key);
+    ACTION fail(name creator, uint64_t key);
     ACTION vote();
 
   private:

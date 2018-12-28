@@ -1,5 +1,5 @@
 {
-    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Fri Dec 28 03:03:12 2018",
+    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Fri Dec 28 17:14:36 2018",
     "version": "eosio::abi/1.1",
     "structs": [
         {
@@ -35,9 +35,32 @@
             ]
         },
         {
+            "name": "fail",
+            "base": "",
+            "fields": [
+                {
+                    "name": "creator",
+                    "type": "name"
+                },
+                {
+                    "name": "key",
+                    "type": "uint64"
+                }
+            ]
+        },
+        {
             "name": "fulfill",
             "base": "",
-            "fields": []
+            "fields": [
+                {
+                    "name": "creator",
+                    "type": "name"
+                },
+                {
+                    "name": "key",
+                    "type": "uint64"
+                }
+            ]
         },
         {
             "name": "open",
@@ -182,6 +205,11 @@
         {
             "name": "erasesub",
             "type": "erasesub",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "fail",
+            "type": "fail",
             "ricardian_contract": ""
         },
         {
