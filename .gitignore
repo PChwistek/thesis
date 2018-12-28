@@ -24,3 +24,5 @@ yarn-error.log*
 yarn.lock
 
 thesis-node-server/package-lock\.json
+
+\.vscode/settings\.json

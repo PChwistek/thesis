@@ -1,11 +1,57 @@
 {
-    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Thu Dec 27 21:45:02 2018",
+    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Fri Dec 28 03:03:12 2018",
     "version": "eosio::abi/1.1",
     "structs": [
+        {
+            "name": "channel",
+            "base": "",
+            "fields": [
+                {
+                    "name": "key",
+                    "type": "name"
+                },
+                {
+                    "name": "sub_status",
+                    "type": "string"
+                },
+                {
+                    "name": "minimum_price",
+                    "type": "asset"
+                }
+            ]
+        },
+        {
+            "name": "erasesub",
+            "base": "",
+            "fields": [
+                {
+                    "name": "content_creator",
+                    "type": "name"
+                },
+                {
+                    "name": "subber",
+                    "type": "name"
+                }
+            ]
+        },
         {
             "name": "fulfill",
             "base": "",
             "fields": []
+        },
+        {
+            "name": "open",
+            "base": "",
+            "fields": [
+                {
+                    "name": "owner",
+                    "type": "name"
+                },
+                {
+                    "name": "minimum_price",
+                    "type": "asset"
+                }
+            ]
         },
         {
             "name": "project",
@@ -54,6 +100,20 @@
             ]
         },
         {
+            "name": "rollfunds",
+            "base": "",
+            "fields": [
+                {
+                    "name": "content_creator",
+                    "type": "name"
+                },
+                {
+                    "name": "subber",
+                    "type": "name"
+                }
+            ]
+        },
+        {
             "name": "setproject",
             "base": "",
             "fields": [
@@ -84,6 +144,29 @@
             ]
         },
         {
+            "name": "subscriber",
+            "base": "",
+            "fields": [
+                {
+                    "name": "key",
+                    "type": "name"
+                },
+                {
+                    "name": "quantity_subscribed",
+                    "type": "asset"
+                },
+                {
+                    "name": "conditional",
+                    "type": "bool"
+                }
+            ]
+        },
+        {
+            "name": "transfer",
+            "base": "",
+            "fields": []
+        },
+        {
             "name": "version",
             "base": "",
             "fields": []
@@ -97,13 +180,33 @@
     "types": [],
     "actions": [
         {
+            "name": "erasesub",
+            "type": "erasesub",
+            "ricardian_contract": ""
+        },
+        {
             "name": "fulfill",
             "type": "fulfill",
             "ricardian_contract": ""
         },
         {
+            "name": "open",
+            "type": "open",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "rollfunds",
+            "type": "rollfunds",
+            "ricardian_contract": ""
+        },
+        {
             "name": "setproject",
             "type": "setproject",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "transfer",
+            "type": "transfer",
             "ricardian_contract": ""
         },
         {
@@ -119,8 +222,22 @@
     ],
     "tables": [
         {
+            "name": "channels",
+            "type": "channel",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
             "name": "projects",
             "type": "project",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "subs",
+            "type": "subscriber",
             "index_type": "i64",
             "key_names": [],
             "key_types": []
