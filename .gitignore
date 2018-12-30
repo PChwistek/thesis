@@ -2,7 +2,7 @@
 
 # dependencies
 /node_modules
-/eosiolib
+/contracts/eosiolib
 /thesis-node-server/node_modules
 
 # testing

@@ -1,7 +1,25 @@
 {
-    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Fri Dec 28 17:14:36 2018",
+    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Sun Dec 30 00:26:18 2018",
     "version": "eosio::abi/1.1",
     "structs": [
+        {
+            "name": "applyforext",
+            "base": "",
+            "fields": [
+                {
+                    "name": "creator",
+                    "type": "name"
+                },
+                {
+                    "name": "projectKey",
+                    "type": "uint64"
+                },
+                {
+                    "name": "secondsToNewDeadline",
+                    "type": "uint32"
+                }
+            ]
+        },
         {
             "name": "channel",
             "base": "",
@@ -17,6 +35,34 @@
                 {
                     "name": "minimum_price",
                     "type": "asset"
+                }
+            ]
+        },
+        {
+            "name": "closevoting",
+            "base": "",
+            "fields": [
+                {
+                    "name": "creator",
+                    "type": "name"
+                },
+                {
+                    "name": "projectKey",
+                    "type": "uint64"
+                },
+                {
+                    "name": "campaignKey",
+                    "type": "uint64"
+                }
+            ]
+        },
+        {
+            "name": "eraseprojs",
+            "base": "",
+            "fields": [
+                {
+                    "name": "creator",
+                    "type": "name"
                 }
             ]
         },
@@ -89,8 +135,8 @@
                     "type": "bool"
                 },
                 {
-                    "name": "projectId",
-                    "type": "string"
+                    "name": "fulfilled",
+                    "type": "bool"
                 },
                 {
                     "name": "name",
@@ -113,11 +159,11 @@
                     "type": "uint64"
                 },
                 {
-                    "name": "due",
+                    "name": "timeDue",
                     "type": "block_timestamp_type"
                 },
                 {
-                    "name": "fulfilled",
+                    "name": "timeFulfilled",
                     "type": "block_timestamp_type"
                 }
             ]
@@ -143,10 +189,6 @@
                 {
                     "name": "creator",
                     "type": "name"
-                },
-                {
-                    "name": "projectId",
-                    "type": "string"
                 },
                 {
                     "name": "projectName",
@@ -197,11 +239,81 @@
         {
             "name": "vote",
             "base": "",
-            "fields": []
+            "fields": [
+                {
+                    "name": "voter",
+                    "type": "name"
+                },
+                {
+                    "name": "creator",
+                    "type": "name"
+                },
+                {
+                    "name": "projectKey",
+                    "type": "uint64"
+                },
+                {
+                    "name": "campaignKey",
+                    "type": "uint64"
+                },
+                {
+                    "name": "satisfied",
+                    "type": "bool"
+                }
+            ]
+        },
+        {
+            "name": "votecampaign",
+            "base": "",
+            "fields": [
+                {
+                    "name": "key",
+                    "type": "uint64"
+                },
+                {
+                    "name": "projectKey",
+                    "type": "uint64"
+                },
+                {
+                    "name": "voteType",
+                    "type": "string"
+                },
+                {
+                    "name": "agree",
+                    "type": "uint64"
+                },
+                {
+                    "name": "disagree",
+                    "type": "uint64"
+                },
+                {
+                    "name": "votingActive",
+                    "type": "bool"
+                },
+                {
+                    "name": "voters",
+                    "type": "uint64[]"
+                }
+            ]
         }
     ],
     "types": [],
     "actions": [
+        {
+            "name": "applyforext",
+            "type": "applyforext",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "closevoting",
+            "type": "closevoting",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "eraseprojs",
+            "type": "eraseprojs",
+            "ricardian_contract": ""
+        },
         {
             "name": "erasesub",
             "type": "erasesub",
@@ -266,6 +378,13 @@
         {
             "name": "subs",
             "type": "subscriber",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "votes",
+            "type": "votecampaign",
             "index_type": "i64",
             "key_names": [],
             "key_types": []
