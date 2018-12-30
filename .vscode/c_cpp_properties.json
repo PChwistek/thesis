@@ -3,7 +3,9 @@
         {
             "name": "Mac",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/contracts/libraries",
+                "${workspaceFolder}/contracts",
+                "${workspaceFolder}/contracts/libraries/boost/include"
             ],
             "defines": [],
             "macFrameworkPath": [

@@ -1,8 +1,15 @@
-#include "submerged.hpp"
 #include <algorithm>
+#include <eosiolib/eosio.hpp>
+#include <eosiolib/asset.hpp>
+#include <eosiolib/action.hpp>
+#include <eosiolib/name.hpp>
+#include <eosiolib/time.hpp>
+#include <eosiolib/transaction.hpp>
+
 using namespace eosio;
 using std::string;
 
+#include "submerged.hpp"
 
 ACTION submerged::version() {
   print("Version 0.2");

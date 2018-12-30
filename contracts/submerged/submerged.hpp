@@ -22,7 +22,6 @@ CONTRACT submerged : public eosio::contract {
     };
 
 
-
     // ======================== ACTIONS ===============================
     ACTION version();
 
