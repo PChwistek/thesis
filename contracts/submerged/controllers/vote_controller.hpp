@@ -6,7 +6,7 @@ class vote_controller: public controller {
     vote_controller(name self, transax_controller a_transax_controller): controller(self), the_transax_controller(a_transax_controller) {}
 
     void vote(name voter, name creator, uint64_t projectKey, uint64_t campaignKey, bool satisfied) {
-      subs_table subs(get_self(), creator.value);
+      channel_subs_table subs(get_self(), creator.value);
       auto subsItr = subs.find(voter.value);
       eosio_assert(subsItr != subs.end(), "not a subscriber");
 
@@ -39,7 +39,7 @@ class vote_controller: public controller {
 
     void apply_for_extension(name creator, uint64_t projectKey, uint32_t secondsToNewDeadline) {
       require_auth(creator);
-      channels_table channels(get_self(), get_self().value);
+      channel_subs_table channels(get_self(), get_self().value);
       auto channelItr = channels.find(creator.value);
       eosio_assert(channelItr != channels.end(), "channel does not exist"); // make sure channel exists 
 

@@ -1,5 +1,5 @@
 {
-    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Sun Dec 30 00:26:20 2018",
+    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Sun Dec 30 00:26:21 2018",
     "version": "eosio::abi/1.1",
     "structs": [
         {
@@ -209,7 +209,7 @@
             ]
         },
         {
-            "name": "subscriber",
+            "name": "channel_sub",
             "base": "",
             "fields": [
                 {
@@ -223,6 +223,24 @@
                 {
                     "name": "conditional",
                     "type": "bool"
+                }
+            ]
+        },
+        {
+            "name": "user_sub",
+            "base": "",
+            "fields": [
+                {
+                    "name": "key",
+                    "type": "name"
+                },
+                {
+                    "name": "channels_subbed",
+                    "type": "uint64[]"
+                },
+                {
+                    "name": "total",
+                    "type": "asset"
                 }
             ]
         },
@@ -376,8 +394,15 @@
             "key_types": []
         },
         {
-            "name": "subs",
-            "type": "subscriber",
+            "name": "csubs",
+            "type": "channel_sub",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "usubs",
+            "type": "user_sub",
             "index_type": "i64",
             "key_names": [],
             "key_types": []

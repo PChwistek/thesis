@@ -97,4 +97,5 @@ EOSIO_DISPATCH_CUSTOM( submerged,
   (applyforext)
   (vote)
   (erasesub)
+  (eraseprojs)
 )

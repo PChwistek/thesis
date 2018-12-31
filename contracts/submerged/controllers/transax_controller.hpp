@@ -4,7 +4,7 @@ class transax_controller: public controller {
 
     void send_funds_from_contract(name creator, name subber) {
       require_auth( get_self() );
-      subs_table subs(get_self(), creator.value);
+      channel_subs_table subs(get_self(), creator.value);
       auto theSub = subs.get(subber.value);
       asset quantity = theSub.quantity_subscribed;
       send_money(creator, quantity, subber.to_string());

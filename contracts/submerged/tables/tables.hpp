@@ -7,11 +7,17 @@ TABLE channel {
   uint64_t primary_key() const { return key.value; }
 };
 
-TABLE subscriber {
+TABLE channel_sub {
   name key;
   asset quantity_subscribed;
   bool conditional;
   uint64_t primary_key() const { return key.value; }
+};
+
+TABLE user_sub {
+  name key;
+  std::vector<uint64_t> channels_subbed;
+  std::vector<asset> total;  
 };
 
 TABLE project {
@@ -40,7 +46,8 @@ TABLE votecampaign {
 };
 
 typedef multi_index<name("channels"), channel> channels_table;
-typedef multi_index<name("subs"), subscriber> subs_table;
+typedef multi_index<name("csubs"), channel_sub> channel_subs_table;
 typedef multi_index<name("projects"), project> projects_table;
 typedef multi_index<name("votes"), votecampaign> campaigns_table;
+typedef multi_index<name("usubs"), user_sub> user_subs_table;
 

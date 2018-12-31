@@ -16,7 +16,7 @@ class sub_controller : public controller {
         eosio_assert(quantity.amount >= theChannel.minimum_price.amount, "insufficient funds");
         eosio_assert(quantity.symbol.code() == theChannel.minimum_price.symbol.code(), "incorrect symbol");
 
-        subs_table subs(get_self(), to.value);
+        channel_subs_table subs(get_self(), to.value);
         auto iterator = subs.find( from.value );
         if( iterator == subs.end() ) {
           subs.emplace(get_self(), [&]( auto& row){
@@ -31,7 +31,7 @@ class sub_controller : public controller {
       }  else if(get_self() == from) {
         name content_creator = transfer_data.to;
         print("============ Removing ===============");
-        subs_table subs(get_self(), content_creator.value);
+        channel_subs_table subs(get_self(), content_creator.value);
         auto iterator = subs.find(to.value);
         eosio_assert(iterator != subs.end(), "Record does not exist");
         subs.erase(iterator);
@@ -40,7 +40,7 @@ class sub_controller : public controller {
   
     void erase_sub(name creator, name subber) {
       print("============ Removing ===============");
-      subs_table subs(get_self(), creator.value);
+      channel_subs_table subs(get_self(), creator.value);
       auto iterator = subs.find(subber.value);
       eosio_assert(iterator != subs.end(), "Record does not exist");
       subs.erase(iterator);
