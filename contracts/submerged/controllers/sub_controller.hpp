@@ -1,6 +1,11 @@
 class sub_controller : public controller {
+  private:
+    transax_controller the_transax_controller;
+
   public:
-    sub_controller(name self): controller(self) {}
+    sub_controller(name self, transax_controller a_transax_controller): 
+      controller(self), 
+      the_transax_controller(a_transax_controller) {}
 
     void handle_subscription() {
       auto transfer_data = unpack_action_data<st_transfer>();
@@ -17,34 +22,54 @@ class sub_controller : public controller {
         eosio_assert(quantity.symbol.code() == theChannel.minimum_price.symbol.code(), "incorrect symbol");
 
         channel_subs_table subs(get_self(), to.value);
-        auto iterator = subs.find( from.value );
-        if( iterator == subs.end() ) {
+        auto subsItr = subs.find( from.value );
+        if( subsItr == subs.end() ) {
           subs.emplace(get_self(), [&]( auto& row){
             row.key = from;
             row.conditional = true;
             row.quantity_subscribed = quantity;
           });
+          channels.modify(channelItr, get_self(), [&](auto& row) {
+            row.num_subs = row.num_subs + 1;
+          });
+
         } else {
           print("============ Subscription Already EXISTS ===============");
-          // build out reduce/increase/cancel subcription
+          auto theSub = *subsItr;
+          eosio_assert(block_timestamp(current_time()) < theSub.valid_until, "Subscription is still valid");
+          subs.modify(subsItr, get_self(), [&](auto& row) {
+            // row valid until 
+            row.quantity_subscribed = quantity;
+            row.conditional = true;
+          });
         }
-      }  else if(get_self() == from) {
+      } else if(get_self() == from) {
         name content_creator = transfer_data.to;
-        print("============ Removing ===============");
-        channel_subs_table subs(get_self(), content_creator.value);
-        auto iterator = subs.find(to.value);
-        eosio_assert(iterator != subs.end(), "Record does not exist");
-        subs.erase(iterator);
+        print("============ Crediting Subscribers ===============");
       }
     }
+
+    void unsubscribe(name creator, name subscriber) {
+
+    }
   
-    void erase_sub(name creator, name subber) {
+    void erase_sub(name creator, name subscriber) {
       print("============ Removing ===============");
       channel_subs_table subs(get_self(), creator.value);
-      auto iterator = subs.find(subber.value);
-      eosio_assert(iterator != subs.end(), "Record does not exist");
-      subs.erase(iterator);
+      auto subsItr = subs.find(subscriber.value);
+      eosio_assert(subsItr != subs.end(), "Record does not exist");
+      subs.modify(subsItr, get_self(), [&](auto& row) {
+        row.transfered = true;
+      });
+      
+      channels_table channels(get_self(), get_self().value);
+      auto channelItr = channels.find(creator.value);
+      channels.modify(channelItr, get_self(), [&](auto& row) {
+        row.num_subs = row.num_subs - 1;
+      });
+      subs.erase(subsItr);
     }
 
-    private: 
+
+
 };

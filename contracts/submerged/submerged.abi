@@ -33,8 +33,32 @@
                     "type": "string"
                 },
                 {
+                    "name": "num_subs",
+                    "type": "uint32"
+                },
+                {
                     "name": "minimum_price",
                     "type": "asset"
+                },
+                {
+                    "name": "month_complete",
+                    "type": "bool"
+                },
+                {
+                    "name": "total_raised",
+                    "type": "asset"
+                },
+                {
+                    "name": "payment_complete",
+                    "type": "bool"
+                },
+                {
+                    "name": "m_total_projects",
+                    "type": "uint8"
+                },
+                {
+                    "name": "m_projects_completed",
+                    "type": "uint8"
                 }
             ]
         },
@@ -53,6 +77,20 @@
                 {
                     "name": "campaignKey",
                     "type": "uint64"
+                }
+            ]
+        },
+        {
+            "name": "credit",
+            "base": "",
+            "fields": [
+                {
+                    "name": "key",
+                    "type": "uint64"
+                },
+                {
+                    "name": "total",
+                    "type": "asset"
                 }
             ]
         },
@@ -221,7 +259,16 @@
                     "type": "asset"
                 },
                 {
+                    "name": "valid_until",
+                    "type": "block_timestamp_type"
+
+                },
+                {
                     "name": "conditional",
+                    "type": "bool"
+                },
+                {
+                    "name": "transfered",
                     "type": "bool"
                 }
             ]
@@ -308,6 +355,10 @@
                     "name": "votingActive",
                     "type": "bool"
                 },
+                {
+                    "name": "passed",
+                    "type": "bool"
+                }
                 {
                     "name": "voters",
                     "type": "uint64[]"
@@ -396,6 +447,13 @@
         {
             "name": "csubs",
             "type": "channel_sub",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "credit",
+            "type": "credit",
             "index_type": "i64",
             "key_names": [],
             "key_types": []

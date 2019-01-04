@@ -4,29 +4,35 @@ CONTRACT submerged : public eosio::contract {
 
   private:
     //some composition
-    sub_controller the_sub_controller;
     transax_controller the_transax_controller;
+    sub_controller the_sub_controller;
     channel_controller the_channel_controller;
     project_controller the_project_controller;
     vote_controller the_vote_controller;
+    //instance variable
+    uint8_t current_month; // 0 to 11 
 
   public:
     using contract::contract;
     submerged(name receiver, name code, datastream<const char*> ds): 
       contract(receiver, code, ds), 
       the_transax_controller(_self),
-      the_sub_controller(_self),
-      the_channel_controller(_self),
+      the_channel_controller(_self, the_transax_controller),
+      the_sub_controller(_self, the_transax_controller),
       the_project_controller(_self, the_transax_controller),
       the_vote_controller(_self, the_transax_controller) {}  // member initialization list
 
     ACTION version();
 
+    //channels
+    ACTION open(name creator, asset minimum_price);
+    ACTION paychannel(name creator);
+
     //subscriptions
     ACTION transfer();
-    ACTION open(name owner, asset minimum_price);
-    ACTION rollfunds(name content_creator, name subber);
-    ACTION erasesub(name content_creator, name subber);
+    ACTION creditsubs(name creator); 
+    ACTION rollfunds(name creator, name subber);
+    ACTION erasesub(name creator, name subber);
 
     //projects
     ACTION setproject(name creator, string projectName, string contentType, uint32_t secondsToDeadline, uint64_t month);

@@ -3,7 +3,9 @@ class vote_controller: public controller {
     transax_controller the_transax_controller;
 
   public:
-    vote_controller(name self, transax_controller a_transax_controller): controller(self), the_transax_controller(a_transax_controller) {}
+    vote_controller(name self, transax_controller a_transax_controller): 
+      controller(self), 
+      the_transax_controller(a_transax_controller) {}
 
     void vote(name voter, name creator, uint64_t projectKey, uint64_t campaignKey, bool satisfied) {
       channel_subs_table subs(get_self(), creator.value);
@@ -71,14 +73,50 @@ class vote_controller: public controller {
     void close_voting(name creator, uint64_t projectKey, uint64_t campaignKey) {
         require_auth(get_self());
         print("============ Voting is now closed! ===============");
-        campaigns_table votes(get_self(), creator.value);
+        campaigns_table votes(get_self(), creator.value);        
         auto voteItr = votes.find(campaignKey);
         eosio_assert(voteItr != votes.end(), "voting campaign doesn't exist!");
-        
+
+        // based on NPS (net promotor score) disastisfied, satisfied, passive (non-active subscribers)
+
+        channels_table channels(get_self(), get_self().value);
+        auto channelItr = channels.find(creator.value);
+        auto theChannel = *channelItr; 
+
+        auto theVote = *voteItr;
+        uint32_t subscribers = theChannel.num_subs;
+        uint32_t happy = theVote.agree;
+        uint32_t unhappy = theVote.disagree; 
+        float nps = (float)(happy - unhappy) / (float)subscribers;
+        //check vote type 
+        bool passed = false;
+        if(nps > -25.0) {
+          passed = true;
+        }
+
         votes.modify(voteItr, get_self(), [&]( auto& row ) {
           row.key = campaignKey;
           row.projectKey = projectKey;
+          row.passed = passed;
           row.votingActive = false;
         }); 
+
+        if(theVote.voteType == "nps") {
+          if(passed) {
+            // if month complete
+            print("PASSED");
+            /*
+            the_transax_controller.send_self_deferred_action(
+              creator, 
+              name("paychannel"), 
+              1, 
+              std::make_tuple(creator), 
+              std::to_string(creator.value)
+            ); */
+          } else {
+            // credit subscribers
+
+          }
+        }
     }
 };

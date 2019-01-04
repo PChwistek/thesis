@@ -1,23 +1,31 @@
 #pragma once
 
 TABLE channel {
-  name key;
-  string sub_status;
-  asset minimum_price;
+  name        key;
+  string      sub_status;
+  asset       minimum_price;
+  asset       total_raised;
+  bool        month_complete;
+  bool        payment_complete;
+  uint8_t     m_total_projects;
+  uint8_t     m_projects_fulfilled;
+  uint32_t    num_subs;
   uint64_t primary_key() const { return key.value; }
 };
 
 TABLE channel_sub {
-  name key;
-  asset quantity_subscribed;
-  bool conditional;
+  name              key;
+  asset             quantity_subscribed;
+  block_timestamp   valid_until;
+  bool              conditional;
+  bool              transfered;
   uint64_t primary_key() const { return key.value; }
 };
 
 TABLE user_sub {
-  name key;
-  std::vector<uint64_t> channels_subbed;
-  std::vector<asset> total;  
+  name                    key;
+  std::vector<uint64_t>   channels_subbed;
+  std::vector<asset>      total;
 };
 
 TABLE project {
@@ -35,14 +43,20 @@ TABLE project {
 };
 
 TABLE votecampaign {
-  uint64_t key;
-  uint64_t projectKey; 
-  string voteType;
-  uint64_t agree;
-  uint64_t disagree;
-  bool votingActive;
-  std::vector<uint64_t> voters;
+  uint64_t                key;
+  uint64_t                projectKey; 
+  string                  voteType;
+  uint32_t                agree;
+  uint32_t                disagree;
+  bool                    votingActive;
+  bool                    passed;
+  std::vector<uint64_t>   voters;
   uint64_t primary_key() const { return key; }
+};
+
+TABLE credit {
+  uint64_t  key;
+  asset     total;
 };
 
 typedef multi_index<name("channels"), channel> channels_table;
@@ -50,4 +64,4 @@ typedef multi_index<name("csubs"), channel_sub> channel_subs_table;
 typedef multi_index<name("projects"), project> projects_table;
 typedef multi_index<name("votes"), votecampaign> campaigns_table;
 typedef multi_index<name("usubs"), user_sub> user_subs_table;
-
+typedef multi_index<name("credit"), credit> credit_table;

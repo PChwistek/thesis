@@ -60,6 +60,10 @@ ACTION submerged::closevoting(name creator, uint64_t projectKey, uint64_t campai
   // modify project accordingly/send off funds  
 }
 
+ACTION submerged::paychannel(name creator) {
+  the_channel_controller.pay_channel(creator);
+}
+
 /* FOR DEBUGGING PURPOSES */
 ACTION submerged::erasesub(name creator, name subber) {
   the_sub_controller.erase_sub(creator, subber);

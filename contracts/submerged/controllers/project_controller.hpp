@@ -30,6 +30,10 @@ class project_controller: public controller {
         row.timeDue = block_timestamp(deadline);
         row.month = month;
       });
+
+      channels.modify(channelItr, get_self(),  [&]( auto& row ) {
+        row.m_total_projects = row.m_total_projects + 1;
+      });
     }
 
     void fulfill_project(name creator, uint64_t projectKey) {
@@ -55,7 +59,7 @@ class project_controller: public controller {
         row.key = campaignKey;
         row.projectKey = projectKey;
         row.votingActive = true;
-        row.voteType = "satisfaction";
+        row.voteType = "nps";
       });
 
       uint32_t delay = 300;

@@ -10,6 +10,11 @@ class transax_controller: public controller {
       send_money(creator, quantity, subber.to_string());
     }
 
+    void send_total_channel(name creator, asset total) {
+      require_auth( get_self() || creator );
+      send_money(creator, total, "Submerged subscription");
+    }
+
     template <class... tuple_values> // allows us to pass any set of values in the tuple
     void send_self_deferred_action(name sender, name action, uint32_t delay, std::tuple<tuple_values...> args, std::string special) {
       eosio::transaction t{};
