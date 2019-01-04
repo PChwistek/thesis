@@ -16,7 +16,12 @@ class channel_controller: public controller {
         channels.emplace(creator, [&]( auto& row ) {
           row.key = creator;
           row.sub_status = "pending";
+          row.month_complete = false;
+          row.payment_complete = false;
+          row.mtotal_proj = 0;
+          row.mproj_fulfilled = 0;
           row.minimum_price = minimum_price;
+          row.num_subs = 0;
         });
       } else {
         print("Channel already exists.");
@@ -37,5 +42,12 @@ class channel_controller: public controller {
       channels.modify(channelItr, get_self(),[&](auto& row) {
         row.payment_complete = true; 
       });
+    }
+
+    void erase_channel(name creator) {
+      require_auth( creator );
+      channels_table channels(get_self(), get_self().value);
+      auto itr = channels.find(creator.value);
+      channels.erase(itr);
     }
 };

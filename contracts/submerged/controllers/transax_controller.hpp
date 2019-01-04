@@ -16,7 +16,7 @@ class transax_controller: public controller {
     }
 
     template <class... tuple_values> // allows us to pass any set of values in the tuple
-    void send_self_deferred_action(name sender, name action, uint32_t delay, std::tuple<tuple_values...> args, std::string special) {
+    void send_self_deferred_action(name sender, name action, uint32_t delay, std::tuple<tuple_values...> args, uint64_t specialKey) {
       eosio::transaction t{};
       t.actions.emplace_back(
           permission_level(get_self(), name("active")),
@@ -24,12 +24,12 @@ class transax_controller: public controller {
           action,
           args);
       t.delay_sec = delay;
-      t.send(generate_transax_id(sender, action, special), get_self());
-      print("Set action with id of ", generate_transax_id(sender, action, special));
+      t.send(generate_transax_id(sender, action, specialKey), get_self());
+      print("Set action with id of ", generate_transax_id(sender, action, specialKey));
     }
 
-    void cancel_deferred_transax(name action, name sender, string special) {
-      cancel_deferred(generate_transax_id(sender, action, special));
+    void cancel_deferred_transax(name action, name sender, uint64_t specialKey) {
+      cancel_deferred(generate_transax_id(sender, action, specialKey));
     }
 
   private: 
@@ -43,8 +43,7 @@ class transax_controller: public controller {
       ).send();
     }
 
-    uint64_t generate_transax_id(name sender, name action, string special) {
-      std::string transactionName = action.to_string() + sender.to_string() + special;
-      return name(transactionName).value;
+    uint64_t generate_transax_id(name sender, name action, uint64_t specialKey) {
+      return sender.value + action.value + specialKey;
     }
 };

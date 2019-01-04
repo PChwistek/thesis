@@ -35,7 +35,7 @@ ACTION submerged::rollfunds(name creator, name subber) {
   the_transax_controller.send_funds_from_contract(creator, subber);
 }
 
-ACTION submerged::setproject(name creator, string projectName, string contentType, uint32_t secondsToDeadline, uint64_t month) {
+ACTION submerged::initproject(name creator, string projectName, string contentType, uint32_t secondsToDeadline, uint64_t month) {
   the_project_controller.create_project(creator, projectName, contentType, secondsToDeadline, month);
 }
 
@@ -48,7 +48,7 @@ ACTION submerged::fail(name creator, uint64_t projectKey) {
 }
 
 ACTION submerged::vote(name voter, name creator, uint64_t projectKey, uint64_t campaignKey, bool satisfied) {
-  the_vote_controller.vote(voter, creator, projectKey, campaignKey, satisfied);
+  the_vote_controller.vote(creator, voter, projectKey, campaignKey, satisfied);
 }
 
 ACTION submerged::applyforext(name creator, uint64_t projectKey, uint32_t secondsToNewDeadline) {
@@ -67,6 +67,14 @@ ACTION submerged::paychannel(name creator) {
 /* FOR DEBUGGING PURPOSES */
 ACTION submerged::erasesub(name creator, name subber) {
   the_sub_controller.erase_sub(creator, subber);
+}
+
+ACTION submerged::erasevote(name creator) {
+  the_vote_controller.erase_all_votes(creator);
+}
+
+ACTION submerged::erasechan(name creator) {
+  the_channel_controller.erase_channel(creator);
 }
 
 ACTION submerged::eraseprojs(name creator) {
@@ -93,7 +101,7 @@ EOSIO_DISPATCH_CUSTOM( submerged,
   (version)
   (open)
   (transfer)
-  (setproject)
+  (initproject)
   (fulfill)
   (fail)
   (rollfunds)
@@ -102,4 +110,6 @@ EOSIO_DISPATCH_CUSTOM( submerged,
   (vote)
   (erasesub)
   (eraseprojs)
+  (erasechan)
+  (erasevote)
 )

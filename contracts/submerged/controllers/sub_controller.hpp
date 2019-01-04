@@ -30,7 +30,7 @@ class sub_controller : public controller {
             row.quantity_subscribed = quantity;
           });
           channels.modify(channelItr, get_self(), [&](auto& row) {
-            row.num_subs = row.num_subs + 1;
+            row.num_subs = row.num_subs + 1; 
           });
 
         } else {

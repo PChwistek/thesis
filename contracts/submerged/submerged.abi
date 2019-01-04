@@ -1,5 +1,5 @@
 {
-    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Sun Dec 30 00:26:21 2018",
+    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Sun Dec 30 00:28:51 2019",
     "version": "eosio::abi/1.1",
     "structs": [
         {
@@ -53,11 +53,11 @@
                     "type": "bool"
                 },
                 {
-                    "name": "m_total_projects",
+                    "name": "mtotal_proj",
                     "type": "uint8"
                 },
                 {
-                    "name": "m_projects_completed",
+                    "name": "mproj_fulfilled",
                     "type": "uint8"
                 }
             ]
@@ -109,11 +109,31 @@
             "base": "",
             "fields": [
                 {
-                    "name": "content_creator",
+                    "name": "creator",
                     "type": "name"
                 },
                 {
                     "name": "subber",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "erasevote",
+            "base": "",
+            "fields": [
+                {
+                    "name": "creator",
+                    "type": "name"
+                }
+            ]
+        }
+        {
+            "name": "erasechan",
+            "base": "",
+            "fields": [
+                {
+                    "name": "creator",
                     "type": "name"
                 }
             ]
@@ -177,7 +197,7 @@
                     "type": "bool"
                 },
                 {
-                    "name": "name",
+                    "name": "projectName",
                     "type": "string"
                 },
                 {
@@ -221,7 +241,7 @@
             ]
         },
         {
-            "name": "setproject",
+            "name": "initproject",
             "base": "",
             "fields": [
                 {
@@ -345,11 +365,11 @@
                 },
                 {
                     "name": "agree",
-                    "type": "uint64"
+                    "type": "uint32"
                 },
                 {
                     "name": "disagree",
-                    "type": "uint64"
+                    "type": "uint32"
                 },
                 {
                     "name": "votingActive",
@@ -378,6 +398,16 @@
             "type": "closevoting",
             "ricardian_contract": ""
         },
+        {
+            "name": "erasechan",
+            "type": "erasechan",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "erasevote",
+            "type": "erasevote",
+            "ricardian_contract": ""
+        }
         {
             "name": "eraseprojs",
             "type": "eraseprojs",
@@ -409,8 +439,8 @@
             "ricardian_contract": ""
         },
         {
-            "name": "setproject",
-            "type": "setproject",
+            "name": "initproject",
+            "type": "initproject",
             "ricardian_contract": ""
         },
         {

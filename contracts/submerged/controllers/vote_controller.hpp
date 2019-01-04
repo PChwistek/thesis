@@ -66,7 +66,7 @@ class vote_controller: public controller {
         name("closevoting"), 
         delay, 
         std::make_tuple(creator, projectKey, campaignKey), 
-        std::to_string(campaignKey)
+        campaignKey
       );
     }
 
@@ -85,12 +85,15 @@ class vote_controller: public controller {
 
         auto theVote = *voteItr;
         uint32_t subscribers = theChannel.num_subs;
+        print("Num subs", theChannel.num_subs);
         uint32_t happy = theVote.agree;
         uint32_t unhappy = theVote.disagree; 
-        float nps = (float)(happy - unhappy) / (float)subscribers;
+        double nps = (double)(happy - unhappy) / (double)subscribers;
+        print("================== NPS ======================", nps);
+
         //check vote type 
         bool passed = false;
-        if(nps > -25.0) {
+        if(nps > -0.250) {
           passed = true;
         }
 
@@ -104,7 +107,7 @@ class vote_controller: public controller {
         if(theVote.voteType == "nps") {
           if(passed) {
             // if month complete
-            print("PASSED");
+            print("================== PASSED ======================");
             /*
             the_transax_controller.send_self_deferred_action(
               creator, 
@@ -118,5 +121,12 @@ class vote_controller: public controller {
 
           }
         }
+    }
+
+    void erase_all_votes(name creator) {
+      campaigns_table votes(get_self(), creator.value);
+      for(auto itr = votes.begin(); itr != votes.end();) {
+        itr = votes.erase(itr);
+      }
     }
 };

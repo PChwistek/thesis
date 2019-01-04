@@ -27,6 +27,7 @@ CONTRACT submerged : public eosio::contract {
     //channels
     ACTION open(name creator, asset minimum_price);
     ACTION paychannel(name creator);
+    ACTION erasechan(name creator);
 
     //subscriptions
     ACTION transfer();
@@ -35,11 +36,12 @@ CONTRACT submerged : public eosio::contract {
     ACTION erasesub(name creator, name subber);
 
     //projects
-    ACTION setproject(name creator, string projectName, string contentType, uint32_t secondsToDeadline, uint64_t month);
+    ACTION initproject(name creator, string projectName, string contentType, uint32_t secondsToDeadline, uint64_t month);
     ACTION fulfill(name creator, uint64_t projectKey);
     ACTION fail(name creator, uint64_t projectKey);
-    ACTION vote(name voter, name creator, uint64_t projectKey, uint64_t campaignKey, bool satisfied);
+    ACTION vote(name creator, name voter, uint64_t projectKey, uint64_t campaignKey, bool satisfied);
     ACTION closevoting(name creator, uint64_t projectKey, uint64_t campaignKey);
+    ACTION erasevote(name creator);
     ACTION applyforext(name creator, uint64_t projectKey, uint32_t secondsToNewDeadline);
     ACTION eraseprojs(name creator);
 

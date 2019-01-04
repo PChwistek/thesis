@@ -7,8 +7,8 @@ TABLE channel {
   asset       total_raised;
   bool        month_complete;
   bool        payment_complete;
-  uint8_t     m_total_projects;
-  uint8_t     m_projects_fulfilled;
+  uint8_t     mtotal_proj;
+  uint8_t     mproj_fulfilled;
   uint32_t    num_subs;
   uint64_t primary_key() const { return key.value; }
 };
@@ -32,7 +32,7 @@ TABLE project {
   uint64_t          key; 
   bool              isActive;
   bool              fulfilled;
-  string            name; // what is visible
+  string            projectName; // what is visible
   string            contentLink; 
   string            contentType;
   string            status; // in Progress, fulfilled, not fulfilled, payment pending
