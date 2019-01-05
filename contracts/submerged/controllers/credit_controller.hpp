@@ -42,6 +42,21 @@ class credit_controller: public controller {
       });
     }
 
+    void deposit_credit(name user, asset to_credit) {
+      credit_table credit(get_self(), get_self().value);
+      auto creditItr = credit.find(user.value);
+      if(creditItr != credit.end()) {
+          credit.modify(creditItr, get_self(), [&]( auto& row ){ 
+            row.total = row.total + to_credit;
+          });
+      } else {
+        credit.emplace(get_self(), [&]( auto& row ){
+          row.key = user.value;
+          row.total = to_credit;
+        });
+      }
+    }
+
     void erasecred(){
       credit_table credit(get_self(), get_self().value);
       for(auto itr = credit.begin(); itr != credit.end();) {

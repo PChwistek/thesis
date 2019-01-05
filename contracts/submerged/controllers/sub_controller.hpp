@@ -14,8 +14,16 @@ class sub_controller : public controller {
       name from = transfer_data.from;
       name to = name(transfer_data.memo);
       asset quantity = transfer_data.quantity;
+
       
       if( get_self() != from) {
+        bool is_credit = to == name("credit");
+        if(is_credit) {
+          the_credit_controller.deposit_credit(from, quantity);
+          print("Credited to account");
+          return;
+        }
+
         channels_table channels(get_self(), get_self().value);
         auto channel_itr = channels.find(to.value);
         eosio_assert(channel_itr != channels.end(), "store does not exist" );
@@ -72,7 +80,7 @@ class sub_controller : public controller {
 
     }
 
-    void pay_with_credit(name subscriber) {
+    void pay_with_credit(name subscriber, asset total) {
 
     }
 
