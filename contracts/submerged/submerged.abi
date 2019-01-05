@@ -1,0 +1,559 @@
+{
+    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Fri Jan  4 19:11:53 2019",
+    "version": "eosio::abi/1.1",
+    "structs": [
+        {
+            "name": "channel",
+            "base": "",
+            "fields": [
+                {
+                    "name": "key",
+                    "type": "name"
+                },
+                {
+                    "name": "sub_status",
+                    "type": "string"
+                },
+                {
+                    "name": "num_subs",
+                    "type": "uint32"
+                },
+                {
+                    "name": "minimum_price",
+                    "type": "asset"
+                },
+                {
+                    "name": "month_complete",
+                    "type": "bool"
+                },
+                {
+                    "name": "total_raised",
+                    "type": "asset"
+                },
+                {
+                    "name": "payment_complete",
+                    "type": "bool"
+                },
+                {
+                    "name": "mtotal_proj",
+                    "type": "uint8"
+                },
+                {
+                    "name": "mproj_fulfilled",
+                    "type": "uint8"
+                }
+            ]
+        },
+        {
+            "name": "project",
+            "base": "",
+            "fields": [
+                {
+                    "name": "key",
+                    "type": "uint64"
+                },
+                {
+                    "name": "isActive",
+                    "type": "bool"
+                },
+                {
+                    "name": "fulfilled",
+                    "type": "bool"
+                },
+                {
+                    "name": "project_name",
+                    "type": "string"
+                },
+                {
+                    "name": "content_link",
+                    "type": "string"
+                },
+                {
+                    "name": "content_type",
+                    "type": "string"
+                },
+                {
+                    "name": "status",
+                    "type": "string"
+                },
+                {
+                    "name": "month",
+                    "type": "uint64"
+                },
+                {
+                    "name": "time_due",
+                    "type": "block_timestamp_type"
+                },
+                {
+                    "name": "time_fulfilled",
+                    "type": "block_timestamp_type"
+                }
+            ]
+        },
+        {
+            "name": "channel_sub",
+            "base": "",
+            "fields": [
+                {
+                    "name": "key",
+                    "type": "name"
+                },
+                {
+                    "name": "quantity_subscribed",
+                    "type": "asset"
+                },
+                {
+                    "name": "valid_until",
+                    "type": "block_timestamp_type"
+
+                },
+                {
+                    "name": "conditional",
+                    "type": "bool"
+                },
+                {
+                    "name": "transfered",
+                    "type": "bool"
+                }
+            ]
+        },
+        {
+            "name": "user_sub",
+            "base": "",
+            "fields": [
+                {
+                    "name": "key",
+                    "type": "name"
+                },
+                {
+                    "name": "channels_subbed",
+                    "type": "sub[]"
+                }
+            ]
+        },
+        {
+            "name": "credit",
+            "base": "",
+            "fields": [
+                {
+                    "name": "key",
+                    "type": "uint64"
+                },
+                {
+                    "name": "total",
+                    "type": "asset"
+                }
+            ]
+        },
+        {
+            "name": "referendum",
+            "base": "",
+            "fields": [
+                {
+                    "name": "key",
+                    "type": "uint64"
+                },
+                {
+                    "name": "project_key",
+                    "type": "uint64"
+                },
+                {
+                    "name": "vote_type",
+                    "type": "string"
+                },
+                {
+                    "name": "agree",
+                    "type": "uint32"
+                },
+                {
+                    "name": "disagree",
+                    "type": "uint32"
+                },
+                {
+                    "name": "voting_active",
+                    "type": "bool"
+                },
+                {
+                    "name": "passed",
+                    "type": "bool"
+                },
+                {
+                    "name": "voters",
+                    "type": "uint64[]"
+                }
+            ]
+        },
+        {
+            "name": "applyforext",
+            "base": "",
+            "fields": [
+                {
+                    "name": "creator",
+                    "type": "name"
+                },
+                {
+                    "name": "project_key",
+                    "type": "uint64"
+                },
+                {
+                    "name": "seconds_to_new_deadline",
+                    "type": "uint32"
+                }
+            ]
+        },
+        {
+            "name": "closevoting",
+            "base": "",
+            "fields": [
+                {
+                    "name": "creator",
+                    "type": "name"
+                },
+                {
+                    "name": "project_key",
+                    "type": "uint64"
+                },
+                {
+                    "name": "campaign_key",
+                    "type": "uint64"
+                }
+            ]
+        },
+        {
+            "name": "creditsubs",
+            "base": "",
+            "fields": [
+                {
+                    "name": "creator",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "erasechan",
+            "base": "",
+            "fields": [
+                {
+                    "name": "creator",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "eraseprojs",
+            "base": "",
+            "fields": [
+                {
+                    "name": "creator",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "erasesub",
+            "base": "",
+            "fields": [
+                {
+                    "name": "creator",
+                    "type": "name"
+                },
+                {
+                    "name": "subber",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "erasevote",
+            "base": "",
+            "fields": [
+                {
+                    "name": "creator",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "fail",
+            "base": "",
+            "fields": [
+                {
+                    "name": "creator",
+                    "type": "name"
+                },
+                {
+                    "name": "project_key",
+                    "type": "uint64"
+                }
+            ]
+        },
+        {
+            "name": "fulfill",
+            "base": "",
+            "fields": [
+                {
+                    "name": "creator",
+                    "type": "name"
+                },
+                {
+                    "name": "project_key",
+                    "type": "uint64"
+                }
+            ]
+        },
+        {
+            "name": "initproject",
+            "base": "",
+            "fields": [
+                {
+                    "name": "creator",
+                    "type": "name"
+                },
+                {
+                    "name": "project_name",
+                    "type": "string"
+                },
+                {
+                    "name": "content_type",
+                    "type": "string"
+                },
+                {
+                    "name": "seconds_to_deadline",
+                    "type": "uint32"
+                },
+                {
+                    "name": "month",
+                    "type": "uint64"
+                }
+            ]
+        },
+        {
+            "name": "open",
+            "base": "",
+            "fields": [
+                {
+                    "name": "creator",
+                    "type": "name"
+                },
+                {
+                    "name": "minimum_price",
+                    "type": "asset"
+                }
+            ]
+        },
+        {
+            "name": "paychannel",
+            "base": "",
+            "fields": [
+                {
+                    "name": "creator",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "transfer",
+            "base": "",
+            "fields": []
+        },
+        {
+            "name": "version",
+            "base": "",
+            "fields": []
+        },
+        {
+            "name": "erasecred",
+            "base": "",
+            "fields": []
+        },
+        {
+            "name": "vote",
+            "base": "",
+            "fields": [
+                {
+                    "name": "voter",
+                    "type": "name"
+                },
+                {
+                    "name": "creator",
+                    "type": "name"
+                },
+                {
+                    "name": "project_key",
+                    "type": "uint64"
+                },
+                {
+                    "name": "campaign_key",
+                    "type": "uint64"
+                },
+                {
+                    "name": "satisfied",
+                    "type": "bool"
+                }
+            ]
+        },
+        {
+            "name": "withdraw",
+            "base": "",
+            "fields": [
+                {
+                    "name": "user",
+                    "type": "name"
+                },
+                {
+                    "name": "total",
+                    "type": "asset"
+                }
+            ]
+        },
+        {
+            "name": "sub",
+            "base": "",
+            "fields": [
+                {
+                    "name": "channel",
+                    "type": "uint64"
+                },
+                {
+                    "name": "quantity",
+                    "type": "asset"
+                }
+            ]
+        }
+    ],
+    "types": [],
+    "actions": [
+        {
+            "name": "applyforext",
+            "type": "applyforext",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "closevoting",
+            "type": "closevoting",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "creditsubs",
+            "type": "creditsubs",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "erasechan",
+            "type": "erasechan",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "eraseprojs",
+            "type": "eraseprojs",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "erasesub",
+            "type": "erasesub",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "erasevote",
+            "type": "erasevote",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "fail",
+            "type": "fail",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "fulfill",
+            "type": "fulfill",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "initproject",
+            "type": "initproject",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "open",
+            "type": "open",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "paychannel",
+            "type": "paychannel",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "transfer",
+            "type": "transfer",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "version",
+            "type": "version",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "erasecred",
+            "type": "erasecred",
+            "ricardian_contract": ""
+        }
+        {
+            "name": "vote",
+            "type": "vote",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "withdraw",
+            "type": "withdraw",
+            "ricardian_contract": ""
+        }
+    ],
+    "tables": [
+        {
+            "name": "channels",
+            "type": "channel",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "projects",
+            "type": "project",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "csubs",
+            "type": "channel_sub",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "credit",
+            "type": "credit",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "usubs",
+            "type": "user_sub",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "votes",
+            "type": "referendum",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        }
+    ],
+    "ricardian_clauses": [],
+    "variants": [],
+    "abi_extensions": []
+}
