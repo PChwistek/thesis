@@ -77,19 +77,15 @@ class sub_controller : public controller {
     }
 
     void unsubscribe(name creator, name subscriber) {
-
+      /* remove from usubs, don't recur */ 
     }
 
     void pay_with_credit(name subscriber, asset total) {
-
+      /* deduct credit, renew subscription */
     }
 
-    void recur_credit(name subscriber) {
-
-    }
-
-    void recur(name subscriber) {
-
+    void recur(name subscriber, bool credit) {
+      /* deduct credit, or get permission to send money, update timestamp */ 
     }
 
     void credit_subs(name creator) {
