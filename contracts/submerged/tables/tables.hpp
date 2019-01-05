@@ -23,32 +23,32 @@ TABLE channel_sub {
 };
 
 TABLE user_sub {
-  name                    key;
-  std::vector<uint64_t>   channels_subbed;
-  std::vector<asset>      total;
+  name              key;
+  std::vector<sub>  channels_subbed;
+  uint64_t primary_key() const { return key.value; }
 };
 
 TABLE project {
   uint64_t          key; 
-  bool              isActive;
+  bool              is_active;
   bool              fulfilled;
-  string            projectName; // what is visible
-  string            contentLink; 
-  string            contentType;
+  string            project_name; // what is visible
+  string            content_link; 
+  string            content_type;
   string            status; // in Progress, fulfilled, not fulfilled, payment pending
   uint64_t          month; 
-  block_timestamp   timeDue;
-  block_timestamp   timeFulfilled;
+  block_timestamp   time_due;
+  block_timestamp   time_fulfilled;
   uint64_t primary_key() const { return key; }
 };
 
-TABLE votecampaign {
+TABLE referendum {
   uint64_t                key;
-  uint64_t                projectKey; 
-  string                  voteType;
+  uint64_t                project_key; 
+  string                  vote_type;
   uint32_t                agree;
   uint32_t                disagree;
-  bool                    votingActive;
+  bool                    voting_active;
   bool                    passed;
   std::vector<uint64_t>   voters;
   uint64_t primary_key() const { return key; }
@@ -57,11 +57,12 @@ TABLE votecampaign {
 TABLE credit {
   uint64_t  key;
   asset     total;
+  uint64_t primary_key() const { return key; }
 };
 
 typedef multi_index<name("channels"), channel> channels_table;
 typedef multi_index<name("csubs"), channel_sub> channel_subs_table;
 typedef multi_index<name("projects"), project> projects_table;
-typedef multi_index<name("votes"), votecampaign> campaigns_table;
+typedef multi_index<name("votes"), referendum> campaigns_table;
 typedef multi_index<name("usubs"), user_sub> user_subs_table;
 typedef multi_index<name("credit"), credit> credit_table;

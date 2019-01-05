@@ -9,10 +9,11 @@
 using namespace eosio;
 using std::string;
 
-#include "tables/tables.hpp"
 #include "helpers/common_structs.hpp"
+#include "tables/tables.hpp"
 #include "controllers/controller.hpp"
 #include "controllers/transax_controller.hpp"
+#include "controllers/credit_controller.hpp"
 #include "controllers/sub_controller.hpp"
 #include "controllers/channel_controller.hpp"
 #include "controllers/project_controller.hpp"
@@ -48,7 +49,7 @@ ACTION submerged::fail(name creator, uint64_t projectKey) {
 }
 
 ACTION submerged::vote(name voter, name creator, uint64_t projectKey, uint64_t campaignKey, bool satisfied) {
-  the_vote_controller.vote(creator, voter, projectKey, campaignKey, satisfied);
+  the_vote_controller.vote(voter, creator, projectKey, campaignKey, satisfied);
 }
 
 ACTION submerged::applyforext(name creator, uint64_t projectKey, uint32_t secondsToNewDeadline) {
@@ -62,6 +63,10 @@ ACTION submerged::closevoting(name creator, uint64_t projectKey, uint64_t campai
 
 ACTION submerged::paychannel(name creator) {
   the_channel_controller.pay_channel(creator);
+}
+
+ACTION submerged::creditsubs(name creator) {
+  the_sub_controller.credit_subs(creator);
 }
 
 /* FOR DEBUGGING PURPOSES */
@@ -79,6 +84,10 @@ ACTION submerged::erasechan(name creator) {
 
 ACTION submerged::eraseprojs(name creator) {
   the_project_controller.erase_all_projects(creator);
+}
+
+ACTION submerged::erasecred() {
+  the_credit_controller.erasecred();
 }
 
 // ===================== ABI STUFF =========================
@@ -112,4 +121,7 @@ EOSIO_DISPATCH_CUSTOM( submerged,
   (eraseprojs)
   (erasechan)
   (erasevote)
+  (erasecred)
+  (paychannel)
+  (creditsubs)
 )

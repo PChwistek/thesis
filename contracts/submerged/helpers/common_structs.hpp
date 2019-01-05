@@ -4,3 +4,8 @@ struct st_transfer {
   asset quantity;
   string memo;
 };
+
+struct sub {
+  uint64_t channel;
+  asset    quantity;
+};

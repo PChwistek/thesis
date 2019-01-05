@@ -1,11 +1,13 @@
 class sub_controller : public controller {
   private:
     transax_controller the_transax_controller;
+    credit_controller the_credit_controller;
 
   public:
-    sub_controller(name self, transax_controller a_transax_controller): 
+    sub_controller(name self, transax_controller a_transax_controller, credit_controller a_credit_controller): 
       controller(self), 
-      the_transax_controller(a_transax_controller) {}
+      the_transax_controller(a_transax_controller),
+      the_credit_controller(a_credit_controller) {}
 
     void handle_subscription() {
       auto transfer_data = unpack_action_data<st_transfer>();
@@ -15,29 +17,46 @@ class sub_controller : public controller {
       
       if( get_self() != from) {
         channels_table channels(get_self(), get_self().value);
-        auto channelItr = channels.find(to.value);
-        eosio_assert(channelItr != channels.end(), "store does not exist" );
-        auto theChannel = channels.get(to.value);
-        eosio_assert(quantity.amount >= theChannel.minimum_price.amount, "insufficient funds");
-        eosio_assert(quantity.symbol.code() == theChannel.minimum_price.symbol.code(), "incorrect symbol");
+        auto channel_itr = channels.find(to.value);
+        eosio_assert(channel_itr != channels.end(), "store does not exist" );
+        auto the_channel = channels.get(to.value);
+        eosio_assert(quantity.amount >= the_channel.minimum_price.amount, "insufficient funds");
+        eosio_assert(quantity.symbol.code() == the_channel.minimum_price.symbol.code(), "incorrect symbol");
 
         channel_subs_table subs(get_self(), to.value);
-        auto subsItr = subs.find( from.value );
-        if( subsItr == subs.end() ) {
+        auto subs_itr = subs.find( from.value );
+        if( subs_itr == subs.end() ) {
           subs.emplace(get_self(), [&]( auto& row){
             row.key = from;
             row.conditional = true;
             row.quantity_subscribed = quantity;
           });
-          channels.modify(channelItr, get_self(), [&](auto& row) {
-            row.num_subs = row.num_subs + 1; 
+          channels.modify(channel_itr, get_self(), [&](auto& row) {
+            row.num_subs = row.num_subs + 1;
+            row.total_raised = row.total_raised + quantity;
           });
+          
+          user_subs_table usubs(get_self(), get_self().value);
+          auto usubs_itr = usubs.find(from.value);
+
+          sub new_sub = { to.value, quantity };
+          
+          if(usubs_itr == usubs.end()) {
+            usubs.emplace(get_self(), [&](auto& row) {
+              row.key = from; 
+              row.channels_subbed.push_back(new_sub);
+            });
+          } else {
+            usubs.modify(usubs_itr, get_self(), [&](auto& row) {
+              row.channels_subbed.push_back(new_sub);
+            });
+          }
 
         } else {
           print("============ Subscription Already EXISTS ===============");
-          auto theSub = *subsItr;
-          eosio_assert(block_timestamp(current_time()) < theSub.valid_until, "Subscription is still valid");
-          subs.modify(subsItr, get_self(), [&](auto& row) {
+          auto the_sub = *subs_itr;
+          eosio_assert(block_timestamp(current_time()) < the_sub.valid_until, "Subscription is still valid");
+          subs.modify(subs_itr, get_self(), [&](auto& row) {
             // row valid until 
             row.quantity_subscribed = quantity;
             row.conditional = true;
@@ -45,29 +64,61 @@ class sub_controller : public controller {
         }
       } else if(get_self() == from) {
         name content_creator = transfer_data.to;
-        print("============ Crediting Subscribers ===============");
+        print("============ MONEY LEAVING ===============");
       }
     }
 
     void unsubscribe(name creator, name subscriber) {
 
     }
+
+    void credit_subs(name creator) {
+      require_auth( get_self() );
+      channels_table channels(get_self(), get_self().value);
+      auto channel_itr = channels.find(creator.value);
+      eosio_assert(channel_itr != channels.end(), "channel doesn't exist");
+      auto the_channel = *channel_itr;
+      eosio_assert(!the_channel.payment_complete, "already completed");
+
+      channel_subs_table subs(get_self(), creator.value);
+      std::vector<uint64_t> subs_to_credit;
+
+      for(auto& item : subs) {
+        if (item.conditional) {
+          subs_to_credit.push_back(item.key.value);
+        }
+      }
+
+      the_credit_controller.credit_multiple(subs_to_credit, the_channel.minimum_price);
+      
+      channels.modify(channel_itr, get_self(), [&](auto& row) {
+        row.payment_complete = true;
+      }); 
+    }
   
     void erase_sub(name creator, name subscriber) {
       print("============ Removing ===============");
-      channel_subs_table subs(get_self(), creator.value);
-      auto subsItr = subs.find(subscriber.value);
-      eosio_assert(subsItr != subs.end(), "Record does not exist");
-      subs.modify(subsItr, get_self(), [&](auto& row) {
+
+      /*
+      auto subs_itr = subs.find(subscriber.value);
+      eosio_assert(subs_itr != subs.end(), "Record does not exist");
+      subs.modify(subs_itr, get_self(), [&](auto& row) {
         row.transfered = true;
       });
       
       channels_table channels(get_self(), get_self().value);
-      auto channelItr = channels.find(creator.value);
-      channels.modify(channelItr, get_self(), [&](auto& row) {
+      auto channel_itr = channels.find(creator.value);
+      channels.modify(channel_itr, get_self(), [&](auto& row) {
         row.num_subs = row.num_subs - 1;
       });
-      subs.erase(subsItr);
+      */
+      channel_subs_table subs(get_self(), creator.value);
+      user_subs_table usubs(get_self(), get_self().value);
+      auto usubs_itr = usubs.find(subscriber.value);
+      auto subs_itr = subs.find(subscriber.value);
+      subs.erase(subs_itr);
+      usubs.erase(usubs_itr);
+
     }
 
 
