@@ -1,5 +1,5 @@
 # Contracts
-This is the smart contract responsible for handling payments, referendums, foundation decisions, and channels. It's all 1 monolith contract (transactions across contracts are expensive) that breaks down its logic using hpp headers. The actual cpp file is really a facade, and the actual logic occurs in the controllers. 
+This is the smart contract responsible for handling payments, referendums, foundation decisions, and channels. It's all 1 monolith contract (transactions across contracts are expensive) that breaks down its logic using hpp headers. The actual cpp file is really a facade, and the actual logic occurs in the controllers. The tables folder holds all the structs that are used in persistant storage. 
 
 ## Editing 
 To edit this you need to have the EOSIO development installed
