@@ -40,7 +40,7 @@ class channel_controller: public controller {
       auto channel_itr = channels.find(creator.value);
       auto the_channel = *channel_itr;
       eosio_assert(!the_channel.payment_complete, "payment already happened!");
-      the_transax_controller.send_total_channel(creator, the_channel.total_raised);
+      the_transax_controller.send_funds_from_contract(creator, the_channel.total_raised);
       channels.modify(channel_itr, get_self(),[&](auto& row) {
         row.payment_complete = true; 
       });

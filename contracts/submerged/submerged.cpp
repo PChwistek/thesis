@@ -32,10 +32,6 @@ ACTION submerged::open(name owner, asset minimum_price) {
   the_channel_controller.open_channel(owner, minimum_price);
 }
 
-ACTION submerged::rollfunds(name creator, name subber) {
-  the_transax_controller.send_funds_from_contract(creator, subber);
-}
-
 ACTION submerged::initproject(name creator, string projectName, string contentType, uint32_t secondsToDeadline, uint64_t month) {
   the_project_controller.create_project(creator, projectName, contentType, secondsToDeadline, month);
 }
@@ -68,6 +64,11 @@ ACTION submerged::paychannel(name creator) {
 ACTION submerged::creditsubs(name creator) {
   the_sub_controller.credit_subs(creator);
 }
+
+ACTION submerged::withdraw(name user, asset total) {
+  the_credit_controller.withdraw_credit(user, total);
+}
+
 
 /* FOR DEBUGGING PURPOSES */
 ACTION submerged::erasesub(name creator, name subber) {
@@ -113,7 +114,6 @@ EOSIO_DISPATCH_CUSTOM( submerged,
   (initproject)
   (fulfill)
   (fail)
-  (rollfunds)
   (closevoting)
   (applyforext)
   (vote)
@@ -124,4 +124,5 @@ EOSIO_DISPATCH_CUSTOM( submerged,
   (erasecred)
   (paychannel)
   (creditsubs)
+  (withdraw)
 )

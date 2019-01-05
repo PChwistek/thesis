@@ -30,7 +30,16 @@ class credit_controller: public controller {
     }
 
     void withdraw_credit(name user, asset to_debit) {
-
+      require_auth( user );
+      credit_table credit(get_self(), get_self().value);
+      auto credit_itr = credit.find(user.value);
+      auto credit_balance = *credit_itr;
+      eosio_assert(credit_itr != credit.end(), "credit balance does not exist");
+      eosio_assert(to_debit <= credit_balance.total, "overdrawing");
+      the_transax_controller.send_funds_from_contract(user, to_debit);
+      credit.modify(credit_itr, get_self(),[&]( auto& row ){
+        row.total = row.total - to_debit;
+      });
     }
 
     void erasecred(){

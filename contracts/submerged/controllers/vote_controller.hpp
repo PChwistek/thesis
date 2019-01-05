@@ -105,7 +105,7 @@ class vote_controller: public controller {
           if(passed) {
             // if month complete
             print("================== PASSED ======================");
-            the_transax_controller.send_total_channel(creator, theChannel.total_raised);
+            the_transax_controller.send_funds_from_contract(creator, theChannel.total_raised);
             channels.modify(channelItr, get_self(), [&]( auto& row ) {
               row.mproj_fulfilled = (row.mproj_fulfilled + 1) & 0xFF;
             });

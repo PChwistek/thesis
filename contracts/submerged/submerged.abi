@@ -352,20 +352,6 @@
             ]
         },
         {
-            "name": "rollfunds",
-            "base": "",
-            "fields": [
-                {
-                    "name": "creator",
-                    "type": "name"
-                },
-                {
-                    "name": "subber",
-                    "type": "name"
-                }
-            ]
-        },
-        {
             "name": "transfer",
             "base": "",
             "fields": []
@@ -403,6 +389,20 @@
                 {
                     "name": "satisfied",
                     "type": "bool"
+                }
+            ]
+        },
+        {
+            "name": "withdraw",
+            "base": "",
+            "fields": [
+                {
+                    "name": "user",
+                    "type": "name"
+                },
+                {
+                    "name": "total",
+                    "type": "asset"
                 }
             ]
         },
@@ -484,11 +484,6 @@
             "ricardian_contract": ""
         },
         {
-            "name": "rollfunds",
-            "type": "rollfunds",
-            "ricardian_contract": ""
-        },
-        {
             "name": "transfer",
             "type": "transfer",
             "ricardian_contract": ""
@@ -506,6 +501,11 @@
         {
             "name": "vote",
             "type": "vote",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "withdraw",
+            "type": "withdraw",
             "ricardian_contract": ""
         }
     ],

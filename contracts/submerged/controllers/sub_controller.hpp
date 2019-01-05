@@ -72,6 +72,18 @@ class sub_controller : public controller {
 
     }
 
+    void pay_with_credit(name subscriber) {
+
+    }
+
+    void recur_credit(name subscriber) {
+
+    }
+
+    void recur(name subscriber) {
+
+    }
+
     void credit_subs(name creator) {
       require_auth( get_self() );
       channels_table channels(get_self(), get_self().value);
@@ -82,18 +94,39 @@ class sub_controller : public controller {
 
       channel_subs_table subs(get_self(), creator.value);
       std::vector<uint64_t> subs_to_credit;
-
-      for(auto& item : subs) {
-        if (item.conditional) {
-          subs_to_credit.push_back(item.key.value);
+      
+      int count = 0;
+      while(count < 5) {
+        for(auto& item : subs) {
+          if (item.conditional && !item.transfered) {
+            subs_to_credit.push_back(item.key.value);
+            count++;
+          }
         }
       }
 
       the_credit_controller.credit_multiple(subs_to_credit, the_channel.minimum_price);
-      
-      channels.modify(channel_itr, get_self(), [&](auto& row) {
-        row.payment_complete = true;
-      }); 
+
+      for(uint64_t key: subs_to_credit) {
+        auto sub_itr = subs.find(key);
+        subs.modify(sub_itr, get_self(), [&](auto& row) {
+          row.transfered = true;
+        }); 
+      }
+
+      if(count == 0) {
+        channels.modify(channel_itr, get_self(), [&](auto& row) {
+          row.payment_complete = true;
+        }); 
+      } else {
+        the_transax_controller.send_self_deferred_action(
+          get_self(),
+          name("creditsubs"),
+          1,
+          std::make_tuple(creator),
+          1
+        );
+      }
     }
   
     void erase_sub(name creator, name subscriber) {

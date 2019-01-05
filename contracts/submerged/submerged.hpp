@@ -35,8 +35,10 @@ CONTRACT submerged : public eosio::contract {
     ACTION transfer();
     ACTION creditsubs(name creator);
     ACTION erasecred();
-    ACTION rollfunds(name creator, name subber);
     ACTION erasesub(name creator, name subber);
+
+    //credit
+    ACTION withdraw(name user, asset total);
 
     //projects
     ACTION initproject(name creator, string project_name, string content_type, uint32_t seconds_to_deadline, uint64_t month);

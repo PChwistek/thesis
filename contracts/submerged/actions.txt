@@ -10,7 +10,7 @@ cleos push action submerged fulfill '["alice", 0]' -p alice@active
 
 cleos push action submerged vote '["bob", "alice", 0, 0, true]' -p bob@active
 cleos push action submerged vote '["james", "alice", 0, 0, false]' -p james@active
-cleos push action submerged vote '["david", "alice", 0, 0, false]' -p david@active
+cleos push action submerged vote '["david", "alice", 0, 0, true]' -p david@active
 cleos push action submerged vote '["olivia", "alice", 0, 0, false]' -p olivia@active
 
 

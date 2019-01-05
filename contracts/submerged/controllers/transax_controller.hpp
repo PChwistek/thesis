@@ -1,17 +1,17 @@
 class transax_controller: public controller {
   public: 
     transax_controller(name self): controller(self) {}
-
+    /*
     void send_funds_from_contract(name creator, name subber) {
       require_auth( get_self() );
       channel_subs_table subs(get_self(), creator.value);
       auto the_sub = subs.get(subber.value);
       asset quantity = the_sub.quantity_subscribed;
       send_money(get_self(), creator, quantity, subber.to_string());
-    }
+    } */
 
-    void send_total_channel(name creator, asset total) {
-      send_money(get_self(), creator, total, "submerged");
+    void send_funds_from_contract(name receiver, asset total) {
+      send_money(get_self(), receiver, total, "submerged");
     }
 
     void withdraw(name user) {
