@@ -3,14 +3,15 @@ import { Link } from 'react-router-dom'
 import { 
   Navbar, 
   NavbarBrand, 
-  NavbarItem, 
-  NavbarEnd 
+  NavbarEnd, 
+  NavbarItem 
 } from 'bloomer'
 
 import s from './HeaderAuthed.scss'
 
 export default class HeaderAuthed extends Component {
   render() {
+    const { logout } = this.props
     return (
       <Navbar className={ s.header }>
         <NavbarBrand>
@@ -34,6 +35,11 @@ export default class HeaderAuthed extends Component {
           <NavbarItem>
             <Link to="/">
               Your Profile
+            </Link>
+          </NavbarItem>
+          <NavbarItem onClick={ logout }>
+            <Link to="/">
+              Logout
             </Link>
           </NavbarItem>
         </NavbarEnd>

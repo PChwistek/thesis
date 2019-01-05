@@ -2,7 +2,7 @@ import { connect } from 'react-redux'
 import PrivateRoute from './PrivateRoute'
 
 const stateToProps = ({ auth }) => ({
-  authenticated: auth.authenticated,
+  token: auth.token,
 })
 
 const dispatchToProps = {

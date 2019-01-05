@@ -3,9 +3,11 @@ import { Link } from 'react-router-dom'
 import { 
   Navbar, 
   NavbarBrand, 
-  NavbarItem, 
-  NavbarEnd 
+  NavbarEnd, 
+  NavbarItem 
 } from 'bloomer'
+
+
 
 
 import s from './Header'

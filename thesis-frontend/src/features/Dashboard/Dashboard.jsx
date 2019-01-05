@@ -1,19 +1,18 @@
 import React, { Component } from 'react'
 import { values } from 'lodash'
-import {
-  Hero,
-  Container,
-  Columns,
-  Notification,
-  Column,
-  Field,
-  Label,
-  Input,
-  Control,
-  Button,
-} from 'bloomer'
-
 import './Dashboard.scss'
+import {
+  Button,
+  Column,
+  Columns,
+  Container,
+  Control,
+  Field,
+  Hero,
+  Input,
+  Label,
+  Notification,
+} from 'bloomer'
 
 class Dashboard extends Component {
   componentDidUpdate() {

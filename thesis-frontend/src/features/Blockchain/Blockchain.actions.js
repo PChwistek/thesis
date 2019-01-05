@@ -1,5 +1,5 @@
-import { endpoint, network } from '../../api/scatterConfig'
 import { Api, JsonRpc } from 'eosjs'
+import { endpoint, network } from '../../api/scatterConfig'
 import { transaction } from './Blockchain.utils'
 
 export const sayHello = () => (dispatch, getState) => {

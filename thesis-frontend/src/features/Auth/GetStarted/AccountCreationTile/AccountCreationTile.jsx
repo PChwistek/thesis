@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {
-  Tile,
   Box,
+  Tile,
 } from 'bloomer'
 import cn from 'classnames'
 import AccountCreationForm from './AccountCreationForm'

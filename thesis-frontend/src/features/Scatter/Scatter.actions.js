@@ -28,7 +28,7 @@ export const setScatterAccount = () => (dispatch, getState) => {
 
   scatter.getIdentity(requiredFields).then(identity => {
     scatter.authenticate('123456789101').then(() => {
-      dispatch({
+      return dispatch({
         type: 'SCATTER/SET_IDENTITY_SUCCEEDED',
         payload: {
           identity,
@@ -38,7 +38,6 @@ export const setScatterAccount = () => (dispatch, getState) => {
       dispatch({ type: 'SCATTER/SET_IDENTITY_REJECTED'})
       throw new Error('An Imposter!', failedAuthentication)
     })
-
   }).catch((error) => {
     console.log(error)
     dispatch({ type: 'SCATTER/SET_IDENTITY_REJECTED'})
