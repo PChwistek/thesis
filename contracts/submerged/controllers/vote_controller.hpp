@@ -12,7 +12,7 @@ class vote_controller: public controller {
       auto subs_itr = subs.find(voter.value);
       eosio_assert(subs_itr != subs.end(), "not a subscriber");
 
-      campaigns_table votes(get_self(), creator.value);
+      polls_table votes(get_self(), creator.value);
       auto vote_itr = votes.find(campaign_key);
       eosio_assert(vote_itr != votes.end(), "voting campaign doesn't exist");
 
@@ -49,13 +49,14 @@ class vote_controller: public controller {
       eosio_assert(the_project.is_active == true, "project is not active");
       eosio_assert(the_project.fulfilled == false, "project has already been fulfilled"); //make sure project is active
 
-      campaigns_table votes(get_self(), creator.value);
+      polls_table votes(get_self(), creator.value);
       uint64_t campaign_key = votes.available_primary_key();
       votes.emplace(get_self(), [&]( auto& row ) {
         row.key = campaign_key;
         row.project_key = project_key;
         row.voting_active = true;
         row.vote_type = "extension: " + std::to_string(secondsToNewDeadline);
+        row.time_closes = block_timestamp(time_point_sec(now() + 30));
       });
 
       uint32_t delay = 30;
@@ -72,7 +73,7 @@ class vote_controller: public controller {
     void close_voting(name creator, uint64_t project_key, uint64_t campaign_key) {
         require_auth(get_self());
         print("============ Voting is now closed! ===============");
-        campaigns_table votes(get_self(), creator.value);        
+        polls_table votes(get_self(), creator.value);        
         auto vote_itr = votes.find(campaign_key);
         eosio_assert(vote_itr != votes.end(), "voting campaign doesn't exist!");
 
@@ -123,7 +124,7 @@ class vote_controller: public controller {
     }
 
     void erase_all_votes(name creator) {
-      campaigns_table votes(get_self(), creator.value);
+      polls_table votes(get_self(), creator.value);
       for(auto itr = votes.begin(); itr != votes.end();) {
         itr = votes.erase(itr);
       }

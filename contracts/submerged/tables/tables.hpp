@@ -42,7 +42,7 @@ TABLE project {
   uint64_t primary_key() const { return key; }
 };
 
-TABLE referendum {
+TABLE poll {
   uint64_t                key;
   uint64_t                project_key; 
   string                  vote_type;
@@ -51,6 +51,7 @@ TABLE referendum {
   bool                    voting_active;
   bool                    passed;
   std::vector<uint64_t>   voters;
+  block_timestamp         time_closes; 
   uint64_t primary_key() const { return key; }
 };
 
@@ -60,9 +61,11 @@ TABLE credit {
   uint64_t primary_key() const { return key; }
 };
 
+/* error table? */
+
 typedef multi_index<name("channels"), channel> channels_table;
 typedef multi_index<name("csubs"), channel_sub> channel_subs_table;
 typedef multi_index<name("projects"), project> projects_table;
-typedef multi_index<name("votes"), referendum> campaigns_table;
+typedef multi_index<name("polls"), poll> polls_table;
 typedef multi_index<name("usubs"), user_sub> user_subs_table;
 typedef multi_index<name("credit"), credit> credit_table;

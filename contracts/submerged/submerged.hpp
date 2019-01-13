@@ -50,4 +50,14 @@ CONTRACT submerged : public eosio::contract {
     ACTION applyforext(name creator, uint64_t project_key, uint32_t seconds_to_new_deadline);
     ACTION eraseprojs(name creator);
 
+    void on_error(const onerror &error) {
+        // this function should have a counter to not retry forever, needs protection in other parts as well
+        /*
+        print("Resending Transaction: ", error.sender_id);
+        transaction dtrx = error.unpack_sent_trx();
+        dtrx.delay_sec = 3;
+        dtrx.send(now(), get_self());
+        */
+    }
+
 };

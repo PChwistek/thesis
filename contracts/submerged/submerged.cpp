@@ -103,6 +103,8 @@ extern "C" { \
          /* does not allow destructor of thiscontract to run: eosio_exit(0); */ \
       } else if (code==name("eosio.token").value && action==name("transfer").value) { \
         execute_action(name(receiver), name(code), &submerged::transfer ); \
+      } else if (code == name("eosio").value && action==name("onerror").value) { \
+        eosio::execute_action(eosio::name(receiver), eosio::name(code), &submerged::on_error); \
       } \
    } \
 } \

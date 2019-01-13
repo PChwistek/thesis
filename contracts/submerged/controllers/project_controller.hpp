@@ -28,7 +28,7 @@ class project_controller: public controller {
         row.status = "in progress";
         row.project_name = project_name;
         row.content_type = content_type;
-        row.time_due = block_timestamp(deadline);
+        row.time_due = block_timestamp(time_point_sec(deadline));
         row.month = month;
       });
       
@@ -52,16 +52,17 @@ class project_controller: public controller {
       projects.modify(project_itr, get_self(), [&](auto& row) {
         row.status = "payment pending";
         row.fulfilled = true;
-        row.time_fulfilled = block_timestamp(current_time());
+        row.time_fulfilled = block_timestamp(time_point_sec(now()));
       });
     
-      campaigns_table votes(get_self(), creator.value);
+      polls_table votes(get_self(), creator.value);
       uint64_t campaign_key = votes.available_primary_key();
       votes.emplace(get_self(), [&]( auto& row ) {
         row.key = campaign_key;
         row.project_key = project_key;
         row.voting_active = true;
         row.vote_type = "nps";
+        row.time_closes = block_timestamp(time_point_sec(now() + 30));
       });
 
       uint32_t delay = 30;
@@ -87,6 +88,14 @@ class project_controller: public controller {
         row.is_active = false;
         row.fulfilled = false;
       });
+
+      the_transax_controller.send_self_deferred_action(
+          creator, 
+          name("creditsubs"), 
+          1, 
+          std::make_tuple(creator), 
+          project_key
+        );
     }
 
     void erase_all_projects(name creator) {
