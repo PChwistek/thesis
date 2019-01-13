@@ -40,13 +40,12 @@ class vote_controller: public controller {
 
     void apply_for_extension(name creator, uint64_t project_key, uint32_t secondsToNewDeadline) {
       require_auth(creator);
-      channels_table channels(get_self(), get_self().value);
+      channel_subs_table channels(get_self(), get_self().value);
       auto channelItr = channels.find(creator.value);
       eosio_assert(channelItr != channels.end(), "channel does not exist"); // make sure channel exists 
 
       projects_table projects(get_self(), creator.value);
-      auto the_project_itr = projects.find(project_key);
-      auto the_project = *the_project_itr;
+      auto the_project = projects.get(project_key);
       eosio_assert(the_project.is_active == true, "project is not active");
       eosio_assert(the_project.fulfilled == false, "project has already been fulfilled"); //make sure project is active
 
@@ -56,7 +55,7 @@ class vote_controller: public controller {
         row.key = campaign_key;
         row.project_key = project_key;
         row.voting_active = true;
-        row.vote_type = "ext" + std::to_string(secondsToNewDeadline);
+        row.vote_type = "extension: " + std::to_string(secondsToNewDeadline);
       });
 
       uint32_t delay = 30;
@@ -117,31 +116,6 @@ class vote_controller: public controller {
               name("creditsubs"), 
               1, 
               std::make_tuple(creator), 
-              project_key
-            );
-          }
-        } else if (the_vote.vote_type.find("ext") != std::string::npos) {
-          if(passed) {
-            uint32_t seconds = std::stoi(the_vote.vote_type.substr(3));
-            projects_table projects(get_self(), creator.value);
-            auto project_itr = projects.find(project_key);
-            auto the_project = *project_itr;
-            
-            time_point_sec new_deadline_seconds = time_point_sec(time_point_sec(the_project.time_due.to_time_point()).utc_seconds + seconds);
-            uint32_t delay = new_deadline_seconds.utc_seconds - now();
-
-            print("THE EXTENSION PLZ ", delay);
-            
-            projects.modify(project_itr, get_self(), [&]( auto& row ) {
-              row.time_due = block_timestamp(new_deadline_seconds);
-            });
-            
-            the_transax_controller.cancel_deferred_transax(creator, name("fail"), project_key);
-            the_transax_controller.send_self_deferred_action(
-              creator,
-              name("fail"),
-              delay,
-              std::make_tuple(creator, project_key), 
               project_key
             );
           }
