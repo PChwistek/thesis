@@ -49,7 +49,7 @@ ACTION submerged::vote(name voter, name creator, uint64_t projectKey, uint64_t c
 }
 
 ACTION submerged::applyforext(name creator, uint64_t projectKey, uint32_t secondsToNewDeadline) {
-  the_vote_controller.apply_for_extension(creator, secondsToNewDeadline, projectKey);
+  the_vote_controller.apply_for_extension(creator, projectKey, secondsToNewDeadline);
 }
 
 ACTION submerged::closevoting(name creator, uint64_t projectKey, uint64_t campaignKey) {

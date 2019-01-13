@@ -12,14 +12,14 @@ class project_controller: public controller {
       auto channel_itr = channels.find(creator.value);
       eosio_assert(channel_itr != channels.end(), "channel does not exist"); // make sure channel exists 
 
-      uint32_t now = current_time();
-      uint32_t deadline = current_time() + seconds_to_deadline;
-      uint32_t delay =  deadline - now;
+      uint32_t deadline = now() + seconds_to_deadline;
       
       projects_table projects(get_self(), creator.value);
       uint64_t project_key = projects.available_primary_key();
       
-      the_transax_controller.send_self_deferred_action(creator, name("fail"), delay, std::make_tuple(creator, project_key), project_key);
+      the_transax_controller.cancel_deferred_transax(name("fail"), creator, project_key);
+
+      the_transax_controller.send_self_deferred_action(creator, name("fail"), seconds_to_deadline, std::make_tuple(creator, project_key), project_key);
       
       projects.emplace(get_self(), [&]( auto& row ) {
         row.key = project_key;
@@ -28,7 +28,7 @@ class project_controller: public controller {
         row.status = "in progress";
         row.project_name = project_name;
         row.content_type = content_type;
-        row.time_due = block_timestamp(deadline);
+        row.time_due = block_timestamp(time_point_sec(deadline));
         row.month = month;
       });
       
@@ -87,6 +87,15 @@ class project_controller: public controller {
         row.is_active = false;
         row.fulfilled = false;
       });
+
+
+      the_transax_controller.send_self_deferred_action(
+        creator, 
+        name("creditsubs"), 
+        1, 
+        std::make_tuple(creator), 
+        project_key
+      );
     }
 
     void erase_all_projects(name creator) {
