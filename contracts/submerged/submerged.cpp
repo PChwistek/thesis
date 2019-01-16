@@ -28,6 +28,11 @@ ACTION submerged::transfer() {
   the_sub_controller.handle_subscription();
 }
 
+ACTION submerged::recur(name user, asset total) {
+  print("Yo, in recur");
+  the_sub_controller.recur(user, total);
+}
+
 ACTION submerged::open(name owner, asset minimum_price) {
   the_channel_controller.open_channel(owner, minimum_price);
 }
@@ -113,6 +118,7 @@ EOSIO_DISPATCH_CUSTOM( submerged,
   (version)
   (open)
   (transfer)
+  (recur)
   (initproject)
   (fulfill)
   (fail)

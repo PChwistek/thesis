@@ -8,22 +8,21 @@ cleos push action eosio.token transfer '["bob", "submerged", "1.0000 SYS", "alic
 cleos push action eosio.token transfer '["andy", "submerged", "1.0000 SYS", "alice"]' -p andy@active
 cleos push action eosio.token transfer '["andy", "submerged", "1.0000 SYS", "credit"]' -p andy@active
 
-
 cleos push action submerged initproject '["alice", "test4", "video", 100, 0]' -p alice@active
+
+cleos push action submerged applyforext '["alice", 0, 60]' -p alice@active
 
 cleos push action submerged fulfill '["alice", 0]' -p alice@active
 
-cleos push action submerged vote '["bob", "alice", 0, 0, false]' -p bob@active
-cleos push action submerged vote '["james", "alice", 0, 0, false]' -p james@active
+cleos push action submerged vote '["bob", "alice", 0, 0, false]' -p james@active
+cleos push action submerged vote '["james", "alice", 0, 0, true]' -p james@active
 cleos push action submerged vote '["david", "alice", 0, 0, false]' -p david@active
 cleos push action submerged vote '["olivia", "alice", 0, 0, false]' -p olivia@active
 cleos push action submerged vote '["andy", "alice", 0, 0, false]' -p andy@active
 
 
-
 // clear stuff for debugging
-
-cleos push action submerged erasesub '["alice", "bob"]' -p alice@active
+cleos push action submerged erasesub '["alice", "james"]' -p alice@active
 cleos push action submerged erasevote '["alice"]' -p alice@active
 cleos push action submerged erasechan '["alice"]' -p alice@active
 cleos push action submerged eraseprojs '["alice"]' -p alice@active
@@ -32,3 +31,4 @@ cleos push action submerged erasecred '[]' -p alice@active
 
 cleos set account permission submerged active '{"threshold": 1,"keys": [{"key": "EOS6N2sW39eCpbWFzQ8uFiYfwKhEKmVqYg6KW5H2JbcMrPM3Y6ncd","weight": 1}], "accounts": [{"permission":{"actor":"submerged","permission":"eosio.code"},"weight":1}]}' -p submerged@owner
 
+cleos set account permission james active '{"threshold": 1,"keys": [{"key": "EOS6N2sW39eCpbWFzQ8uFiYfwKhEKmVqYg6KW5H2JbcMrPM3Y6ncd","weight": 1}], "accounts": [{"permission":{"actor":"submerged","permission":"active"},"weight":1}]}' -p james@owner

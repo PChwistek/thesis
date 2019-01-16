@@ -22,9 +22,10 @@ TABLE channel_sub {
   uint64_t primary_key() const { return key.value; }
 };
 
-TABLE user_sub {
+TABLE user {
   name              key;
   std::vector<sub>  channels_subbed;
+  bool              auto_recur;
   uint64_t primary_key() const { return key.value; }
 };
 
@@ -67,5 +68,5 @@ typedef multi_index<name("channels"), channel> channels_table;
 typedef multi_index<name("csubs"), channel_sub> channel_subs_table;
 typedef multi_index<name("projects"), project> projects_table;
 typedef multi_index<name("polls"), poll> polls_table;
-typedef multi_index<name("usubs"), user_sub> user_subs_table;
+typedef multi_index<name("users"), user> users_table;
 typedef multi_index<name("credit"), credit> credit_table;

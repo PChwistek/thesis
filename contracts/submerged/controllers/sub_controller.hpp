@@ -14,13 +14,18 @@ class sub_controller : public controller {
       name from = transfer_data.from;
       name to = name(transfer_data.memo);
       asset quantity = transfer_data.quantity;
-
       
       if( get_self() != from) {
         bool is_credit = to == name("credit");
+        bool is_recur = to == name("recur");
         if(is_credit) {
           the_credit_controller.deposit_credit(from, quantity);
           print("Credited to account");
+          return;
+        } 
+        
+        if(is_recur) {
+          print("Recurring subscription.... ");
           return;
         }
 
@@ -44,7 +49,7 @@ class sub_controller : public controller {
             row.total_raised = row.total_raised + quantity;
           });
           
-          user_subs_table usubs(get_self(), get_self().value);
+          users_table usubs(get_self(), get_self().value);
           auto usubs_itr = usubs.find(from.value);
 
           sub new_sub = { to.value, quantity };
@@ -62,6 +67,7 @@ class sub_controller : public controller {
 
         } else {
           print("============ Subscription Already EXISTS ===============");
+          /*
           auto the_sub = *subs_itr;
           eosio_assert(block_timestamp(current_time()) < the_sub.valid_until, "Subscription is still valid");
           subs.modify(subs_itr, get_self(), [&](auto& row) {
@@ -69,6 +75,7 @@ class sub_controller : public controller {
             row.quantity_subscribed = quantity;
             row.conditional = true;
           });
+          */
         }
       } else if(get_self() == from) {
         name content_creator = transfer_data.to;
@@ -84,8 +91,13 @@ class sub_controller : public controller {
       /* deduct credit, renew subscription */
     }
 
-    void recur(name subscriber, bool credit) {
-      /* deduct credit, or get permission to send money, update timestamp */ 
+    void recur(name subscriber, asset total) {
+      /* deduct credit, update timestamp */
+
+
+
+
+      the_transax_controller.send_funds_from_user(subscriber, total, "recur");
     }
 
     void credit_subs(name creator) {
@@ -150,7 +162,7 @@ class sub_controller : public controller {
       });
       */
       channel_subs_table subs(get_self(), creator.value);
-      user_subs_table usubs(get_self(), get_self().value);
+      users_table usubs(get_self(), get_self().value);
       auto usubs_itr = usubs.find(subscriber.value);
       auto subs_itr = subs.find(subscriber.value);
       subs.erase(subs_itr);

@@ -36,6 +36,7 @@ CONTRACT submerged : public eosio::contract {
     ACTION creditsubs(name creator);
     ACTION erasecred();
     ACTION erasesub(name creator, name subber);
+    ACTION recur(name user, asset total);
 
     //credit
     ACTION withdraw(name user, asset total);
