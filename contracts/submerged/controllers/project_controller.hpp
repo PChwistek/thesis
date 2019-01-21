@@ -15,13 +15,8 @@ class project_controller: public controller {
       projects_table projects(get_self(), creator.value);
       channel the_channel = the_channel_controller.get_channel(creator.value);
 
-      int currently_active = 0;
-      for(project proj: projects) {
-        if(proj.is_active) {
-          currently_active += 1;
-        }
-        eosio_assert(currently_active < the_channel.num_proj_promised, "already hit current active limit");
-      }
+      int currently_active = get_active_projects(creator);
+      eosio_assert(currently_active < the_channel.num_proj_promised, "already hit limit");
 
       uint32_t deadline = now() + seconds_to_deadline;
       uint32_t delay =  deadline - now();
@@ -82,7 +77,7 @@ class project_controller: public controller {
 
     void fail_project(name creator, uint64_t project_key) {
       project the_project = get_project(creator.value, project_key);
-
+      channel the_channel = the_channel_controller.get_channel(creator.value);
       eosio_assert(the_project.is_active == true, "project is not active");
       eosio_assert(the_project.fulfilled == false, "project has already been fulfilled");
 
@@ -91,14 +86,15 @@ class project_controller: public controller {
       the_project.fulfilled = false;
 
       set_project(creator.value, project_key, the_project);
-      //add stuff about monthly %
-      the_transax_controller.send_self_deferred_action(
+      if(the_channel.num_proj_promised == get_active_projects(creator)) {
+        the_transax_controller.send_self_deferred_action(
           creator, 
           name("creditsubs"), 
           1, 
           std::make_tuple(creator), 
           project_key
         );
+      }
     }
 
     void erase_all_projects(name creator) {
@@ -126,5 +122,14 @@ class project_controller: public controller {
         row.fulfilled = new_project.fulfilled;
         row.time_fulfilled = new_project.time_fulfilled;
       });
+    }
+
+    int get_active_projects(name creator) {
+      projects_table projects(get_self(), creator.value);
+      for(project proj: projects) {
+        if(proj.is_active) {
+          currently_active += 1;
+        }
+      }
     }
 };

@@ -105,28 +105,31 @@ class vote_controller: public controller {
 
         if(the_vote.vote_type == "nps") {
           if(passed) {
-            
+            bool completed_month = the_channel.num_proj_promised == the_channel_controller.get_active_projects(creator);
             print("================== PASSED ======================");
             the_channel.total_proj_fulfilled = (the_channel.total_proj_fulfilled + 1) & 0xFF;
             the_channel_controller.set_channel(creator.value, the_channel);
             the_project.status = "cmplt - pass";
             // if month complete
-            the_transax_controller.send_funds_from_contract(creator, the_channel.total_raised);
-
+            if(completed_month) {
+              the_transax_controller.send_funds_from_contract(creator, the_channel.total_raised);
+            }
           } else {
             the_project.status = "cmplt - fail";
-            // if month complete
-            the_transax_controller.send_self_deferred_action(
-              creator, 
-              name("creditsubs"), 
-              1, 
-              std::make_tuple(creator), 
-              project_key
-            );
+            if(completed_month) {
+              the_transax_controller.send_self_deferred_action(
+                creator, 
+                name("creditsubs"), 
+                1, 
+                std::make_tuple(creator), 
+                project_key
+              );
+            }
           }
         }
         the_project_controller.set_project(creator.value, project_key, the_project);
     }
+
 
     void erase_all_polls(name creator) {
       polls_table polls(get_self(), creator.value);

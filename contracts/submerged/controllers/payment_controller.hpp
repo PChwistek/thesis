@@ -68,7 +68,6 @@ class payment_controller : public controller {
         credit_to_charge = credit_balance;
         the_transax_controller.send_funds_from_user(subscriber, total, "recur");
       }
-      
 
       if(credit_to_charge.amount > 0) {
         the_credit_controller.charge_credit(subscriber, credit_to_charge);
@@ -82,7 +81,7 @@ class payment_controller : public controller {
       require_auth( get_self() );
       channel the_channel = the_channel_controller.get_channel(creator.value);
       eosio_assert(!the_channel.payment_complete, "already completed");
-
+      /* add percentage base allocation */
       channel_subs_table subs(get_self(), creator.value);
       std::vector<uint64_t> subs_to_credit;
       
