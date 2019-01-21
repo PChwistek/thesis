@@ -3,28 +3,29 @@
 TABLE channel {
   name        key;
   string      sub_status;
-  asset       minimum_price;
+  asset       price;
   asset       total_raised;
   bool        month_complete;
   bool        payment_complete;
-  uint8_t     mtotal_proj;
-  uint8_t     mproj_fulfilled;
+  uint8_t     total_proj;
+  uint8_t     total_proj_fulfilled;
+  uint8_t     num_proj_promised;
   uint32_t    num_subs;
   uint64_t primary_key() const { return key.value; }
 };
 
 TABLE channel_sub {
   name              key;
-  asset             quantity_subscribed;
-  block_timestamp   valid_until;
   bool              conditional;
   bool              transfered;
   uint64_t primary_key() const { return key.value; }
 };
 
-TABLE user_sub {
+TABLE user {
   name              key;
   std::vector<sub>  channels_subbed;
+  block_timestamp   valid_until;
+  bool              auto_recur;
   uint64_t primary_key() const { return key.value; }
 };
 
@@ -42,7 +43,7 @@ TABLE project {
   uint64_t primary_key() const { return key; }
 };
 
-TABLE referendum {
+TABLE poll {
   uint64_t                key;
   uint64_t                project_key; 
   string                  vote_type;
@@ -51,6 +52,7 @@ TABLE referendum {
   bool                    voting_active;
   bool                    passed;
   std::vector<uint64_t>   voters;
+  block_timestamp         time_closes; 
   uint64_t primary_key() const { return key; }
 };
 
@@ -60,9 +62,11 @@ TABLE credit {
   uint64_t primary_key() const { return key; }
 };
 
+/* error table? */
+
 typedef multi_index<name("channels"), channel> channels_table;
 typedef multi_index<name("csubs"), channel_sub> channel_subs_table;
 typedef multi_index<name("projects"), project> projects_table;
-typedef multi_index<name("votes"), referendum> campaigns_table;
-typedef multi_index<name("usubs"), user_sub> user_subs_table;
+typedef multi_index<name("polls"), poll> polls_table;
+typedef multi_index<name("users"), user> users_table;
 typedef multi_index<name("credit"), credit> credit_table;
