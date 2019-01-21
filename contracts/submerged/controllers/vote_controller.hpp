@@ -45,9 +45,8 @@ class vote_controller: public controller {
     void apply_for_extension(name creator, uint64_t project_key, uint32_t secs_to_deadline) {
       require_auth(creator);
       channel the_channel = the_channel_controller.get_channel(creator.value);
-
-      projects_table projects(get_self(), creator.value);
-      auto the_project = projects.get(project_key);
+      
+      auto the_project = the_project_controller.get_project(creator.value, project_key);
       eosio_assert(the_project.is_active == true, "project is not active");
       eosio_assert(the_project.fulfilled == false, "project has already been fulfilled"); //make sure project is active
 
@@ -83,7 +82,6 @@ class vote_controller: public controller {
 
         channel the_channel = the_channel_controller.get_channel(creator.value);
 
-
         auto the_vote = *poll_itr;
         uint32_t subscribers = the_channel.num_subs;
         print("Num subs", the_channel.num_subs);
@@ -102,6 +100,8 @@ class vote_controller: public controller {
           row.passed = passed;
           row.voting_active = false;
         }); 
+        
+        project the_project = the_project_controller.get_project(creator.value, project_key);
 
         if(the_vote.vote_type == "nps") {
           if(passed) {
@@ -110,8 +110,10 @@ class vote_controller: public controller {
             the_transax_controller.send_funds_from_contract(creator, the_channel.total_raised);
             the_channel.mproj_fulfilled = (the_channel.mproj_fulfilled + 1) & 0xFF;
             the_channel_controller.set_channel(creator.value, the_channel);
+            the_project.status = "cmplt - pass";
           } else {
             // credit subscribers
+            the_project.status = "cmplt - fail";
             the_transax_controller.send_self_deferred_action(
               creator, 
               name("creditsubs"), 
@@ -121,6 +123,7 @@ class vote_controller: public controller {
             );
           }
         }
+        the_project_controller.set_project(creator.value, project_key, the_project);
     }
 
     void erase_all_polls(name creator) {

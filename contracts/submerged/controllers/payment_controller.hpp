@@ -3,15 +3,19 @@ class payment_controller : public controller {
     transax_controller the_transax_controller;
     credit_controller the_credit_controller;
     channel_controller the_channel_controller;
+    user_controller the_user_controller;
+    sub_controller the_sub_controller;
 
   public:
-    payment_controller(name self, transax_controller a_transax_controller, credit_controller a_credit_controller, channel_controller a_channel_controller): 
+    payment_controller(name self, transax_controller a_transax_controller, credit_controller a_credit_controller, channel_controller a_channel_controller, user_controller a_user_controller, sub_controller a_sub_controller): 
       controller(self), 
       the_transax_controller(a_transax_controller),
       the_channel_controller(a_channel_controller),
-      the_credit_controller(a_credit_controller) {}
+      the_credit_controller(a_credit_controller),
+      the_user_controller(a_user_controller),
+      the_sub_controller(a_sub_controller) {}
 
-    void handle_subscription() {
+    void handle_payment() {
       auto transfer_data = unpack_action_data<st_transfer>();
       name from = transfer_data.from;
       name to = name(transfer_data.memo);
@@ -32,66 +36,45 @@ class payment_controller : public controller {
         }
 
         channel the_channel = the_channel_controller.get_channel(to.value);
-        eosio_assert(quantity.amount >= the_channel.minimum_price.amount, "insufficient funds");
-        eosio_assert(quantity.symbol.code() == the_channel.minimum_price.symbol.code(), "incorrect symbol");
+        eosio_assert(quantity.amount >= the_channel.price.amount, "insufficient funds");
+        eosio_assert(quantity.symbol.code() == the_channel.price.symbol.code(), "incorrect symbol");
+        the_sub_controller.set_sub(the_channel, from, quantity);
 
-        channel_subs_table subs(get_self(), to.value);
-        auto subs_itr = subs.find( from.value );
-        if( subs_itr == subs.end() ) {
-          subs.emplace(get_self(), [&]( auto& row){
-            row.key = from;
-            row.conditional = true;
-            row.quantity_subscribed = quantity;
-          });
-          the_channel.num_subs = the_channel.num_subs + 1;
-          the_channel_controller.set_channel(to.value, the_channel);
-      
-          users_table usubs(get_self(), get_self().value);
-          auto usubs_itr = usubs.find(from.value);
-
-          sub new_sub = { to.value, quantity };
-          
-          if(usubs_itr == usubs.end()) {
-            usubs.emplace(get_self(), [&](auto& row) {
-              row.key = from; 
-              row.channels_subbed.push_back(new_sub);
-            });
-          } else {
-            usubs.modify(usubs_itr, get_self(), [&](auto& row) {
-              row.channels_subbed.push_back(new_sub);
-            });
-          }
-
-        } else {
-          print("============ Subscription Already EXISTS ===============");
-          /*
-          auto the_sub = *subs_itr;
-          eosio_assert(block_timestamp(current_time()) < the_sub.valid_until, "Subscription is still valid");
-          subs.modify(subs_itr, get_self(), [&](auto& row) {
-            // row valid until 
-            row.quantity_subscribed = quantity;
-            row.conditional = true;
-          });
-          */
-        }
       } else if(get_self() == from) {
         name content_creator = transfer_data.to;
         print("============ MONEY LEAVING ===============");
       }
     }
 
-    void unsubscribe(name creator, name subscriber) {
-      /* remove from usubs, don't recur */ 
-    }
+    void recur(name subscriber, bool use_credit) {
 
-    void pay_with_credit(name subscriber, asset total) {
-      /* deduct credit, renew subscription */
-    }
-
-    void recur(name subscriber, asset total) {
       /* deduct credit, update timestamp */
+      user the_user = the_user_controller.get_user(subscriber.value);
+      eosio_assert(the_user.valid_until < block_timestamp(time_point_sec(now())), "subs still active");
+      asset credit_balance = asset(0, symbol("SYS", 4));
+      asset credit_to_charge = credit_balance;
+      if(use_credit) {
+        credit_balance += the_credit_controller.get_credit(subscriber.value).total;
+      }
 
-      the_transax_controller.send_funds_from_user(subscriber, total, "recur");
+      asset total = asset(0, symbol("SYS", 4));
+      for(sub temp_sub: the_user.channels_subbed) {
+        total += temp_sub.quantity; 
+      }
+      if(credit_balance >= total) {
+        credit_to_charge = credit_balance - total;
+      } else {
+        total = total - credit_balance;
+        credit_to_charge = credit_balance;
+        the_transax_controller.send_funds_from_user(subscriber, total, "recur");
+      }
+      
+
+      if(credit_balance.amount > 0) {
+        the_credit_controller.charge_credit(subscriber, credit_to_charge);
+      }
+      
+      the_sub_controller.renew_subscription(subscriber);
     }
 
     void credit_subs(name creator) {
@@ -112,7 +95,7 @@ class payment_controller : public controller {
         }
       }
 
-      the_credit_controller.credit_multiple(subs_to_credit, the_channel.minimum_price);
+      the_credit_controller.credit_multiple(subs_to_credit, the_channel.price);
 
       for(uint64_t key: subs_to_credit) {
         auto sub_itr = subs.find(key);
@@ -134,32 +117,4 @@ class payment_controller : public controller {
         );
       }
     }
-  
-    void erase_sub(name creator, name subscriber) {
-      print("============ Removing ===============");
-
-      /*
-      auto subs_itr = subs.find(subscriber.value);
-      eosio_assert(subs_itr != subs.end(), "Record does not exist");
-      subs.modify(subs_itr, get_self(), [&](auto& row) {
-        row.transfered = true;
-      });
-      
-      channels_table channels(get_self(), get_self().value);
-      auto channel_itr = channels.find(creator.value);
-      channels.modify(channel_itr, get_self(), [&](auto& row) {
-        row.num_subs = row.num_subs - 1;
-      });
-      */
-      channel_subs_table subs(get_self(), creator.value);
-      users_table usubs(get_self(), get_self().value);
-      auto usubs_itr = usubs.find(subscriber.value);
-      auto subs_itr = subs.find(subscriber.value);
-      subs.erase(subs_itr);
-      usubs.erase(usubs_itr);
-
-    }
-
-
-
 };

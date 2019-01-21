@@ -8,7 +8,7 @@ class channel_controller: public controller {
       controller (self),
       the_transax_controller(a_transax_controller) {}
 
-    void open_channel(name creator, asset minimum_price) {
+    void open_channel(name creator, asset price) {
       require_auth( creator );
       channels_table channels(get_self(), get_self().value);
       auto iterator = channels.find(creator.value);
@@ -18,8 +18,8 @@ class channel_controller: public controller {
           row.sub_status = "pending";
           row.month_complete = false;
           row.payment_complete = false;
-          row.minimum_price = minimum_price;
-          row.total_raised = asset(0, minimum_price.symbol);
+          row.price = price;
+          row.total_raised = asset(0, price.symbol);
           row.mtotal_proj = 0;
           row.mproj_fulfilled = 0;
           row.num_subs = 0;
@@ -60,7 +60,7 @@ class channel_controller: public controller {
       eosio_assert(channel_itr != channels.end(), "channel does not exist");
       channels.modify(channel_itr, get_self(), [&]( auto& row ) {
         row.sub_status = new_channel.sub_status;
-        row.minimum_price = new_channel.minimum_price;
+        row.price = new_channel.price;
         row.payment_complete = new_channel.payment_complete;
         row.mtotal_proj = new_channel.mtotal_proj;
         row.mproj_fulfilled = new_channel.mproj_fulfilled;

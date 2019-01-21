@@ -13,9 +13,8 @@ class project_controller: public controller {
       require_auth(creator);
       
       channel the_channel = the_channel_controller.get_channel(creator.value);
-      uint32_t now = current_time();
-      uint32_t deadline = current_time() + seconds_to_deadline;
-      uint32_t delay =  deadline - now;
+      uint32_t deadline = now() + seconds_to_deadline;
+      uint32_t delay =  deadline - now();
       
       projects_table projects(get_self(), creator.value);
       uint64_t project_key = projects.available_primary_key();
@@ -78,7 +77,7 @@ class project_controller: public controller {
       eosio_assert(the_project.is_active == true, "project is not active");
       eosio_assert(the_project.fulfilled == false, "project has already been fulfilled");
 
-      the_project.status = "failed to fulfill on time";
+      the_project.status = "timed out";
       the_project.is_active = false;
       the_project.fulfilled = false;
 
@@ -113,7 +112,6 @@ class project_controller: public controller {
       auto project_itr = projects.find(project_key);
       eosio_assert(project_itr != projects.end(), "project does not exist");
       projects.modify(project_itr, get_self(), [&](auto& row) {
-        row.key = new_project.key;
         row.status = new_project.status;
         row.is_active = new_project.is_active;
         row.fulfilled = new_project.fulfilled;

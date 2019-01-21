@@ -3,7 +3,7 @@
 TABLE channel {
   name        key;
   string      sub_status;
-  asset       minimum_price;
+  asset       price;
   asset       total_raised;
   bool        month_complete;
   bool        payment_complete;
@@ -15,8 +15,6 @@ TABLE channel {
 
 TABLE channel_sub {
   name              key;
-  asset             quantity_subscribed;
-  block_timestamp   valid_until;
   bool              conditional;
   bool              transfered;
   uint64_t primary_key() const { return key.value; }
@@ -25,6 +23,7 @@ TABLE channel_sub {
 TABLE user {
   name              key;
   std::vector<sub>  channels_subbed;
+  block_timestamp   valid_until;
   bool              auto_recur;
   uint64_t primary_key() const { return key.value; }
 };

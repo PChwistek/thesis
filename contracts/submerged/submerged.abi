@@ -19,7 +19,7 @@
                     "type": "uint32"
                 },
                 {
-                    "name": "minimum_price",
+                    "name": "price",
                     "type": "asset"
                 },
                 {
@@ -99,15 +99,6 @@
                     "type": "name"
                 },
                 {
-                    "name": "quantity_subscribed",
-                    "type": "asset"
-                },
-                {
-                    "name": "valid_until",
-                    "type": "block_timestamp_type"
-
-                },
-                {
                     "name": "conditional",
                     "type": "bool"
                 },
@@ -130,7 +121,11 @@
                     "type": "sub[]"
                 },
                 {
-                    "name":"auto_recur",
+                    "name": "valid_until",
+                    "type": "block_timestamp_type"
+                },
+                {
+                    "name": "auto_recur",
                     "type": "bool"
                 }
             ]
@@ -373,8 +368,8 @@
                   "type": "name"
               },
               {
-                  "name": "total",
-                  "type": "asset"
+                  "name": "use_credit",
+                  "type": "bool"
               }
           ]  
         },

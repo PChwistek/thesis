@@ -12,10 +12,11 @@ using std::string;
 #include "helpers/common_structs.hpp"
 #include "tables/tables.hpp"
 #include "controllers/controller.hpp"
-#include "controllers/sub_controller.hpp"
 #include "controllers/transax_controller.hpp"
-#include "controllers/credit_controller.hpp"
 #include "controllers/channel_controller.hpp"
+#include "controllers/user_controller.hpp"
+#include "controllers/sub_controller.hpp"
+#include "controllers/credit_controller.hpp"
 #include "controllers/payment_controller.hpp"
 #include "controllers/project_controller.hpp"
 #include "controllers/vote_controller.hpp"
@@ -26,16 +27,16 @@ ACTION submerged::version() {
 }
 
 ACTION submerged::transfer() {
-  the_payment_controller.handle_subscription();
+  the_payment_controller.handle_payment();
 }
 
-ACTION submerged::recur(name user, asset total) {
+ACTION submerged::recur(name user, bool use_credit) {
   print("Yo, in recur");
-  the_payment_controller.recur(user, total);
+  the_payment_controller.recur(user, use_credit);
 }
 
-ACTION submerged::open(name owner, asset minimum_price) {
-  the_channel_controller.open_channel(owner, minimum_price);
+ACTION submerged::open(name owner, asset price) {
+  the_channel_controller.open_channel(owner, price);
 }
 
 ACTION submerged::initproject(name creator, string projectName, string contentType, uint32_t secondsToDeadline, uint64_t month) {
@@ -78,7 +79,7 @@ ACTION submerged::withdraw(name user, asset total) {
 
 /* FOR DEBUGGING PURPOSES */
 ACTION submerged::erasesub(name creator, name subber) {
-  the_payment_controller.erase_sub(creator, subber);
+  the_sub_controller.erase_sub(creator, subber);
 }
 
 ACTION submerged::erasevote(name creator) {
