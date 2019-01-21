@@ -5,8 +5,7 @@ import { Provider } from 'react-redux'
 import Routes from './features/Routes'
 import { ConnectedRouter } from 'connected-react-router'
 import { history, store } from './store/configureStore'
-import Navigation from './features/Navigation'
-import 'bulma/css/bulma.css'
+import 'semantic-ui-css/semantic.min.css'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faEnvelope, faKey, faPenSquare } from '@fortawesome/free-solid-svg-icons'
 
@@ -16,7 +15,6 @@ ReactDOM.render(
   <Provider store={ store }>
     <ConnectedRouter history={ history }>
       <div>
-        <Navigation />
         <Routes />
       </div>
     </ConnectedRouter>

@@ -1,42 +1,31 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { 
-  Navbar, 
-  NavbarBrand, 
-  NavbarEnd, 
-  NavbarItem 
-} from 'bloomer'
 
-
-
-
-import s from './Header'
+import { Menu } from 'semantic-ui-react'
 
 export default class Header extends Component {
   render() {
     const { login } = this.props
     return (
-      <Navbar className={ s.header }>
-        <NavbarBrand>
-          <NavbarItem>
-            <Link to="/">
-              Thesis
-            </Link>
-          </NavbarItem>
-        </NavbarBrand>
-        <NavbarEnd>
-          <NavbarItem>
+      <Menu secondary>
+        <Menu.Item>
+          <Link to="/">
+            Submerged
+          </Link>
+        </Menu.Item>
+        <Menu.Menu position="right">
+          <Menu.Item>
             <Link to="/get-started">
               Sign Up
             </Link>
-          </NavbarItem>
-          <NavbarItem>
+          </Menu.Item>
+          <Menu.Item>
             <div onClick={ login }>
               Log In
             </div>
-          </NavbarItem>
-        </NavbarEnd>
-      </Navbar>
+          </Menu.Item>
+        </Menu.Menu>
+      </Menu>
     )
   }
 }
