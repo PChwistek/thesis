@@ -54,7 +54,7 @@ class payment_controller : public controller {
       asset credit_balance = asset(0, symbol("SYS", 4));
       asset credit_to_charge = credit_balance;
       if(use_credit) {
-        credit_balance += the_credit_controller.get_credit(subscriber.value).total;
+        credit_balance = the_credit_controller.get_credit(subscriber.value).total;
       }
 
       asset total = asset(0, symbol("SYS", 4));
@@ -70,8 +70,9 @@ class payment_controller : public controller {
       }
       
 
-      if(credit_balance.amount > 0) {
+      if(credit_to_charge.amount > 0) {
         the_credit_controller.charge_credit(subscriber, credit_to_charge);
+        print("charging credit ..");
       }
       
       the_sub_controller.renew_subscription(subscriber);

@@ -35,11 +35,15 @@
                     "type": "bool"
                 },
                 {
-                    "name": "mtotal_proj",
+                    "name": "total_proj",
                     "type": "uint8"
                 },
                 {
-                    "name": "mproj_fulfilled",
+                    "name": "total_proj_fulfilled",
+                    "type": "uint8"
+                },
+                {
+                    "name": "num_proj_fulfilled",
                     "type": "uint8"
                 }
             ]
@@ -337,6 +341,10 @@
                 {
                     "name": "creator",
                     "type": "name"
+                },
+                {
+                    "name": "num_projects",
+                    "type": "uint8"
                 },
                 {
                     "name": "minimum_price",

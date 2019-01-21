@@ -39,8 +39,8 @@ ACTION submerged::recur(name user, bool use_credit) {
   the_payment_controller.recur(user, use_credit);
 }
 
-ACTION submerged::open(name owner, asset price) {
-  the_channel_controller.open_channel(owner, price);
+ACTION submerged::open(name owner, uint8_t num_projects, asset price) {
+  the_channel_controller.open_channel(owner, num_projects, price);
 }
 
 ACTION submerged::initproject(name creator, string projectName, string contentType, uint32_t secondsToDeadline, uint64_t month) {

@@ -31,7 +31,7 @@ CONTRACT submerged : public eosio::contract {
     ACTION version();
 
     //channels
-    ACTION open(name creator, asset price);
+    ACTION open(name creator, uint8_t num_projects, asset price);
     ACTION paychannel(name creator);
     ACTION erasechan(name creator);
 

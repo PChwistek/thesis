@@ -105,15 +105,17 @@ class vote_controller: public controller {
 
         if(the_vote.vote_type == "nps") {
           if(passed) {
-            // if month complete
+            
             print("================== PASSED ======================");
-            the_transax_controller.send_funds_from_contract(creator, the_channel.total_raised);
-            the_channel.mproj_fulfilled = (the_channel.mproj_fulfilled + 1) & 0xFF;
+            the_channel.total_proj_fulfilled = (the_channel.total_proj_fulfilled + 1) & 0xFF;
             the_channel_controller.set_channel(creator.value, the_channel);
             the_project.status = "cmplt - pass";
+            // if month complete
+            the_transax_controller.send_funds_from_contract(creator, the_channel.total_raised);
+
           } else {
-            // credit subscribers
             the_project.status = "cmplt - fail";
+            // if month complete
             the_transax_controller.send_self_deferred_action(
               creator, 
               name("creditsubs"), 

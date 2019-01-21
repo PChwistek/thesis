@@ -8,7 +8,7 @@ class channel_controller: public controller {
       controller (self),
       the_transax_controller(a_transax_controller) {}
 
-    void open_channel(name creator, asset price) {
+    void open_channel(name creator, uint8_t num_projects, asset price) {
       require_auth( creator );
       channels_table channels(get_self(), get_self().value);
       auto iterator = channels.find(creator.value);
@@ -20,8 +20,9 @@ class channel_controller: public controller {
           row.payment_complete = false;
           row.price = price;
           row.total_raised = asset(0, price.symbol);
-          row.mtotal_proj = 0;
-          row.mproj_fulfilled = 0;
+          row.num_proj_promised = num_projects;
+          row.total_proj_fulfilled = 0;
+          row.total_proj = 0;
           row.num_subs = 0;
         });
       } else {
@@ -62,8 +63,9 @@ class channel_controller: public controller {
         row.sub_status = new_channel.sub_status;
         row.price = new_channel.price;
         row.payment_complete = new_channel.payment_complete;
-        row.mtotal_proj = new_channel.mtotal_proj;
-        row.mproj_fulfilled = new_channel.mproj_fulfilled;
+        row.num_proj_promised =  new_channel.num_proj_promised;
+        row.total_proj_fulfilled =  new_channel.num_proj_promised;
+        row.total_proj = new_channel.total_proj;
         row.num_subs = new_channel.num_subs;
       });
     }

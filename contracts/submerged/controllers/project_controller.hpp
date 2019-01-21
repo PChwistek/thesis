@@ -11,12 +11,21 @@ class project_controller: public controller {
 
     void create_project(name creator, string project_name, string content_type, uint32_t seconds_to_deadline, uint64_t month) {
       require_auth(creator);
-      
+
+      projects_table projects(get_self(), creator.value);
       channel the_channel = the_channel_controller.get_channel(creator.value);
+
+      int currently_active = 0;
+      for(project proj: projects) {
+        if(proj.is_active) {
+          currently_active += 1;
+        }
+        eosio_assert(currently_active < the_channel.num_proj_promised, "already hit current active limit");
+      }
+
       uint32_t deadline = now() + seconds_to_deadline;
       uint32_t delay =  deadline - now();
       
-      projects_table projects(get_self(), creator.value);
       uint64_t project_key = projects.available_primary_key();
       
       the_transax_controller.send_self_deferred_action(creator, name("fail"), delay, std::make_tuple(creator, project_key), project_key);
@@ -31,7 +40,7 @@ class project_controller: public controller {
         row.time_due = block_timestamp(time_point_sec(deadline));
         row.month = month;
       });
-      the_channel.mtotal_proj = (the_channel.mtotal_proj + 1) & 0xFF;
+      the_channel.total_proj = (the_channel.total_proj + 1) & 0xFF;
       the_channel_controller.set_channel(creator.value, the_channel);
      
     }
@@ -82,7 +91,7 @@ class project_controller: public controller {
       the_project.fulfilled = false;
 
       set_project(creator.value, project_key, the_project);
-
+      //add stuff about monthly %
       the_transax_controller.send_self_deferred_action(
           creator, 
           name("creditsubs"), 

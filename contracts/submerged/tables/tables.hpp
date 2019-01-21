@@ -7,8 +7,9 @@ TABLE channel {
   asset       total_raised;
   bool        month_complete;
   bool        payment_complete;
-  uint8_t     mtotal_proj;
-  uint8_t     mproj_fulfilled;
+  uint8_t     total_proj;
+  uint8_t     total_proj_fulfilled;
+  uint8_t     num_proj_promised;
   uint32_t    num_subs;
   uint64_t primary_key() const { return key.value; }
 };

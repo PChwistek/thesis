@@ -1,4 +1,4 @@
-cleos push action submerged2 open '["alice", "1.0000 SYS"]' -p alice@active
+cleos push action submerged2 open '["alice", 2, "1.0000 SYS"]' -p alice@active
 cleos push action eosio.token transfer '["james", "submerged2", "1.0000 SYS", "alice"]' -p james@active
 cleos push action eosio.token transfer '["olivia", "submerged", "1.0000 SYS", "alice"]' -p olivia@active
 cleos push action eosio.token transfer '["david", "submerged", "1.0000 SYS", "alice"]' -p david@active
