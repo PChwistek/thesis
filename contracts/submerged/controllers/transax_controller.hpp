@@ -14,6 +14,10 @@ class transax_controller: public controller {
       send_money(get_self(), receiver, total, "submerged");
     }
 
+    void send_funds_from_user(name user, asset total, string memo) {
+      send_money(user, name("submerged"), total, memo);
+    }
+
     void withdraw(name user) {
       require_auth( user );
     }

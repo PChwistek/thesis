@@ -19,7 +19,7 @@
                     "type": "uint32"
                 },
                 {
-                    "name": "minimum_price",
+                    "name": "price",
                     "type": "asset"
                 },
                 {
@@ -35,11 +35,15 @@
                     "type": "bool"
                 },
                 {
-                    "name": "mtotal_proj",
+                    "name": "total_proj",
                     "type": "uint8"
                 },
                 {
-                    "name": "mproj_fulfilled",
+                    "name": "total_proj_fulfilled",
+                    "type": "uint8"
+                },
+                {
+                    "name": "num_proj_fulfilled",
                     "type": "uint8"
                 }
             ]
@@ -99,15 +103,6 @@
                     "type": "name"
                 },
                 {
-                    "name": "quantity_subscribed",
-                    "type": "asset"
-                },
-                {
-                    "name": "valid_until",
-                    "type": "block_timestamp_type"
-
-                },
-                {
                     "name": "conditional",
                     "type": "bool"
                 },
@@ -118,7 +113,7 @@
             ]
         },
         {
-            "name": "user_sub",
+            "name": "user",
             "base": "",
             "fields": [
                 {
@@ -128,6 +123,14 @@
                 {
                     "name": "channels_subbed",
                     "type": "sub[]"
+                },
+                {
+                    "name": "valid_until",
+                    "type": "block_timestamp_type"
+                },
+                {
+                    "name": "auto_recur",
+                    "type": "bool"
                 }
             ]
         },
@@ -146,7 +149,7 @@
             ]
         },
         {
-            "name": "referendum",
+            "name": "poll",
             "base": "",
             "fields": [
                 {
@@ -180,6 +183,10 @@
                 {
                     "name": "voters",
                     "type": "uint64[]"
+                },
+                {
+                    "name": "time_closes",
+                    "type": "block_timestamp_type"
                 }
             ]
         },
@@ -336,6 +343,10 @@
                     "type": "name"
                 },
                 {
+                    "name": "num_projects",
+                    "type": "uint8"
+                },
+                {
                     "name": "minimum_price",
                     "type": "asset"
                 }
@@ -355,6 +366,34 @@
             "name": "transfer",
             "base": "",
             "fields": []
+        },
+        {
+          "name": "recur",
+          "base": "",
+          "fields": [
+              {
+                  "name": "user",
+                  "type": "name"
+              },
+              {
+                  "name": "use_credit",
+                  "type": "bool"
+              }
+          ]  
+        },
+        {
+            "name": "unsub",
+            "base": "",
+            "fields": [
+                {
+                    "name": "creator",
+                    "type": "name"
+                },
+                {
+                    "name": "subscriber",
+                    "type": "name"
+                }
+            ]
         },
         {
             "name": "version",
@@ -489,6 +528,11 @@
             "ricardian_contract": ""
         },
         {
+            "name": "recur",
+            "type": "recur",
+            "ricardian_contract": ""
+        },
+        {
             "name": "version",
             "type": "version",
             "ricardian_contract": ""
@@ -497,7 +541,12 @@
             "name": "erasecred",
             "type": "erasecred",
             "ricardian_contract": ""
-        }
+        },
+        {
+            "name": "unsub",
+            "type": "unsub",
+            "ricardian_contract": ""
+        },
         {
             "name": "vote",
             "type": "vote",
@@ -539,15 +588,15 @@
             "key_types": []
         },
         {
-            "name": "usubs",
-            "type": "user_sub",
+            "name": "users",
+            "type": "user",
             "index_type": "i64",
             "key_names": [],
             "key_types": []
         },
         {
-            "name": "votes",
-            "type": "referendum",
+            "name": "polls",
+            "type": "poll",
             "index_type": "i64",
             "key_names": [],
             "key_types": []
