@@ -14,27 +14,16 @@ class sub_controller: public controller {
     void set_sub(channel the_channel, name subscriber, asset quantity) {
         channel_subs_table subs(get_self(), the_channel.key.value);
         auto subs_itr = subs.find( subscriber.value );
-        if( subs_itr == subs.end() ) {
-          subs.emplace(get_self(), [&]( auto& row){
-            row.key = subscriber;
-            row.conditional = true;
-          });
-          the_channel.num_subs = the_channel.num_subs + 1;
-          the_channel_controller.set_channel(the_channel.key.value, the_channel);
-          the_user_controller.add_user_sub(the_channel.key, subscriber, quantity);
-          
-      } else {
-          print("============ Subscription Already EXISTS ===============");
-          /*
-          auto the_sub = *usubs_itr;
-          eosio_assert(block_timestamp(current_time()) < the_sub.valid_until, "Subscription is still valid");
-          subs.modify(subs_itr, get_self(), [&](auto& row) {
-            // row valid until 
-            row.quantity_subscribed = quantity;
-            row.conditional = true;
-          });
-          */
-        }
+        eosio_assert(subs_itr == subs.end(), "Subscription already exists");
+
+        subs.emplace(get_self(), [&]( auto& row){
+          row.key = subscriber;
+          row.conditional = true;
+        });
+        the_channel.num_subs = the_channel.num_subs + 1;
+        the_channel_controller.set_channel(the_channel.key.value, the_channel);
+        the_user_controller.add_user_sub(the_channel.key, subscriber, quantity);
+      
     }
 
     void renew_subscription(name user) {
@@ -42,7 +31,13 @@ class sub_controller: public controller {
     }
 
     void unsubscribe(name creator, name subscriber) {
-      
+      require_auth( subscriber );
+      channel the_channel = the_channel_controller.get_channel(creator.value);
+      channel_subs_table subs(get_self(), the_channel.key.value);
+      auto subs_itr = subs.find( subscriber.value );
+      eosio_assert(subs_itr != subs.end(), "not subscribed");
+      subs.erase(subs_itr);
+      the_user_controller.remove_user_sub(creator, subscriber);
     }
 
     void erase_sub(name creator, name subber) {

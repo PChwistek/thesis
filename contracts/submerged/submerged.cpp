@@ -30,6 +30,10 @@ ACTION submerged::transfer() {
   the_payment_controller.handle_payment();
 }
 
+ACTION submerged::unsub(name creator, name subscriber) {
+  the_sub_controller.unsubscribe(creator, subscriber);
+}
+
 ACTION submerged::recur(name user, bool use_credit) {
   print("Yo, in recur");
   the_payment_controller.recur(user, use_credit);
@@ -134,5 +138,6 @@ EOSIO_DISPATCH_CUSTOM( submerged,
   (erasecred)
   (paychannel)
   (creditsubs)
+  (unsub)
   (withdraw)
 )

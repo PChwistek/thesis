@@ -374,6 +374,20 @@
           ]  
         },
         {
+            "name": "unsub",
+            "base": "",
+            "fields": [
+                {
+                    "name": "creator",
+                    "type": "name"
+                },
+                {
+                    "name": "subscriber",
+                    "type": "name"
+                }
+            ]
+        },
+        {
             "name": "version",
             "base": "",
             "fields": []
@@ -518,6 +532,11 @@
         {
             "name": "erasecred",
             "type": "erasecred",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "unsub",
+            "type": "unsub",
             "ricardian_contract": ""
         },
         {
