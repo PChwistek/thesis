@@ -19,7 +19,7 @@ export default class Routes extends Component {
         <Route path="/dashboard" component={ Dashboard } />
         <Route path="/channels" component={ Channels } />
         <Route path="/channel" component={ UserChannel } />
-        <Route path="/profile" component={ Profile } />
+        <Route path="/account" component={ Profile } />
         <Route render={ () => (<div>404</div>) } />
       </Switch>
     )

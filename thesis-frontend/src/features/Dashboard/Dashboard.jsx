@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { Grid, Segment } from 'semantic-ui-react'
 import AuthedApp from '../../components/AuthedApp'
 import PersonalSummary from './PersonalSummary'
+import PostForm from '../PostForm'
+import DashboardFeed from './DashboardFeed'
 import './Dashboard.scss'
 
 class Dashboard extends Component {
@@ -43,7 +45,12 @@ class Dashboard extends Component {
             <PersonalSummary />
           </Grid.Column>
           <Grid.Column width={ 8 }>
-            <Segment>2</Segment>
+            <Segment>
+              <PostForm />
+            </Segment>
+            <Segment>
+              <DashboardFeed />
+            </Segment>
           </Grid.Column>
           <Grid.Column>
             <Segment>

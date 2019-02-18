@@ -32,8 +32,8 @@ export default class HeaderAuthed extends Component {
             </Link>
           </Menu.Item>
           <Menu.Item>
-            <Link to="/profile">
-              Your Profile
+            <Link to="/account">
+              Account
             </Link>
           </Menu.Item>
           <Menu.Item onClick={ logout }>
