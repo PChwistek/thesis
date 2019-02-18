@@ -3,7 +3,7 @@ import { Route, Switch } from 'react-router-dom'
 import Landing from '../Landing'
 import GetStarted from '../Auth/GetStarted'
 import Dashboard from '../Dashboard'
-import PrivateRoute from './PrivateRoute'
+/* import PrivateRoute from './PrivateRoute' */
 
 
 
@@ -13,7 +13,7 @@ export default class Routes extends Component {
       <Switch>
         <Route exact path="/" component={ Landing } />
         <Route path="/get-started" component={ GetStarted } />
-        <PrivateRoute path="/dashboard" component={ Dashboard } />
+        <Route path="/dashboard" component={ Dashboard } />
         <Route render={ () => (<div>404</div>) } />
       </Switch>
     )

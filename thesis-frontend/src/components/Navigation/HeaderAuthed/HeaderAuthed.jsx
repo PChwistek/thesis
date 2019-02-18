@@ -1,49 +1,48 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { 
-  Navbar, 
-  NavbarBrand, 
-  NavbarEnd, 
-  NavbarItem 
-} from 'bloomer'
+import { Menu } from 'semantic-ui-react'
 
-import s from './HeaderAuthed.scss'
+//import s from './HeaderAuthed.scss'
 
 export default class HeaderAuthed extends Component {
   render() {
     const { logout } = this.props
     return (
-      <Navbar className={ s.header }>
-        <NavbarBrand>
-          <NavbarItem>
-            <Link to="/">
-              Thesis
-            </Link>
-          </NavbarItem>
-        </NavbarBrand>
-        <NavbarEnd>
-          <NavbarItem>
+      <Menu secondary>
+        <Menu.Item>
+          <Link to="/">
+            Submerged
+          </Link>
+        </Menu.Item>
+        <Menu.Menu position="right">
+          <Menu.Item>
             <Link to="/dashboard">
               Dashboard
             </Link>
-          </NavbarItem>
-          <NavbarItem>
-            <Link to="/get-started">
-              Your Subscriptions
+          </Menu.Item>
+         
+          <Menu.Item>
+            <Link to="/dashboard">
+              Channels
             </Link>
-          </NavbarItem>
-          <NavbarItem>
-            <Link to="/">
+          </Menu.Item>
+          <Menu.Item>
+            <Link to="/dashboard">
+              Your Channel
+            </Link>
+          </Menu.Item>
+          <Menu.Item>
+            <Link to="/dashboard">
               Your Profile
             </Link>
-          </NavbarItem>
-          <NavbarItem onClick={ logout }>
+          </Menu.Item>
+          <Menu.Item onClick={ logout }>
             <Link to="/">
               Logout
             </Link>
-          </NavbarItem>
-        </NavbarEnd>
-      </Navbar>
+          </Menu.Item>
+        </Menu.Menu>
+      </Menu>
     )
   }
 }

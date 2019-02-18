@@ -3,11 +3,14 @@ import AccountCreationTile from './AccountCreationTile'
 import CreateAccountTiles from './CreateAccountTiles'
 import { 
   Button, 
-  Container, 
   Hero,
   HeroBody,
-  Title,
 } from 'bloomer'
+
+import { 
+  Container,
+  Header 
+} from 'semantic-ui-react'
 
 class GetStarted extends Component {
 
@@ -24,16 +27,16 @@ class GetStarted extends Component {
     const { identity, available, activeIndex, setScatterAccount, getStartedNext } = this.props
     if(activeIndex === 0) {
       return (
-        <div>
-          <Hero isColor='info' isSize='medium' isFullHeight>
-            <HeroBody>
-              <Container hasTextAlign='centered'>
-                <Title> Create an Account</Title>
+        <Container>
+          <div>
+            <div>
+              <div>
+                <Header as="h2"> Create an Account</Header>
                 <CreateAccountTiles getStartedNext={ getStartedNext } />
-              </Container>
-            </HeroBody>
-          </Hero>
-        </div>
+              </div>
+            </div>
+          </div>
+        </Container>
       )
     } else if (activeIndex === 1){
       available && !identity && setScatterAccount()

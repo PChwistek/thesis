@@ -1,9 +1,6 @@
 /* eslint-disable */
 import React, { Component } from 'react'
-import {
-  Tile,
-  Box,
-} from 'bloomer'
+import { Button, Divider, Grid, Header, Icon, Search, Segment } from 'semantic-ui-react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import cn from 'classnames'
 
@@ -14,34 +11,30 @@ class CreateAccountTiles extends Component {
 
   render() {
     const { getStartedNext } = this.props
+
     return (
-      <Tile isAncestor style={ { justifyContent: 'center' } }>
-        <Tile isSize={ 4 } isParent className={ 'clickable' } onClick={ getStartedNext }>
-          <Tile isChild render={
-            props => (
-              <Box { ...props } >
-                <div>
-                  <img
-                    src={ imgScatter }
-                    alt={ 'Scatter Icon' }
-                    className={ 'scatter-image' }
-                  />
-                </div>
-                <div className={ 'tile-text' }> I have Scatter installed </div>
-              </Box>
-            )
-          } />
-        </Tile>
-        <Tile isSize={ 4 } isParent className={ 'clickable' }>
-          <Tile isChild className={ 'tile-box' } render={
-            props => (
-              <Box {...props} >
-                <div className={ 'tile-text' }> I don't have Scatter installed <br /> Coming soon... </div>
-              </Box>
-            )
-          } />
-        </Tile>
-      </Tile>
+      <Segment placeholder>
+      <Grid columns={2} stackable textAlign='center'>
+        <Divider vertical>Or</Divider>
+        <Grid.Row verticalAlign='middle'>
+          <Grid.Column>
+            <Header icon>
+              I have ScatterJS installed
+              <br /> 
+              <img src={ imgScatter} /> 
+            </Header>
+            <Button primary onClick={ getStartedNext }>Continue</Button>
+          </Grid.Column>
+          <Grid.Column>
+            <Header icon>
+              I don't have ScatterJS installed
+              (coming soon)
+            </Header>
+            <Button primary disabled>Create</Button>
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
+      </Segment>
     )
   }
 }

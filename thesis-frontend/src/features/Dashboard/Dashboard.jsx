@@ -1,18 +1,8 @@
 import React, { Component } from 'react'
-import { values } from 'lodash'
+import { Container, Grid, Segment } from 'semantic-ui-react'
+import Navigation from '../../components/Navigation/HeaderAuthed'
+import PersonalSummary from './PersonalSummary'
 import './Dashboard.scss'
-import {
-  Button,
-  Column,
-  Columns,
-  Container,
-  Control,
-  Field,
-  Hero,
-  Input,
-  Label,
-  Notification,
-} from 'bloomer'
 
 class Dashboard extends Component {
   componentDidUpdate() {
@@ -45,46 +35,24 @@ class Dashboard extends Component {
   }
 
   render() {
-    const { stores, subscribe } = this.props
+    // const { stores, subscribe } = this.props
     return (
-      <Hero isColor='info' isSize='medium' isFullHeight>
-        <Container hasTextAlign='centered'>
-          <Columns isCentered className={ 'dashboard-columns' }>
-            <Column isSize='1/3'>
-              <Notification isColor='white' hasTextAlign='centered'> 
-                Open your own store?  
-                <div className={ 'break' }/>
-                <Field>
-                  <Label> Minimum subscription price </Label>
-                  <Control>
-                    <Input type="text" placeholder='1.0000 SYS' />
-                  </Control>
-                </Field>
-                <Button isColor='primary' onClick={ this.openStore }>Open</Button>
-              </Notification>
-            </Column>
-            <Column isSize='2/3'>
-              <Notification isColor='white' hasTextAlign='centered'> 
-                Content Creators
-                <div className={ 'break' }/>
-                <div className={ 'clickable' }>
-                  { 
-                    values(stores).map(store => (
-                      <div key={ store.key } onClick={ () => subscribe(store.key, store.minimum_price) }>
-                        { store.key + ', ' }
-                        
-                        { store.minimum_price }
-                      </div>
-                    )) 
-                  }
-                </div> 
-                <div className={ 'break' } />
-                <Button isColor='primary' onClick={ this.sayHello }> Say Hello </Button> 
-              </Notification>
-            </Column>
-          </Columns>
-        </Container>
-      </Hero>
+      <Container>
+        <Navigation />
+        <Grid columns="equal">
+          <Grid.Column>
+            <PersonalSummary />
+          </Grid.Column>
+          <Grid.Column width={ 8 }>
+            <Segment>2</Segment>
+          </Grid.Column>
+          <Grid.Column>
+            <Segment>
+              Subscriptions
+            </Segment>
+          </Grid.Column>
+        </Grid>
+      </Container>
     )
   }
 }
