@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { Container, Grid, Segment } from 'semantic-ui-react'
-import Navigation from '../../components/Navigation/HeaderAuthed'
+import { Grid, Segment } from 'semantic-ui-react'
+import AuthedApp from '../../components/AuthedApp'
 import PersonalSummary from './PersonalSummary'
 import './Dashboard.scss'
 
@@ -37,8 +37,7 @@ class Dashboard extends Component {
   render() {
     // const { stores, subscribe } = this.props
     return (
-      <Container>
-        <Navigation />
+      <AuthedApp>
         <Grid columns="equal">
           <Grid.Column>
             <PersonalSummary />
@@ -52,7 +51,7 @@ class Dashboard extends Component {
             </Segment>
           </Grid.Column>
         </Grid>
-      </Container>
+      </AuthedApp>
     )
   }
 }

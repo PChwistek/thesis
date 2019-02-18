@@ -22,17 +22,17 @@ export default class HeaderAuthed extends Component {
           </Menu.Item>
          
           <Menu.Item>
-            <Link to="/dashboard">
+            <Link to="/channels">
               Channels
             </Link>
           </Menu.Item>
           <Menu.Item>
-            <Link to="/dashboard">
+            <Link to="/channel">
               Your Channel
             </Link>
           </Menu.Item>
           <Menu.Item>
-            <Link to="/dashboard">
+            <Link to="/profile">
               Your Profile
             </Link>
           </Menu.Item>
