@@ -1,37 +1,28 @@
 import React, { Component } from 'react'
-import {
-  Box,
-  Tile,
-} from 'bloomer'
-import cn from 'classnames'
+import { Container } from 'semantic-ui-react'
+
 import AccountCreationForm from './AccountCreationForm'
+
 
 
 class AccountCreationTile extends Component {
   render() {
     const { getStartedBack, available, identity } = this.props
     return (
-      <div>
-        <Tile isAncestor style={ { justifyContent: 'center' } }>
-          <Tile isSize={ 8 } isParent className={ cn('clickable') }>
-            <Tile isChild render={
-              props => (
-                <Box { ...props } >
-                  {
-                    !available && !identity
-                      ? <div>
-                        Scatter not unlocked. Please unlock scatter and refresh the page. 
-                      </div>
-                      : <AccountCreationForm { ...this.props }/>
-                  }
-                </Box>
-              )
-            } 
-            />
-          </Tile>
-        </Tile>
+      <Container 
+        style={ {
+          marginTop: '3em'
+        } } 
+      >
+        {
+          !available && !identity
+            ? <div>
+              Scatter not unlocked. Please unlock scatter and refresh the page. 
+            </div>
+            : <AccountCreationForm { ...this.props }/>
+        }
         <div onClick={ getStartedBack } className={ 'clickable' }> Back </div>
-      </div>
+      </Container>
     )
   }
 }

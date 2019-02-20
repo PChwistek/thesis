@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Field, reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
 import { get } from 'lodash'
-import { Button } from 'bloomer'
+import { Button, Form } from 'semantic-ui-react'
 
 import './AccountCreationTile.scss'
 
@@ -15,7 +15,7 @@ class AccountCreationForm extends Component {
   render() {
     const { identity } = this.props
     return (
-      <form>
+      <Form>
         <div>
           {
             identity && 
@@ -24,42 +24,38 @@ class AccountCreationForm extends Component {
               { identity.publicKey }
             </div>
           }
-          <label>First Name</label>
-          <div>
+          <Form.Field>
+            <label>First Name</label>
             <Field
               name="firstname"
               component="input"
               type="text"
               placeholder="First Name"
             />
-          </div>
+          </Form.Field>
         </div>
-        <div>
+        <Form.Field>
           <label>Last Name</label>
-          <div>
-            <Field
-              name="lastname"
-              component="input"
-              type="text"
-              placeholder="Last Name"
-            />
-          </div>
-        </div>
-        <div>
+          <Field
+            name="lastname"
+            component="input"
+            type="text"
+            placeholder="Last Name"
+          />
+        </Form.Field>
+        <Form.Field>
           <label>Email</label>
-          <div>
-            <Field
-              name="email"
-              component="input"
-              type="text"
-              placeholder="Email"
-            />
-          </div>
-        </div>
+          <Field
+            name="email"
+            component="input"
+            type="text"
+            placeholder="Email"
+          />
+        </Form.Field>
         <div className={ 'continue-button' }>
           <Button isColor='info' isOutlined onClick={ this.handleClick }> Continue </Button>
         </div>
-      </form>
+      </Form>
     )
   }
 }
