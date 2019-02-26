@@ -41,7 +41,7 @@ class GetStarted extends Component {
       available && !identity && setScatterAccount()
       return (
         <div>
-          <Container hasTextAlign='centered'>
+          <Container>
             <AccountCreationTile 
               isScatter 
               { ...this.props }
@@ -51,14 +51,12 @@ class GetStarted extends Component {
       )
     }
     return (
-      <div>
-        <Container>
-          <div> You're all set! </div>
-          <div className={ 'continue-button' }>
-            <Button onClick={ this.handleEnter }> Enter! </Button>
-          </div>         
-        </Container>
-      </div>      
+      <Container>
+        <div> You're all set! </div>
+        <div className={ 'continue-button' }>
+          <Button onClick={ this.handleEnter }> Enter! </Button>
+        </div>         
+      </Container>
     )
   }
 }

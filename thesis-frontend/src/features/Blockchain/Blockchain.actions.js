@@ -17,14 +17,15 @@ export const sayHello = () => (dispatch, getState) => {
 
 }
 
-export const openStore = minimumPrice => (dispatch, getState) => {
+export const openChannel = minimumPrice => (dispatch, getState) => {
   const store = getState()
   const scatter = store.scatter.ref
   const account = store.scatter.identity.accounts[0]
   const rpc = new JsonRpc(endpoint)
   const api = scatter.eos(network, Api, { rpc })
+  console.log('ACCOUNT', account)
   dispatch({ type: 'BLOCKCHAIN/OPEN_STORE_PENDING' })
-  return transaction(api, 'submanager', 'openstore', account, { owner: account.name, minimum_price: `${minimumPrice} SYS`})
+  return transaction(api, 'submerged', 'open', account, { creator: account.name, minimum_price: `${minimumPrice} SYS`})
     .then(
       response => dispatch({ type: 'BLOCKCHAIN/OPEN_STORE_FULFILLED', payload: response, }),
       error => dispatch({ type: 'BLOCKCHAIN/OPEN_STORE_REJECTED', payload: error, }),

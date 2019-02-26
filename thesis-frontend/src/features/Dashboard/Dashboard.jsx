@@ -37,7 +37,7 @@ class Dashboard extends Component {
   }
 
   render() {
-    // const { stores, subscribe } = this.props
+    const { account } = this.props
     return (
       <AuthedApp>
         <Grid columns="equal">
@@ -46,7 +46,7 @@ class Dashboard extends Component {
           </Grid.Column>
           <Grid.Column width={ 8 }>
             <Segment>
-              <PostForm />
+              <PostForm hasChannel={ account.hasChannel } />
             </Segment>
             <Segment>
               <DashboardFeed />

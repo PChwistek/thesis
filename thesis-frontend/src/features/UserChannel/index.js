@@ -1,1 +1,1 @@
-export { default } from './UserChannel'
+export { default } from './UserChannel.container'

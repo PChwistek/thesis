@@ -4,10 +4,12 @@ import scatter  from './features/Scatter/Scatter.reducer'
 import subscribe from './features/Subscribe/Subscribe.reducer'
 import auth from './features/Auth/Auth.reducer'
 import blockchain from './features/Blockchain/Blockchain.reducer'
+import account from './features/Account/Account.reducer'
 import market from './features/Market/Market.reducer'
 
 export default combineReducers({
   auth,
+  account,
   scatter,
   subscribe,
   blockchain,

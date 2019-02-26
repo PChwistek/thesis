@@ -1,12 +1,15 @@
 import { connect } from 'react-redux'
+import { get } from 'lodash'
 import { getStores } from '../Market/Market.actions'
 import { authCompleted } from '../Auth/Auth.actions'
-import { openStore, sayHello, subscribe } from '../Blockchain/Blockchain.actions'
+import { sayHello, subscribe } from '../Blockchain/Blockchain.actions'
 import { setScatter, setScatterAccount } from '../Scatter/Scatter.actions'
 import Dashboard from './Dashboard'
 
-const stateToProps = ({ market, scatter }) => ({
+const stateToProps = ({ account, market, scatter, form }) => ({
+  account,
   stores: market.stores,
+  post: get(form, 'post'),
   isScatterSet: !!scatter.ref,
   isScatterAccount: !!scatter.account,
 })
@@ -18,7 +21,6 @@ const dispatchToProps = {
   setScatterAccount,
   sayHello,
   subscribe,
-  openStore,
 }
 
 export default connect(stateToProps, dispatchToProps)(Dashboard)

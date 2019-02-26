@@ -7,12 +7,12 @@ import { endpoint } from '../../api/scatterConfig'
 export const getStores = () => dispatch=> {
   const rpc = new JsonRpc(endpoint)
   rpc.get_table_rows({
-    code: 'submanager',
-    scope: 'submanager',
-    table: 'stores',
+    code: 'submerged',
+    scope: 'submerged',
+    table: 'channels',
     json: true
   }).then(res => dispatch({
-    type: 'MARKET/GET_STORES',
+    type: 'CHANNELS/GET_CHANNELS',
     payload: res,
   }))
 }
