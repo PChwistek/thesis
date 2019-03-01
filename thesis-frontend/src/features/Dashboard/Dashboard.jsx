@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Grid, Segment } from 'semantic-ui-react'
 import AuthedApp from '../../components/AuthedApp'
-import PersonalSummary from './PersonalSummary'
+import PersonalSummary from '../PersonalSummary'
 import PostForm from '../PostForm'
 import DashboardFeed from './DashboardFeed'
 import './Dashboard.scss'
@@ -31,9 +31,9 @@ class Dashboard extends Component {
   }
 
   componentDidMount() {
-    const { authCompleted, getStores } = this.props
+    const { authCompleted, getSubscribers } = this.props
     authCompleted()
-    getStores()
+    getSubscribers()
   }
 
   render() {

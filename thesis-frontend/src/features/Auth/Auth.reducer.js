@@ -5,6 +5,12 @@ const initialState = {
   completed: false,
   method: 'scatter',
   authenticated: null,
+  account: '',
+  first: '',
+  last: '',
+  email: '',
+  username: '',
+  bio: '',
   token: '',
 }
 
@@ -26,6 +32,11 @@ export default function auth (state = initialState, action) {
         .assoc('completed', true)
         .assoc('authenticated', true)
         .assoc('token', action.payload.token)
+        .assoc('first', action.payload.first)
+        .assoc('last', action.payload.last)
+        .assoc('email', action.payload.email)
+        .assoc('username', action.payload.username)
+        .assoc('account', action.payload.account)
         .value()
     case 'AUTH/LOGIN_WITH_SCATTER_FULFILLED':
       return i.assoc(state, 'token', action.payload.token)

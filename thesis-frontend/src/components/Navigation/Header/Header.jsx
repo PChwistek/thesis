@@ -5,7 +5,7 @@ import { Menu } from 'semantic-ui-react'
 
 export default class Header extends Component {
   render() {
-    const { login } = this.props
+    const { login, onboarding } = this.props
     return (
       <Menu secondary>
         <Menu.Item>
@@ -13,18 +13,22 @@ export default class Header extends Component {
             Submerged
           </Link>
         </Menu.Item>
-        <Menu.Menu position="right">
-          <Menu.Item>
-            <Link to="/get-started">
-              Sign Up
-            </Link>
-          </Menu.Item>
-          <Menu.Item>
-            <div onClick={ login }>
-              Log In
-            </div>
-          </Menu.Item>
-        </Menu.Menu>
+        {
+          !onboarding && (
+          <Menu.Menu position="right">
+            <Menu.Item>
+              <Link to="/get-started">
+                Sign Up
+              </Link>
+            </Menu.Item>
+            <Menu.Item>
+              <div onClick={ login }>
+                Log In
+              </div>
+            </Menu.Item>
+          </Menu.Menu>
+        )
+        }
       </Menu>
     )
   }

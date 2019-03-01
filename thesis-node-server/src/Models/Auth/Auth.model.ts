@@ -7,6 +7,7 @@ export interface IScatterAccountReqBody {
   username: string,
   first: string,
   last: string,
+  account: string,
 }
 
 export interface IGetScatterAccountReqBody {
@@ -40,6 +41,10 @@ export class ScatterAccountReqBody implements IScatterAccountReqBody {
   @IsString()
   @Length(1, 30)
   last: string
+
+  @IsString()
+  @Length(1, 12)
+  account: string
 
   constructor(data: IScatterAccountReqBody) {
       Object.assign(this, data)

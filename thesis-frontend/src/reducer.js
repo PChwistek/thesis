@@ -5,7 +5,7 @@ import subscribe from './features/Subscribe/Subscribe.reducer'
 import auth from './features/Auth/Auth.reducer'
 import blockchain from './features/Blockchain/Blockchain.reducer'
 import account from './features/Account/Account.reducer'
-import market from './features/Market/Market.reducer'
+import rpc from './features/RPC/RPC.reducer'
 
 export default combineReducers({
   auth,
@@ -13,6 +13,6 @@ export default combineReducers({
   scatter,
   subscribe,
   blockchain,
-  market,
+  rpc,
   form,
 })

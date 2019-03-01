@@ -14,7 +14,7 @@ export class AuthService {
   }
 
   createScatterAccount(body: ScatterAccountReqBody): any {
-    const { hash, username, first, last, email } = body
+    const { hash, username, first, last, email, account } = body
     const user: IJwtPayloadScatter = { publicKey: body.publicKey }
     const token = this.jwtService.sign(user)
     const toFile = {
@@ -26,12 +26,18 @@ export class AuthService {
         first,
         last,
         email,
+        account,
         token,
       },
     }
     this.userService.saveScatterAccount(toFile)
     return {
+      username,
+      first,
+      last,
+      email,
       token,
+      account,
     }
   }
 

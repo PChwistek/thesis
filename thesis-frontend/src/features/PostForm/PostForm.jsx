@@ -20,6 +20,14 @@ class PostForm extends Component {
           Extra details...
         </div>
       )
+    } else if (this.state.type === 'delivery') {
+      <div>
+        delivery
+      </div>
+    } else if (this.state.type === 'extension') {
+      <div>
+        extension
+      </div>
     }
   }
 
@@ -54,9 +62,17 @@ class PostForm extends Component {
         <Form.Field>
           <Form.TextArea name='body' label='Your Post' type="text" placeholder={ 'What\'s going on?' } />
         </Form.Field>
-        <Form.Field  name='type' control={ Select } label='Post Type' options={ hasChannel ? options: [options[0]] } placeholder='Post Type' defaultValue={ 'social' } onChange={ this.setExtraFields }/>
-        <Button type='submit'>Submit</Button>
+        <Form.Field  
+          name='type' 
+          control={ Select } 
+          label='Post Type' 
+          options={ hasChannel ? options: [options[0]] } 
+          placeholder='Post Type' 
+          defaultValue={ 'social' } 
+          onChange={ this.setExtraFields }
+        />
         { this.getExtraFields() }
+        <Button type='submit'>Submit</Button>
       </Form>
     )
   }

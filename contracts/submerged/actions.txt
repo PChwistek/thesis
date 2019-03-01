@@ -1,21 +1,27 @@
-cleos push action submerged2 open '["alice", 2, "1.0000 SYS"]' -p alice@active
-cleos push action eosio.token transfer '["james", "submerged2", "1.0000 SYS", "alice"]' -p james@active
+cleos push action submerged open '["alice", 2, "1.0000 SYS"]' -p alice@active
+cleos push action submerged open '["bob", 2, "1.0000 SYS"]' -p bob@active
+cleos push action submerged open '["james", 2, "1.0000 SYS"]' -p james@active
+
+cleos push action eosio.token transfer '["james", "submerged", "1.0000 SYS", "alice"]' -p james@active
+cleos push action eosio.token transfer '["bob", "submerged", "1.0000 SYS", "alice"]' -p bob@active
 cleos push action eosio.token transfer '["olivia", "submerged", "1.0000 SYS", "alice"]' -p olivia@active
 cleos push action eosio.token transfer '["david", "submerged", "1.0000 SYS", "alice"]' -p david@active
 cleos push action eosio.token transfer '["norah", "submerged", "1.0000 SYS", "alice"]' -p norah@active
 cleos push action eosio.token transfer '["bob", "submerged", "1.0000 SYS", "alice"]' -p bob@active
 
 cleos push action eosio.token transfer '["andy", "submerged", "1.0000 SYS", "alice"]' -p andy@active
-cleos push action eosio.token transfer '["andy", "submerged", "1.0000 SYS", "credit"]' -p andy@active
+cleos push action eosio.token transfer '["james", "submerged", "1.0000 SYS", "credit"]' -p james@active
 
-cleos push action submerged2 initproject '["alice", "test4", "video", 100, 0]' -p alice@active
+cleos push action eosio.token issue '[ "james", "100.0000 SYS", "memo" ]' -p eosio@active
 
-cleos push action submerged applyforext '["alice", 0, 60]' -p alice@active
+cleos push action submerged initproject '["bob", "test4", "video", 100, 0]' -p bob@active
 
-cleos push action submerged2 fulfill '["alice", 0]' -p alice@active
+cleos push action submerged applyforext '["bob", 0, 60]' -p bob@active
 
-cleos push action submerged2 vote '["james", "alice", 0, 0, false]' -p james@active
-cleos push action submerged2 vote '["james", "alice", 0, 0, false]' -p james@active
+cleos push action submerged fulfill '["alice", 0]' -p alice@active
+
+cleos push action submerged vote '["james", "alice", 0, 0, false]' -p james@active
+cleos push action submerged2 vote '["bob", "alice", 0, 0, true]' -p bob@active
 cleos push action submerged2 vote '["david", "alice", 0, 0, false]' -p david@active
 cleos push action submerged2 vote '["olivia", "alice", 0, 0, false]' -p olivia@active
 cleos push action submerged 2vote '["andy", "alice", 0, 0, false]' -p andy@active
@@ -28,9 +34,10 @@ cleos push action submerged2 eraseprojs '["alice"]' -p alice@active
 cleos push action submerged2 erasecred '[]' -p alice@active
 cleos push action submerged2 erasevote '["alice"]' -p alice@active
 
-cleos push action submerged2 withdraw '["james", "5.0000 SYS"]' -p james@active
+cleos push action submerged withdraw '["alice", "1.0000 SYS"]' -p alice@active
+cleos push action submerged withdraw '["james", "1.0000 SYS"]' -p james@active
 
 
-cleos set account permission submerged2 active '{"threshold": 1,"keys": [{"key": "EOS6N2sW39eCpbWFzQ8uFiYfwKhEKmVqYg6KW5H2JbcMrPM3Y6ncd","weight": 1}], "accounts": [{"permission":{"actor":"submerged2","permission":"eosio.code"},"weight":1}]}' -p submerged2@owner
+cleos set account permission submerged active '{"threshold": 1,"keys": [{"key": "EOS6xRxm8Ef8VWk1fjrW539iUDQZxgSeHrcr3meawiBGngrPFn9mt","weight": 1}], "accounts": [{"permission":{"actor":"submerged","permission":"eosio.code"},"weight":1}]}' -p submerged@owner
 
 cleos set account permission james active '{"threshold": 1,"keys": [{"key": "EOS6N2sW39eCpbWFzQ8uFiYfwKhEKmVqYg6KW5H2JbcMrPM3Y6ncd","weight": 1}], "accounts": [{"permission":{"actor":"submerged2","permission":"active"},"weight":1}]}' -p james@owner

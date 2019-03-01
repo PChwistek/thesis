@@ -22,7 +22,7 @@ export const authCompleted = () => ({
 
 export const createScatterAssocAccount = () => (dispatch, getState) => {
   const scatter = getState().scatter
-  const { identity: { publicKey, hash, name, personal: { firstname, lastname, email } } } = scatter
+  const { identity: { publicKey, hash, name, personal: { firstname, lastname, email }, accounts } } = scatter
   return dispatch({
     type: 'AUTH/CREATE_SCATTER_ASSOCIATED_ACCOUNT',
     payload: axios({
@@ -34,6 +34,7 @@ export const createScatterAssocAccount = () => (dispatch, getState) => {
         username: name,
         first: firstname,
         last: lastname,
+        account: get(accounts[0], 'name'),
         email,
       }
     }).then(response => dispatch({

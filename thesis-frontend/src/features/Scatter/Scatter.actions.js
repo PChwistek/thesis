@@ -6,7 +6,7 @@ ScatterJS.plugins( new ScatterEOS() )
 
 export const setScatter = () => (dispatch) => {
   dispatch({type: 'SCATTER/CONNECT_SCATTER_PENDING'})
-  ScatterJS.scatter.connect('thesis').then(connected => {
+  ScatterJS.scatter.connect('Submerged').then(connected => {
     if(!connected) return dispatch({ type: 'SCATTER/CONNECT_SCATTER_REJECTED' })
     return dispatch({
       type: 'SCATTER/CONNECT_SCATTER_SUCCEEDED',

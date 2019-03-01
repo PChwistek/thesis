@@ -1,23 +1,23 @@
 import React, { Component } from 'react'
 import { Card, Feed, Icon } from 'semantic-ui-react'
 
-
-
 class PersonalSummary extends Component {
   render() {
+    const { first, last, username, bio, subs, account, getSubscribers } = this.props
+    getSubscribers(account)
     const extra = ( 
       <a>
         <Icon name='user' />
-        16 Friends
+        { subs } Subscribers
       </a>
     )
     return (
       <div>
         <Card
           image=''
-          header='Elliot Baker'
-          meta='You'
-          description='Elliot is a sound engineer living in Nashville who enjoys playing guitar and hanging with his cat.'
+          header={ `${first} ${last}` }
+          meta={ username }
+          description={ bio }
           extra={ extra }
         />
         <Card>

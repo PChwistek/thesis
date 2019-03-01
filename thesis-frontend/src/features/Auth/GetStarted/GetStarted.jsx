@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import AccountCreationTile from './AccountCreationTile'
 import CreateAccountTiles from './CreateAccountTiles'
-
+import Navigation from '../../../components/Navigation/Header'
 
 import { 
   Button,
@@ -25,6 +25,7 @@ class GetStarted extends Component {
     if(activeIndex === 0) {
       return (
         <Container>
+          <Navigation onboarding />
           <Header as="h3"
             content='Create an account'
             style={ {
@@ -42,6 +43,7 @@ class GetStarted extends Component {
       return (
         <div>
           <Container>
+            <Navigation onboarding />
             <AccountCreationTile 
               isScatter 
               { ...this.props }
@@ -52,6 +54,7 @@ class GetStarted extends Component {
     }
     return (
       <Container>
+        <Navigation onboarding />
         <div> You're all set! </div>
         <div className={ 'continue-button' }>
           <Button onClick={ this.handleEnter }> Enter! </Button>

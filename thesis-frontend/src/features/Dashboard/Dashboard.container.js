@@ -1,21 +1,19 @@
 import { connect } from 'react-redux'
-import { get } from 'lodash'
-import { getStores } from '../Market/Market.actions'
 import { authCompleted } from '../Auth/Auth.actions'
 import { sayHello, subscribe } from '../Blockchain/Blockchain.actions'
 import { setScatter, setScatterAccount } from '../Scatter/Scatter.actions'
+import { getSubscribers } from '../RPC/RPC.actions'
 import Dashboard from './Dashboard'
 
-const stateToProps = ({ account, market, scatter, form }) => ({
+const stateToProps = ({ account, rpc, scatter }) => ({
   account,
-  stores: market.stores,
-  post: get(form, 'post'),
+  stores: rpc.stores,
   isScatterSet: !!scatter.ref,
   isScatterAccount: !!scatter.account,
 })
 
 const dispatchToProps = {
-  getStores,
+  getSubscribers,
   authCompleted,
   setScatter,
   setScatterAccount,
