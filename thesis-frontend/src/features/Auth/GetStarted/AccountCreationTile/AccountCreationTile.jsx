@@ -3,8 +3,6 @@ import { Container } from 'semantic-ui-react'
 
 import AccountCreationForm from './AccountCreationForm'
 
-
-
 class AccountCreationTile extends Component {
   render() {
     const { getStartedBack, available, identity } = this.props

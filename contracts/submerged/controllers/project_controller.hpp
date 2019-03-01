@@ -126,10 +126,12 @@ class project_controller: public controller {
 
     int get_active_projects(name creator) {
       projects_table projects(get_self(), creator.value);
+      int currently_active = 0;
       for(project proj: projects) {
         if(proj.is_active) {
           currently_active += 1;
         }
       }
+      return currently_active;
     }
 };

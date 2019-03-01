@@ -4,6 +4,7 @@ import UserChannel from './UserChannel'
 
 const stateToProps = ({ account }) => ({
   account,
+  userChannel: true,
 })
 
 const dispatchToProps = {

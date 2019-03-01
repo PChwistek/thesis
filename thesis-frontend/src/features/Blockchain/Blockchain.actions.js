@@ -17,7 +17,7 @@ export const sayHello = () => (dispatch, getState) => {
 
 }
 
-export const openChannel = minimumPrice => (dispatch, getState) => {
+export const openChannel = (limit, minimumPrice) => (dispatch, getState) => {
   const store = getState()
   const scatter = store.scatter.ref
   const account = store.scatter.identity.accounts[0]
@@ -25,7 +25,7 @@ export const openChannel = minimumPrice => (dispatch, getState) => {
   const api = scatter.eos(network, Api, { rpc })
   console.log('ACCOUNT', account)
   dispatch({ type: 'BLOCKCHAIN/OPEN_STORE_PENDING' })
-  return transaction(api, 'submerged', 'open', account, { creator: account.name, minimum_price: `${minimumPrice} SYS`})
+  return transaction(api, 'submerged', 'open', account, { creator: account.name, num_projects: 2, minimum_price: `${minimumPrice} SYS`})
     .then(
       response => dispatch({ type: 'BLOCKCHAIN/OPEN_STORE_FULFILLED', payload: response, }),
       error => dispatch({ type: 'BLOCKCHAIN/OPEN_STORE_REJECTED', payload: error, }),

@@ -66,7 +66,7 @@ class PostForm extends Component {
           name='type' 
           control={ Select } 
           label='Post Type' 
-          options={ hasChannel ? options: [options[0]] } 
+          options={ hasChannel ? options : [options[0]] } 
           placeholder='Post Type' 
           defaultValue={ 'social' } 
           onChange={ this.setExtraFields }
