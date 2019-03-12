@@ -18,8 +18,21 @@ export class SocialService {
     return merge('scatter', key, dataToMerge)
   }
 
-  savePost(toFile: IFirestoreFile) {
+  async savePost(body: any) {
     // add to list of posts
+    const { username, newPost } = body
+    const theDoc = await getSpecificDoc('social', username)
+    const posts = !theDoc ? [] : theDoc.posts
+
+    posts.push( newPost )
+
+    const toFile = {
+      collectionKey: 'social',
+      documentKey: username,
+      documentBody: {
+        posts,
+      },
+    }
     return save(toFile)
   }
 }

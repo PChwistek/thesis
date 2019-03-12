@@ -8,6 +8,7 @@ export interface IScatterAccountReqBody {
   first: string,
   last: string,
   account: string,
+  hasChannel: boolean,
 }
 
 export interface IGetScatterAccountReqBody {
@@ -45,6 +46,8 @@ export class ScatterAccountReqBody implements IScatterAccountReqBody {
   @IsString()
   @Length(1, 12)
   account: string
+
+  hasChannel: boolean
 
   constructor(data: IScatterAccountReqBody) {
       Object.assign(this, data)

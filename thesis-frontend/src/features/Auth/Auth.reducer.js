@@ -11,6 +11,7 @@ const initialState = {
   email: '',
   username: '',
   bio: '',
+  hasChannel: false,
   token: '',
 }
 
@@ -46,6 +47,8 @@ export default function auth (state = initialState, action) {
       return i.chain(state)
         .assoc('authenticated', action.payload ? true : false)
         .value()
+    case 'BLOCKCHAIN/OPEN_STORE_FULFILLED':
+      return i.assoc(state, 'hasChannel', true)
     default:
       return state
   }

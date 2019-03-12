@@ -12,12 +12,22 @@ export class ChannelService {
     return theDoc
   }
 
-  async merge(key: string, dataToMerge: object) {
-    const theDoc = await getSpecificDoc('channel', key)
-    return merge('scatter', key, dataToMerge)
+  async merge(body: any) {
+    const { username, dataToMerge } = body
+    const theDoc = await getSpecificDoc('channel', username)
+    return merge('channel', username, dataToMerge)
   }
 
-  saveChannel(toFile: IFirestoreFile) {
+  saveChannel(body: any) {
+    const { username, minimumPrice } = body
+    const toFile = {
+      collectionKey: 'channel',
+      documentKey: username,
+      documentBody: {
+        username,
+        minimumPrice,
+      },
+    }
     return save(toFile)
   }
 }

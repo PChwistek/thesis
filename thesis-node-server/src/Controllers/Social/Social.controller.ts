@@ -9,4 +9,9 @@ export class SocialController {
   root(): string {
     return this.socialService.root()
   }
+
+  @Post('/')
+  post(@Body() body): any {
+    return this.socialService.savePost(body)
+  }
 }

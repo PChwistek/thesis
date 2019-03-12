@@ -53,7 +53,7 @@ class AccountCreationForm extends Component {
           />
         </Form.Field>
         <div className={ 'continue-button' }>
-          <Button isColor='info' isOutlined onClick={ this.handleClick }> Continue </Button>
+          <Button onClick={ this.handleClick }> Continue </Button>
         </div>
       </Form>
     )

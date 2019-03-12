@@ -1,3 +1,4 @@
+import axios from 'axios'
 import { Api, JsonRpc } from 'eosjs'
 import { endpoint, network } from '../../api/scatterConfig'
 import { transaction } from './Blockchain.utils'
@@ -30,6 +31,17 @@ export const openChannel = (limit, minimumPrice) => (dispatch, getState) => {
       response => dispatch({ type: 'BLOCKCHAIN/OPEN_STORE_FULFILLED', payload: response, }),
       error => dispatch({ type: 'BLOCKCHAIN/OPEN_STORE_REJECTED', payload: error, }),
     )
+    .then(() => dispatch({
+      type: 'BLOCKCHAIN/LOG_CHANNEL',
+      payload: axios({
+        method: 'POST',
+        url: 'http://localhost:3009/api/channel',
+        data: {
+          username: account.name,
+          minimumPrice: `${minimumPrice} SYS`,
+        }
+      })
+    }))
 }
 
 export const subscribe = (contentCreator, amount) => (dispatch, getState) => {
