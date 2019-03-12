@@ -3,6 +3,11 @@ import { Dropdown, Grid, Input, Segment } from 'semantic-ui-react'
 import AuthedApp from '../../components/AuthedApp'
 
 class Channels extends Component {
+  componentDidMount() {
+    const { getChannels } = this.props
+    getChannels()
+  }
+  
   render() {
     const options = [
       { key: 'culture', text: 'Culture', value: 'culture' },

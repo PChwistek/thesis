@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Form, Select } from 'semantic-ui-react'
+import { Button, Dropdown, Embed, Form, Input, Select } from 'semantic-ui-react'
 
 class PostForm extends Component {
   state = {
@@ -7,24 +7,26 @@ class PostForm extends Component {
   }
   getExtraFields = () => {
     const { type } = this.state
-    console.log('Type', type)
-    if(this.state.type === 'social') {
-      return (
-        <div>
-          yo
-        </div>
-      )
-    } else if (this.state.type === 'declaration') {
+    const optionTypes = [ 
+      { key: 'video', value: 'video', text: 'Video' },
+      { key: 'podcast', value: 'podcast', text: 'Podcast ' }
+    ]
+    if (type === 'declaration') {
       return(
         <div>
-          Extra details...
+          <Input placeholder='Project title' />
+          <Input placeholder='MM/DD' />
+          <Dropdown placeholder='Content type' search selection options={ optionTypes } />
         </div>
       )
-    } else if (this.state.type === 'delivery') {
-      <div>
-        delivery
-      </div>
-    } else if (this.state.type === 'extension') {
+    } else if (type === 'delivery') {
+      return (
+        <div>
+          <Input fluid placeholder='link' />
+          <Embed id='O6Xo21L0ybE' placeholder='/images/image-16by9.png' source='youtube' />
+        </div>
+      )
+    } else if (type === 'extension') {
       <div>
         extension
       </div>
