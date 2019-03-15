@@ -1,7 +1,13 @@
+import { Injectable } from '@nestjs/common'
 import { getSpecificDoc, merge, save } from 'helpers/firestore'
-import { IFirestoreFile } from 'Models/Storage/Storage.model'
+import { ProjectService } from 'Services/Project/Project.service'
 
+@Injectable()
 export class SocialService {
+  constructor(
+    private readonly projectService: ProjectService,
+    ) {}
+
   root(): string {
     return 'Hello World! At social!'
   }
@@ -44,10 +50,20 @@ export class SocialService {
         posts,
       },
     }
+    console.log('New Post', newPost)
+    switch (newPost.type) {
+      case 'declaration':
+        this.projectService.declareProject(newPost)
+        break
+      case 'delivery':
+        this.projectService.fulfillProject(newPost)
+        break
+      case 'extension':
+        this.projectService.modifyProject(newPost)
+        break
+      default:
+        break
+    }
     return save(toFile)
-  }
-
-  async getFeed(key: string) {
-    // get feed
   }
 }

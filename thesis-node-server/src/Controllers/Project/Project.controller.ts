@@ -9,4 +9,9 @@ export class ProjectController {
   root(): string {
     return this.projectService.root()
   }
+
+  @Get('/active')
+  getActive(@Body() body): any {
+    return this.projectService.getActive()
+  }
 }

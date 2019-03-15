@@ -22,14 +22,15 @@ class DashboardFeed extends Component {
     return (
       <Feed>
         { posts.length > 0
-          ? posts.map(post => (
-            <Feed.Event>
+          ? posts.map((post,index) => (
+            <Feed.Event key={ index }>
               <Feed.Content>
                 <Feed.Summary>
                   <Feed.User>{ post.user } </Feed.User> { this.getAppropriateSummary(post) }
                   <Feed.Date>{ post.time } </Feed.Date>
                 </Feed.Summary>
                 <Feed.Extra text>
+                  { post.projectTitle }
                   { post.body }
                 </Feed.Extra>
                 <Feed.Meta>

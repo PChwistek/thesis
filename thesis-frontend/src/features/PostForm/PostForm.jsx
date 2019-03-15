@@ -5,7 +5,9 @@ class PostForm extends Component {
   state = {
     type: 'social',
     body: '',
-
+    link: '',
+    dueDate: '',
+    projectTitle: '',
   }
   getExtraFields = () => {
     const { type } = this.state
@@ -16,15 +18,15 @@ class PostForm extends Component {
     if (type === 'declaration') {
       return(
         <div>
-          <Input placeholder='Project title' />
-          <Input placeholder='MM/DD' />
+          <Input placeholder='Project title' onChange={ this.setTitle } />
+          <Input placeholder='MM/DD' onChange={ this.setDueDate } />
           <Dropdown placeholder='Content type' search selection options={ optionTypes } />
         </div>
       )
     } else if (type === 'delivery') {
       return (
         <div>
-          <Input fluid placeholder='link' />
+          <Input fluid placeholder='link' onChange={ this.setLink } />
           <Embed id='O6Xo21L0ybE' placeholder='/images/image-16by9.png' source='youtube' />
         </div>
       )
@@ -44,6 +46,24 @@ class PostForm extends Component {
   setPost = (event, data) => {
     this.setState({
       body: data.value,
+    })
+  }
+
+  setTitle = (event, data) => {
+    this.setState({
+      projectTitle: data.value,
+    })
+  }
+
+  setDueDate = (event, data) => {
+    this.setState({
+      dueDate: data.value,
+    })
+  }
+
+  setLink = (event, data) => {
+    this.setState({
+      link: data.value,
     })
   }
 
@@ -82,7 +102,15 @@ class PostForm extends Component {
           onChange={ this.setExtraFields }
         />
         { this.getExtraFields() }
-        <Button type='submit' onClick={ () => post({ type: this.state.type, body: this.state.body }) }>Submit</Button>
+        <Button 
+          type='submit' 
+          onClick={ () => post(
+            { 
+              ...this.state,
+            }
+          ) }>
+          Submit
+        </Button>
       </Form>
     )
   }
