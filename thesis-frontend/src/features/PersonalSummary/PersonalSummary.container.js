@@ -8,7 +8,7 @@ const stateToProps = ({ auth, rpc }) => ({
   subs: get(rpc, 'subscribers'),
   first: get(auth, 'first'),
   last: get(auth, 'last'),
-  username: get(auth, 'email')
+  username: get(auth, 'username')
 })
 
 const dispatchToProps = {

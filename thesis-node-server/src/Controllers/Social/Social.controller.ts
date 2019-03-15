@@ -10,6 +10,11 @@ export class SocialController {
     return this.socialService.root()
   }
 
+  @Post('/feed')
+  getFeed(@Body() body): any {
+    return this.socialService.feed(body)
+  }
+
   @Post('/')
   post(@Body() body): any {
     return this.socialService.savePost(body)

@@ -7,6 +7,7 @@ import DashboardFeed from './DashboardFeed'
 import './Dashboard.scss'
 
 class Dashboard extends Component {
+
   componentDidUpdate() {
     const { isScatterSet, isScatterAccount, setScatter, setScatterAccount } = this.props
     if(!isScatterSet) {
@@ -31,13 +32,14 @@ class Dashboard extends Component {
   }
 
   componentDidMount() {
-    const { authCompleted, getSubscribers } = this.props
+    const { authCompleted, getSubscribers, getFeed } = this.props
     authCompleted()
     getSubscribers()
+    getFeed()
   }
 
   render() {
-    const { account } = this.props
+    const { auth, posts } = this.props
     return (
       <AuthedApp>
         <Grid columns="equal">
@@ -46,10 +48,10 @@ class Dashboard extends Component {
           </Grid.Column>
           <Grid.Column width={ 8 }>
             <Segment>
-              <PostForm hasChannel={ account.hasChannel } />
+              <PostForm hasChannel={ auth.hasChannel } />
             </Segment>
             <Segment>
-              <DashboardFeed />
+              <DashboardFeed posts={ posts } />
             </Segment>
           </Grid.Column>
           <Grid.Column>

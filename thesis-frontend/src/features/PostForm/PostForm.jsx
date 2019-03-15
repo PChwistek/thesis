@@ -3,7 +3,9 @@ import { Button, Dropdown, Embed, Form, Input, Select } from 'semantic-ui-react'
 
 class PostForm extends Component {
   state = {
-    type: 'social'
+    type: 'social',
+    body: '',
+
   }
   getExtraFields = () => {
     const { type } = this.state
@@ -39,8 +41,14 @@ class PostForm extends Component {
     })
   }
 
+  setPost = (event, data) => {
+    this.setState({
+      body: data.value,
+    })
+  }
+
   render() {
-    const { hasChannel } = this.props
+    const { hasChannel, post } = this.props
     const options = [
       {
         text: 'Social',
@@ -62,7 +70,7 @@ class PostForm extends Component {
     return (
       <Form>
         <Form.Field>
-          <Form.TextArea name='body' label='Your Post' type="text" placeholder={ 'What\'s going on?' } />
+          <Form.TextArea name='body' label='Your Post' type="text" placeholder={ 'What\'s going on?' } onChange={ this.setPost } />
         </Form.Field>
         <Form.Field  
           name='type' 
@@ -74,7 +82,7 @@ class PostForm extends Component {
           onChange={ this.setExtraFields }
         />
         { this.getExtraFields() }
-        <Button type='submit'>Submit</Button>
+        <Button type='submit' onClick={ () => post({ type: this.state.type, body: this.state.body }) }>Submit</Button>
       </Form>
     )
   }

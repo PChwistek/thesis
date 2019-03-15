@@ -2,8 +2,8 @@ import { connect } from 'react-redux'
 import { openChannel } from '../Blockchain/Blockchain.actions'
 import UserChannel from './UserChannel'
 
-const stateToProps = ({ account }) => ({
-  account,
+const stateToProps = ({ auth }) => ({
+  auth,
   userChannel: true,
 })
 

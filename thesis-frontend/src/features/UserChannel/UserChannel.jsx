@@ -36,8 +36,8 @@ class UserChannel extends Component {
 
 
   render() {
-    const { account, userChannel } = this.props
-    if(get(account, 'hasChannel', false)) {
+    const { auth, userChannel } = this.props
+    if(get(auth, 'hasChannel', false)) {
       return ( 
         <AuthedApp>
           <Grid columns="equal">
@@ -46,7 +46,7 @@ class UserChannel extends Component {
             </Grid.Column>
             <Grid.Column>
               <Segment>
-                <PostForm hasChannel={ get(account, 'hasChannel', false) }/>
+                <PostForm hasChannel={ get(auth, 'hasChannel', false) }/>
               </Segment>
               <Segment>
                 <Header as='h2'>Post History</Header>

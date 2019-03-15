@@ -6,6 +6,17 @@ export class SocialService {
     return 'Hello World! At social!'
   }
 
+  async feed(body): Promise<any> {
+    const { username } = body
+    console.log('SOCIAL', username)
+    const theDoc = await this.findByKey(username)
+    const feed = []
+    // get feed from subscriptions too
+    feed.push(theDoc.posts)
+    // sort appropriately
+    return feed
+  }
+
   async findByKey(key: string): Promise<FirebaseFirestore.DocumentData> {
     const theDoc = await getSpecificDoc('social', key)
     if (!theDoc) return null
@@ -22,7 +33,7 @@ export class SocialService {
     // add to list of posts
     const { username, newPost } = body
     const theDoc = await getSpecificDoc('social', username)
-    const posts = !theDoc ? [] : theDoc.posts
+    const posts = !theDoc.posts ? [] : theDoc.posts
 
     posts.push( newPost )
 
@@ -34,5 +45,9 @@ export class SocialService {
       },
     }
     return save(toFile)
+  }
+
+  async getFeed(key: string) {
+    // get feed
   }
 }
