@@ -5,6 +5,7 @@ import subscribe from './features/Subscribe/Subscribe.reducer'
 import auth from './features/Auth/Auth.reducer'
 import blockchain from './features/Blockchain/Blockchain.reducer'
 import social from './features/Social/Social.reducer'
+import channels from './features/Channels/Channels.reducer'
 import rpc from './features/RPC/RPC.reducer'
 
 export default combineReducers({
@@ -15,4 +16,5 @@ export default combineReducers({
   rpc,
   social,
   form,
+  channels,
 })

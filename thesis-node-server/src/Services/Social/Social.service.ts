@@ -28,7 +28,7 @@ export class SocialService {
     console.log('SOCIAL', username)
     const theDoc = await this.findByKey(username)
     const feed = []
-    if  (!theDoc) {
+    if (theDoc) {
       feed.push(theDoc.posts)
     }
     return feed
@@ -48,15 +48,15 @@ export class SocialService {
 
   async savePost(body: any) {
     // add to list of posts
-    const { username, newPost } = body
-    const theDoc = await getSpecificDoc('social', username)
+    const { account, newPost } = body
+    const theDoc = await getSpecificDoc('social', account)
     const posts = !theDoc.posts ? [] : theDoc.posts
 
     posts.push( newPost )
 
     const toFile = {
       collectionKey: 'social',
-      documentKey: username,
+      documentKey: account,
       documentBody: {
         posts,
       },

@@ -5,10 +5,10 @@ import { getChannelFeed } from '../../Social/Social.actions'
 import UserChannel from './UserChannel'
 import { get } from 'lodash'
 
-const stateToProps = ({ auth, router, social, scatter }) => ({
+const stateToProps = ({ auth, router, social, channels, scatter }) => ({
   auth,
   account: auth.account,
-  hasChannel: get(auth, 'hasChannel', false),
+  hasChannel: get(channels, 'minimumPrice', false),
   isScatterAccount: !!scatter.account,
   posts: get(social, 'channelPosts', []),
   channelAccount: get(router, 'location.state.key', ''),

@@ -21,10 +21,9 @@ export class ChannelController {
     return this.channelService.merge(body)
   }
 
-  @Get('/find')
+  @Post('/user')
   getChannel(@Body() body: any) {
-    console.log('find', body)
-    const { username } = body
-    return this.channelService.findByKey(username)
+    const { account } = body
+    return this.channelService.findByKey(account)
   }
 }

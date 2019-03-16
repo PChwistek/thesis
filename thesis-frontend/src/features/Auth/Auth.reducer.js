@@ -10,9 +10,8 @@ const initialState = {
   last: '',
   email: '',
   username: '',
-  bio: '',
-  hasChannel: false,
   token: '',
+  subscribedTo: '',
 }
 
 export default function auth (state = initialState, action) {

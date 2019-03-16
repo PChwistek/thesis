@@ -13,8 +13,8 @@ export default function scatter (state = initialState, action) {
       }
       return state
     case 'SOCIAL/GET_CHANNEL_FEED_FULFILLED':
-      if(action.payload) {
-        return i.assoc(state, 'channelPosts', action.payload)
+      if(action.payload[0]) {
+        return i.assoc(state, 'channelPosts', action.payload[0])
       }
       return state
     default:

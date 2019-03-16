@@ -1,10 +1,10 @@
 import { connect } from 'react-redux'
-// import { get } from 'lodash'
+import { get } from 'lodash'
 import { post } from '../Social/Social.actions'
 import PostForm from './PostForm'
 
-const stateToProps = () => ({
-
+const stateToProps = ({ channels }) => ({
+  hasChannel: get(channels, 'minimumPrice', false)
 })
 
 const dispatchToProps = {

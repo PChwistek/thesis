@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Grid, Header, Segment } from 'semantic-ui-react'
-import { get } from 'lodash'
 import PersonalSummary from '../../PersonalSummary'
 import UserSummary from './UserSummary'
 import PostForm from '../../PostForm'
@@ -12,12 +11,8 @@ import DashboardFeed from '../../Dashboard/DashboardFeed'
 class UserChannel extends Component {
   
   componentDidMount() {
-    const { auth, channelAccount, getChannelFeed } = this.props
-    if(get(auth, 'hasChannel', true) && channelAccount == '') {
-      getChannelFeed(auth.username)
-    } else {
-      getChannelFeed(channelAccount)
-    }
+    const { channelAccount, getChannelFeed } = this.props
+    getChannelFeed(channelAccount)
   }
 
   render() {

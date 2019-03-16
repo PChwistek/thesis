@@ -2,14 +2,14 @@ import axios from 'axios'
 
 export const getFeed = () => (dispatch, getState) => {
   const store = getState()
-  const { auth: { username } } = store  
+  const { auth: { account } } = store  
   return dispatch({
     type: 'SOCIAL/GET_FEED',
     payload: axios({
       method: 'POST',
       url: 'http://localhost:3009/api/social/feed',
       data: {
-        username,
+        username: account,
       }
     }).then(res => {
       dispatch({
@@ -44,7 +44,7 @@ export const getChannelFeed = key => dispatch => {
 
 export const post = thePost => (dispatch, getState) => {
   const store = getState()
-  const { auth: { username } } = store
+  const { auth: { account, username } } = store
   thePost.time = new Date(Date.now())
   thePost.user = username
   return dispatch({
@@ -53,7 +53,7 @@ export const post = thePost => (dispatch, getState) => {
       method: 'POST',
       url: 'http://localhost:3009/api/social',
       data: {
-        username,
+        account,
         newPost: thePost,
       }
     })

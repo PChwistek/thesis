@@ -24,9 +24,9 @@ class Dashboard extends Component {
   }
 
   componentDidMount() {
-    const { authCompleted, getSubscribers, getFeed } = this.props
+    const { auth, authCompleted, getUserChannel, getFeed } = this.props
     authCompleted()
-    getSubscribers()
+    getUserChannel(auth.account)
     getFeed()
   }
 
