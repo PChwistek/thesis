@@ -1,14 +1,8 @@
 import React, { Component } from 'react'
-import { Button, Container, Input, Grid, Header, Segment } from 'semantic-ui-react'
-import { get } from 'lodash'
-import PersonalSummary from '../PersonalSummary'
-import UserSummary from './UserSummary'
-import PostForm from '../PostForm'
-import AuthedApp from '../../components/AuthedApp'
-import DashboardFeed from '../Dashboard/DashboardFeed'
+import { Button, Container, Input, Header } from 'semantic-ui-react'
+import AuthedApp from '../../../../components/AuthedApp'
 
-
-class UserChannel extends Component {
+class CreateChannel extends Component {
   state = {
     showSetPrice: false,
     price: 0,
@@ -32,60 +26,15 @@ class UserChannel extends Component {
       limit: e.target.value,
     })
   }
-
+  
   componentDidMount() {
-    const { auth, channelName, getChannelFeed } = this.props
-    if(get(auth, 'hasChannel', true) && channelName == '') {
-      getChannelFeed(auth.username)
-    } else {
-      getChannelFeed(channelName)
+    const { isScatterAccount, setScatter } = this.props
+    if (!isScatterAccount) {
+      setScatter()
     }
   }
 
   render() {
-    const { auth, channelName, posts } = this.props
-    if(get(auth, 'hasChannel', false) && channelName == '') {
-      return ( 
-        <AuthedApp>
-          <Grid columns="equal">
-            <Grid.Column width={ 4 }>
-              { channelName === '' ? <PersonalSummary /> : <UserSummary />}
-            </Grid.Column>
-            <Grid.Column>
-              <Segment>
-                <PostForm hasChannel={ get(auth, 'hasChannel', false) }/>
-              </Segment>
-              <Segment>
-                <Header as='h2'>Post History</Header>
-              </Segment>
-              <Segment>
-                <DashboardFeed posts={ posts } />
-              </Segment>
-            </Grid.Column>
-          </Grid>
-        </AuthedApp>
-      )
-    }
-    if(channelName !== '') {
-      return (
-        <AuthedApp>
-          <Grid columns="equal">
-            <Grid.Column width={ 4 }>
-              { channelName === '' ? <PersonalSummary /> : <UserSummary />}
-            </Grid.Column>
-            <Grid.Column>
-              <Segment>
-                <Header as='h2'>Post History</Header>
-              </Segment>
-              <Segment>
-                <DashboardFeed posts={ posts } />
-              </Segment>
-            </Grid.Column>
-          </Grid>
-        </AuthedApp>
-      )
-    }
-    
     return (
       <AuthedApp>
         <Container>
@@ -136,6 +85,7 @@ class UserChannel extends Component {
       </AuthedApp>
     )
   }
+
 }
 
-export default UserChannel
+export default CreateChannel

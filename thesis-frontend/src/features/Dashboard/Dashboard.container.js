@@ -7,11 +7,9 @@ import { getFeed } from '../Social/Social.actions'
 import Dashboard from './Dashboard'
 import { get } from 'lodash'
 
-const stateToProps = ({ auth, rpc, scatter, social }) => ({
+const stateToProps = ({ auth, rpc, social }) => ({
   auth,
   stores: rpc.stores,
-  isScatterSet: !!scatter.ref,
-  isScatterAccount: !!scatter.account,
   posts: get(social, 'posts', [])
 })
 

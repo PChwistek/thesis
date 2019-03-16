@@ -6,7 +6,7 @@ import { Menu } from 'semantic-ui-react'
 
 export default class HeaderAuthed extends Component {
   render() {
-    const { logout } = this.props
+    const { logout, account } = this.props
     return (
       <Menu secondary>
         <Menu.Item>
@@ -20,14 +20,21 @@ export default class HeaderAuthed extends Component {
               Dashboard
             </Link>
           </Menu.Item>
-         
           <Menu.Item>
             <Link to="/channels">
               Channels
             </Link>
           </Menu.Item>
           <Menu.Item>
-            <Link to="/channel">
+            <Link to={
+              {
+                pathname: '/channel',
+                state: {
+                  key: account,
+                }
+              }
+            }
+            >
               Your Channel
             </Link>
           </Menu.Item>
@@ -36,8 +43,8 @@ export default class HeaderAuthed extends Component {
               Account
             </Link>
           </Menu.Item>
-          <Menu.Item onClick={ logout }>
-            <Link to="/">
+          <Menu.Item>
+            <Link to="/logout" onClick={ logout }>
               Logout
             </Link>
           </Menu.Item>

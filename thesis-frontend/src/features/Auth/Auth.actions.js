@@ -91,3 +91,8 @@ export const logout = () => (dispatch, getState) => {
     payload: [signOutScatter(), logout()],
   })
 }
+
+/*
+export const updateUser = () => (dispatch, getState) => {
+  
+} */

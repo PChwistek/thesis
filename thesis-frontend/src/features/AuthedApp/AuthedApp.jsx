@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react'
 import { Container } from 'semantic-ui-react'
-import Navigation from '../Navigation/HeaderAuthed'
+import Navigation from '../Navigation'
 
 class AuthedApp extends Component {
   render() {

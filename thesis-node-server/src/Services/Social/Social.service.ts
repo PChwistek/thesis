@@ -23,10 +23,21 @@ export class SocialService {
     return feed
   }
 
+  async channelFeed(body): Promise<any> {
+    const { username } = body
+    console.log('SOCIAL', username)
+    const theDoc = await this.findByKey(username)
+    const feed = []
+    if  (!theDoc) {
+      feed.push(theDoc.posts)
+    }
+    return feed
+  }
+
   async findByKey(key: string): Promise<FirebaseFirestore.DocumentData> {
     const theDoc = await getSpecificDoc('social', key)
     if (!theDoc) return null
-    return theDoc.posts
+    return theDoc
   }
 
   async merge(key: string, dataToMerge: object) {

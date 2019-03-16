@@ -17,9 +17,7 @@ export class SocialController {
 
   @Post('/channelfeed')
   getChannelFeed(@Body() body): any {
-    console.log('find', body)
-    const { username } = body
-    return this.socialService.findByKey(username)
+    return this.socialService.channelFeed(body)
   }
 
   @Post('/')

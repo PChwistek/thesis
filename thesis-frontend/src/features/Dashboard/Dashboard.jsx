@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Grid, Segment } from 'semantic-ui-react'
-import AuthedApp from '../../components/AuthedApp'
+import AuthedApp from '../AuthedApp'
 import PersonalSummary from '../PersonalSummary'
 import PostForm from '../PostForm'
 import DashboardFeed from './DashboardFeed'
@@ -8,14 +8,6 @@ import './Dashboard.scss'
 
 class Dashboard extends Component {
 
-  componentDidUpdate() {
-    const { isScatterSet, isScatterAccount, setScatter, setScatterAccount } = this.props
-    if(!isScatterSet) {
-      setScatter()
-    } else if (!isScatterAccount) {
-      setScatterAccount()
-    } 
-  }
   sayHello = () => {
     const { sayHello } = this.props
     sayHello()

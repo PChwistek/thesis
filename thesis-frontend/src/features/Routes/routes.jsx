@@ -5,7 +5,7 @@ import Channels from '../Channels'
 import GetStarted from '../Auth/GetStarted'
 import Dashboard from '../Dashboard'
 import Profile from '../Profile'
-import UserChannel from '../UserChannel'
+import UserChannel from '../Channels/UserChannel'
 /* import PrivateRoute from './PrivateRoute' */
 
 
@@ -15,6 +15,7 @@ export default class Routes extends Component {
     return (
       <Switch>
         <Route exact path="/" component={ Landing } />
+        <Route exact path="/logout" component={ Landing } />
         <Route path="/get-started" component={ GetStarted } />
         <Route path="/dashboard" component={ Dashboard } />
         <Route path="/channels" component={ Channels } />

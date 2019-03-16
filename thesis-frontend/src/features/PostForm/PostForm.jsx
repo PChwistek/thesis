@@ -108,7 +108,8 @@ class PostForm extends Component {
             { 
               ...this.state,
             }
-          ) }>
+          ) }
+        >
           Submit
         </Button>
       </Form>

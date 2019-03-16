@@ -21,7 +21,7 @@ class DashboardFeed extends Component {
     const { posts } = this.props
     return (
       <Feed>
-        { posts.length > 0
+        { posts[0] && posts.length > 0
           ? posts.map((post,index) => (
             <Feed.Event key={ index }>
               <Feed.Content>

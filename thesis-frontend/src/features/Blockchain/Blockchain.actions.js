@@ -15,33 +15,37 @@ export const sayHello = () => (dispatch, getState) => {
       response => dispatch({ type: 'BLOCKCHAIN/SAY_HELLO_FULFILLED', payload: response, }),
       error => dispatch({ type: 'BLOCKCHAIN/SAY_HELLO_REJECTED', payload: error, })
     )
-
 }
 
 export const openChannel = (limit, minimumPrice) => (dispatch, getState) => {
   const store = getState()
   const scatter = store.scatter.ref
   const account = store.scatter.identity.accounts[0]
+  const { username } = store.auth
   const rpc = new JsonRpc(endpoint)
   const api = scatter.eos(network, Api, { rpc })
-  console.log('ACCOUNT', account)
   dispatch({ type: 'BLOCKCHAIN/OPEN_STORE_PENDING' })
   return transaction(api, 'submerged', 'open', account, { creator: account.name, num_projects: 2, minimum_price: `${minimumPrice} SYS`})
     .then(
-      response => dispatch({ type: 'BLOCKCHAIN/OPEN_STORE_FULFILLED', payload: response, }),
+      response => { 
+        dispatch({ type: 'BLOCKCHAIN/OPEN_STORE_FULFILLED', payload: response, })
+        return dispatch({
+          type: 'BLOCKCHAIN/LOG_CHANNEL',
+          payload: axios({
+            method: 'POST',
+            url: 'http://localhost:3009/api/channel',
+            data: {
+              username,
+              account: account.name,
+              minimumPrice: `${minimumPrice} SYS`,
+              description: '',
+              tags: [],
+            }
+          })
+        })
+      },
       error => dispatch({ type: 'BLOCKCHAIN/OPEN_STORE_REJECTED', payload: error, }),
     )
-    .then(() => dispatch({
-      type: 'BLOCKCHAIN/LOG_CHANNEL',
-      payload: axios({
-        method: 'POST',
-        url: 'http://localhost:3009/api/channel',
-        data: {
-          username: account.name,
-          minimumPrice: `${minimumPrice} SYS`,
-        }
-      })
-    }))
 }
 
 export const subscribe = (contentCreator, amount) => (dispatch, getState) => {

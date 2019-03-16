@@ -3,9 +3,10 @@ import { Button, Card, Feed } from 'semantic-ui-react'
 
 class UserSummary extends Component {
   render() {
+    const { subscribe } = this.props
     const extra = ( 
       <a>
-        <Button primary>Subscribe</Button>
+        <Button primary onClick={ subscribe }>Subscribe</Button>
       </a>
     )
     return (
