@@ -26,7 +26,7 @@ export class SocialService {
   async findByKey(key: string): Promise<FirebaseFirestore.DocumentData> {
     const theDoc = await getSpecificDoc('social', key)
     if (!theDoc) return null
-    return theDoc
+    return theDoc.posts
   }
 
   async merge(key: string, dataToMerge: object) {

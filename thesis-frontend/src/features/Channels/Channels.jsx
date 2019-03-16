@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Dropdown, Grid, Input, Segment } from 'semantic-ui-react'
+import { Dropdown, Grid, Item, Input, Segment } from 'semantic-ui-react'
 import AuthedApp from '../../components/AuthedApp'
 
 class Channels extends Component {
@@ -7,8 +7,14 @@ class Channels extends Component {
     const { getChannels } = this.props
     getChannels()
   }
-  
+
+  toChannel(key) {
+    const { goToChannel } = this.props
+    goToChannel(key)
+  }
+
   render() {
+    const { channels } = this.props
     const options = [
       { key: 'culture', text: 'Culture', value: 'culture' },
       { key: 'comedy', text: 'Comedy', value: 'comedy' },
@@ -23,6 +29,16 @@ class Channels extends Component {
       { key: 'film', text: 'Film', value: 'film' },
       { key: 'diy', text: 'DIY', value: 'diy' },
     ]
+    const items = channels.map((channel,index) => ({
+      childKey: index,
+      image: '/',
+      description: '',
+      header: 'channel name',
+      meta: channel.key,
+      extra: 'Projects Declared: ' + channel.total_proj,
+      onClick: () => this.toChannel(channel.key),
+    }))
+  
     return (
       <AuthedApp>
         <Segment>
@@ -34,6 +50,9 @@ class Channels extends Component {
               <Dropdown placeholder='Tags' fluid multiple selection options={ options } />
             </Grid.Column>
           </Grid>
+        </Segment>
+        <Segment>
+          <Item.Group link items={ items } />
         </Segment>
       </AuthedApp>
     )

@@ -22,6 +22,26 @@ export const getFeed = () => (dispatch, getState) => {
   }) 
 }
 
+export const getChannelFeed = key => dispatch => {
+  return dispatch({
+    type: 'SOCIAL/GET_CHANNEL_FEED',
+    payload: axios({
+      method: 'POST',
+      url: 'http://localhost:3009/api/social/channelfeed',
+      data: {
+        username: key,
+      }
+    }).then(res => {
+      dispatch({
+        type: 'SOCIAL/GET_CHANNEL_FEED_FULFILLED',
+        payload: res.data,
+      })
+    }).catch(() => dispatch({
+      type: 'SOCIAL/GET_CHANNEL_FEED_REJECTED',
+    }))
+  })
+}
+
 export const post = thePost => (dispatch, getState) => {
   const store = getState()
   const { auth: { username } } = store

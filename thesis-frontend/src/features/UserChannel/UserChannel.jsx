@@ -5,6 +5,7 @@ import PersonalSummary from '../PersonalSummary'
 import UserSummary from './UserSummary'
 import PostForm from '../PostForm'
 import AuthedApp from '../../components/AuthedApp'
+import DashboardFeed from '../Dashboard/DashboardFeed'
 
 
 class UserChannel extends Component {
@@ -17,8 +18,6 @@ class UserChannel extends Component {
   handleOpen() {
     const { openChannel } = this.props
     const { price, limit } = this.state
-    console.log('price', price)
-    console.log('limit', limit)
     openChannel(limit, price)
   }
 
@@ -34,15 +33,23 @@ class UserChannel extends Component {
     })
   }
 
+  componentDidMount() {
+    const { auth, channelName, getChannelFeed } = this.props
+    if(get(auth, 'hasChannel', true) && channelName == '') {
+      getChannelFeed(auth.username)
+    } else {
+      getChannelFeed(channelName)
+    }
+  }
 
   render() {
-    const { auth, userChannel } = this.props
-    if(get(auth, 'hasChannel', false)) {
+    const { auth, channelName, posts } = this.props
+    if(get(auth, 'hasChannel', false) && channelName == '') {
       return ( 
         <AuthedApp>
           <Grid columns="equal">
             <Grid.Column width={ 4 }>
-              { userChannel ? <PersonalSummary /> : <UserSummary />}
+              { channelName === '' ? <PersonalSummary /> : <UserSummary />}
             </Grid.Column>
             <Grid.Column>
               <Segment>
@@ -51,11 +58,33 @@ class UserChannel extends Component {
               <Segment>
                 <Header as='h2'>Post History</Header>
               </Segment>
+              <Segment>
+                <DashboardFeed posts={ posts } />
+              </Segment>
             </Grid.Column>
           </Grid>
         </AuthedApp>
       )
-    } 
+    }
+    if(channelName !== '') {
+      return (
+        <AuthedApp>
+          <Grid columns="equal">
+            <Grid.Column width={ 4 }>
+              { channelName === '' ? <PersonalSummary /> : <UserSummary />}
+            </Grid.Column>
+            <Grid.Column>
+              <Segment>
+                <Header as='h2'>Post History</Header>
+              </Segment>
+              <Segment>
+                <DashboardFeed posts={ posts } />
+              </Segment>
+            </Grid.Column>
+          </Grid>
+        </AuthedApp>
+      )
+    }
     
     return (
       <AuthedApp>

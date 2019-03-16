@@ -14,7 +14,7 @@ export class ChannelService {
 
   async merge(body: any) {
     const { username, dataToMerge } = body
-    const theDoc = await getSpecificDoc('channel', username)
+    // const theDoc = await getSpecificDoc('channel', username)
     return merge('channel', username, dataToMerge)
   }
 

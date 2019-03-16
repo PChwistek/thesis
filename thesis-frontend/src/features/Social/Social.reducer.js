@@ -1,7 +1,8 @@
 import i from 'icepick'
 
 const initialState = {
-  posts: []
+  posts: [],
+  channelPosts: []
 }
 
 export default function scatter (state = initialState, action) {
@@ -9,6 +10,11 @@ export default function scatter (state = initialState, action) {
     case 'SOCIAL/GET_FEED_FULFILLED':
       if(action.payload[0]) {
         return i.assoc(state, 'posts', action.payload[0])
+      }
+      return state
+    case 'SOCIAL/GET_CHANNEL_FEED_FULFILLED':
+      if(action.payload) {
+        return i.assoc(state, 'channelPosts', action.payload)
       }
       return state
     default:

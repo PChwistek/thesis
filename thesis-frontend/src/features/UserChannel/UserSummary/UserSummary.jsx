@@ -26,9 +26,24 @@ class UserSummary extends Component {
               <Feed.Event>
                 <Feed.Label image='/images/avatar/small/jenny.jpg' />
                 <Feed.Content>
-                  <Feed.Date content='1 day ago' />
                   <Feed.Summary>
-                    You did stuff!
+                    Fulfillment Rate: 100%
+                  </Feed.Summary>
+                </Feed.Content>
+              </Feed.Event>
+              <Feed.Event>
+                <Feed.Label image='/images/avatar/small/jenny.jpg' />
+                <Feed.Content>
+                  <Feed.Summary>
+                    Projects declared for this cycle: 
+                  </Feed.Summary>
+                </Feed.Content>
+              </Feed.Event>
+              <Feed.Event>
+                <Feed.Label image='/images/avatar/small/jenny.jpg' />
+                <Feed.Content>
+                  <Feed.Summary>
+                    Projects delivered this cycle:
                   </Feed.Summary>
                 </Feed.Content>
               </Feed.Event>

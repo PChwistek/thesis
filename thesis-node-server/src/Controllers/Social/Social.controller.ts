@@ -15,6 +15,13 @@ export class SocialController {
     return this.socialService.feed(body)
   }
 
+  @Post('/channelfeed')
+  getChannelFeed(@Body() body): any {
+    console.log('find', body)
+    const { username } = body
+    return this.socialService.findByKey(username)
+  }
+
   @Post('/')
   post(@Body() body): any {
     return this.socialService.savePost(body)
