@@ -39,9 +39,18 @@ export default function auth (state = initialState, action) {
         .assoc('account', action.payload.account)
         .value()
     case 'AUTH/LOGIN_WITH_SCATTER_FULFILLED':
-      return i.assoc(state, 'token', action.payload.token)
+      return i.chain(state)
+        .assoc('completed', true)
+        .assoc('authenticated', true)
+        .assoc('token', action.payload.token)
+        .assoc('first', action.payload.first)
+        .assoc('last', action.payload.last)
+        .assoc('email', action.payload.email)
+        .assoc('username', action.payload.username)
+        .assoc('account', action.payload.account)
+        .value()
     case 'AUTH/LOGOUT':
-      return i.assoc(state, 'token', false)
+      return initialState
     case 'AUTH/SET_AUTHENTICATED':
       return i.chain(state)
         .assoc('authenticated', action.payload ? true : false)

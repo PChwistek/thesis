@@ -16,13 +16,13 @@ class UserChannel extends Component {
   }
 
   render() {
-    const { hasChannel, theirAccount, channelAccount, posts, subscribe } = this.props
+    const { hasChannel, theirAccount, posts, subscribe, viewing } = this.props
     if(!theirAccount) {
       return ( 
         <AuthedApp>
           <Grid columns="equal">
             <Grid.Column width={ 4 }>
-              { channelAccount === '' ? <PersonalSummary /> : <UserSummary subscribe={ subscribe }/>}
+              <UserSummary subscribe={ subscribe } viewing={ viewing }/>
             </Grid.Column>
             <Grid.Column>
               <Segment>
@@ -41,7 +41,7 @@ class UserChannel extends Component {
         <AuthedApp>
           <Grid columns="equal">
             <Grid.Column width={ 4 }>
-              { channelAccount === '' ? <PersonalSummary /> : <UserSummary />}
+              <PersonalSummary />
             </Grid.Column>
             <Grid.Column>
               <Segment>

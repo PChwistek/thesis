@@ -22,9 +22,9 @@ export default class Header extends Component {
               </Link>
             </Menu.Item>
             <Menu.Item>
-              <div onClick={ login }>
+              <Link to="/login" onClick={ login }>
                 Log In
-              </div>
+              </Link>
             </Menu.Item>
           </Menu.Menu>
         )

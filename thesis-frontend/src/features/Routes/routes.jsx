@@ -3,6 +3,7 @@ import { Route, Switch } from 'react-router-dom'
 import Landing from '../Landing'
 import Channels from '../Channels'
 import GetStarted from '../Auth/GetStarted'
+import Login from '../Auth/Login'
 import Dashboard from '../Dashboard'
 import Profile from '../Profile'
 import UserChannel from '../Channels/UserChannel'
@@ -15,6 +16,7 @@ export default class Routes extends Component {
     return (
       <Switch>
         <Route exact path="/" component={ Landing } />
+        <Route exact path="/login" component={ Login } />
         <Route exact path="/logout" component={ Landing } />
         <Route path="/get-started" component={ GetStarted } />
         <Route path="/dashboard" component={ Dashboard } />

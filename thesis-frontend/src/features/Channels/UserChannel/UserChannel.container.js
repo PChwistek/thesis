@@ -13,6 +13,7 @@ const stateToProps = ({ auth, router, social, channels, scatter }) => ({
   posts: get(social, 'channelPosts', []),
   channelAccount: get(router, 'location.state.key', ''),
   theirAccount: auth.account === get(router, 'location.state.key', ''),
+  viewing: channels.viewing
 })
 
 const dispatchToProps = {
