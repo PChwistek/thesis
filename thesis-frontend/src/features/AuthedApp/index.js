@@ -1,1 +1,1 @@
-export { default } from './AuthedApp'
+export { default } from './AuthedApp.container'
