@@ -5,9 +5,10 @@ import { options } from '../../ChannelTags'
 
 class CreateChannel extends Component {
   state = {
-    showSetPrice: false,
-    price: 0,
-    limit: 0,
+    name: '',
+    desc: '',
+    tags: [],
+    price: '',
     index: 0,
   }
 
@@ -23,9 +24,21 @@ class CreateChannel extends Component {
     })
   }
 
-  inputLimit = e => {
+  inputTags = (e, { value } ) => {
     this.setState({
-      limit: e.target.value,
+      tags: value,
+    })
+  }
+
+  inputDesc = e => {
+    this.setState({
+      desc: e.target.value,
+    })
+  }
+
+  inputName = e => {
+    this.setState({
+      name: e.target.value,
     })
   }
 
@@ -73,6 +86,8 @@ class CreateChannel extends Component {
             <Input
               placeholder='Channel name'
               fluid
+              value={ this.state.name }
+              onChange={ this.inputName }
               style={ { maxWidth: '25%', margin: 'auto' } }
             />
             <br />
@@ -88,7 +103,7 @@ class CreateChannel extends Component {
             </Header>
             <br />
             <div style={ { maxWidth: '100%' } }>
-              <TextArea placeholder='Channel description' style={ inputStyle }/>
+              <TextArea placeholder='Channel description' style={ inputStyle } onChange={ this.inputDesc } value={ this.state.desc }/>
             </div>
             <br />
             <br />
@@ -102,7 +117,7 @@ class CreateChannel extends Component {
               Tag some categories to make it easier to find for audiences.
             </Header>
             <br />
-            <Dropdown placeholder='Tags' fluid multiple selection options={ options } style={ inputStyle } />
+            <Dropdown placeholder='Tags' fluid multiple selection options={ options } style={ inputStyle } onChange={ this.inputTags } value={ this.state.tags } />
             <br />
             <br />
             { this.buttons(index) }
@@ -120,6 +135,7 @@ class CreateChannel extends Component {
               labelPosition='right'
               placeholder='1.0000'
               onChange={ this.inputPrice }
+              value={ this.state.price }
               style={ { maxWidth: '25%', margin: 'auto' } }
               fluid
             />
@@ -135,13 +151,18 @@ class CreateChannel extends Component {
               Summary
             </Header>
             <div style={ inputStyle }>
-              <Segment vertical textAlign="left"><b>Name:</b> Pellentesque habitant morbi tristique senectu </Segment>
-              <Segment vertical textAlign="left"><b>Description: </b> Pellentesque habitant morbi tristique senectus.</Segment>
-              <Segment vertical textAlign="left"><b>Tags: </b>Eu quo homero blandit intellegebat. Incorrupte consequuntur mei id.</Segment>
-              <Segment vertical textAlign="left"><b>Price: </b>Pellentesque habitant morbi tristique senectus.</Segment>
+              <Segment vertical textAlign="left"><b>Name:</b> { this.state.name } </Segment>
+              <Segment vertical textAlign="left"><b>Description: </b> { this.state.desc } </Segment>
+              <Segment vertical textAlign="left"><b>Tags: </b> { 
+                this.state.tags.map((tag, index) => <span key={ index }> { index !== 0 ? `, ${tag}`: `${tag}` } </span> )} 
+              </Segment>
+              <Segment vertical textAlign="left"><b>Price: </b> { this.state.price } EOS </Segment>
             </div>
             <br />
-            <Button primary> Submit </Button>
+            <Button.Group>
+              <Button secondary onClick={ () => this.previous(index) }> Back </Button>
+              <Button primary> Submit </Button>
+            </Button.Group>
           </div>
         )
     }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Dropdown, Grid, Item, Input, Segment } from 'semantic-ui-react'
+import { Button, Dropdown, Grid, Item, Input, Segment } from 'semantic-ui-react'
 import AuthedApp from '../../components/AuthedApp'
 import { options } from './ChannelTags'
 
@@ -36,6 +36,9 @@ class Channels extends Component {
             </Grid.Column>
             <Grid.Column>
               <Dropdown placeholder='Tags' fluid multiple selection options={ options } />
+            </Grid.Column>
+            <Grid.Column width={ 3 }>
+              <Button primary fluid>Go</Button>
             </Grid.Column>
           </Grid>
         </Segment>
