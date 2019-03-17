@@ -52,7 +52,7 @@ export class SocialService {
     // add to list of posts
     const { account, newPost } = body
     const theDoc = await getSpecificDoc('social', account)
-    const posts = !theDoc.posts ? [] : theDoc.posts
+    const posts = !theDoc ? [] : theDoc.posts
 
     posts.push( newPost )
 

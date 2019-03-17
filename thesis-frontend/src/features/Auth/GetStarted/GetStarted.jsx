@@ -4,7 +4,6 @@ import CreateAccountTiles from './CreateAccountTiles'
 import Navigation from '../../../components/Navigation/Header'
 
 import { 
-  Button,
   Container,
   Header 
 } from 'semantic-ui-react'
@@ -55,10 +54,7 @@ class GetStarted extends Component {
     return (
       <Container>
         <Navigation onboarding />
-        <div> You're all set! </div>
-        <div className={ 'continue-button' }>
-          <Button onClick={ this.handleEnter }> Enter! </Button>
-        </div>         
+          Loading...
       </Container>
     )
   }

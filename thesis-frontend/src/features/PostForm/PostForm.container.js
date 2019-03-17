@@ -3,8 +3,9 @@ import { get } from 'lodash'
 import { post } from '../Social/Social.actions'
 import PostForm from './PostForm'
 
-const stateToProps = ({ channels }) => ({
-  hasChannel: get(channels, 'minimumPrice', false)
+const stateToProps = ({ channels, form }) => ({
+  hasChannel: get(channels, 'minimumPrice', false),
+  thePostForm: get(form, 'post.values', false)
 })
 
 const dispatchToProps = {

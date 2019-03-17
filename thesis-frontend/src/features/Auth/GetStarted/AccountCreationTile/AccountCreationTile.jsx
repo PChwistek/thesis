@@ -5,7 +5,7 @@ import AccountCreationForm from './AccountCreationForm'
 
 class AccountCreationTile extends Component {
   render() {
-    const { getStartedBack, available, identity } = this.props
+    const { available, identity } = this.props
     return (
       <Container 
         style={ {
@@ -19,7 +19,6 @@ class AccountCreationTile extends Component {
             </div>
             : <AccountCreationForm { ...this.props }/>
         }
-        <div onClick={ getStartedBack } className={ 'clickable' }> Back </div>
       </Container>
     )
   }

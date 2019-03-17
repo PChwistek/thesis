@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { destroy } from 'redux-form'
 
 export const getFeed = () => (dispatch, getState) => {
   const store = getState()
@@ -47,7 +48,7 @@ export const post = thePost => (dispatch, getState) => {
   const { auth: { account, username } } = store
   thePost.time = new Date(Date.now())
   thePost.user = username
-  return dispatch({
+  dispatch({
     type: 'SOCIAL/NEW_POST',
     payload: axios({
       method: 'POST',
@@ -58,4 +59,5 @@ export const post = thePost => (dispatch, getState) => {
       }
     })
   }) 
+  return dispatch(destroy('post'))
 }

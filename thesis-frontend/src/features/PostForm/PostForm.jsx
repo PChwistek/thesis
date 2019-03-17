@@ -1,74 +1,80 @@
 import React, { Component } from 'react'
-import { Button, Dropdown, Embed, Form, Input, Select } from 'semantic-ui-react'
+import { Button, Dropdown, Embed, Form, Input } from 'semantic-ui-react'
+import { Field, reduxForm, change } from 'redux-form'
+import { getEmbedId } from '../../helpers/utils' 
 
 class PostForm extends Component {
-  state = {
-    type: 'social',
-    body: '',
-    link: '',
-    dueDate: '',
-    projectTitle: '',
-  }
+
   getExtraFields = () => {
-    const { type } = this.state
+    const { thePostForm } = this.props
     const optionTypes = [ 
       { key: 'video', value: 'video', text: 'Video' },
       { key: 'podcast', value: 'podcast', text: 'Podcast ' }
     ]
-    if (type === 'declaration') {
-      return(
-        <div>
-          <Input placeholder='Project title' onChange={ this.setTitle } />
-          <Input placeholder='MM/DD' onChange={ this.setDueDate } />
-          <Dropdown placeholder='Content type' search selection options={ optionTypes } />
-        </div>
-      )
-    } else if (type === 'delivery') {
-      return (
-        <div>
-          <Input fluid placeholder='link' onChange={ this.setLink } />
-          <Embed id='O6Xo21L0ybE' placeholder='/images/image-16by9.png' source='youtube' />
-        </div>
-      )
-    } else if (type === 'extension') {
-      <div>
-        extension
-      </div>
+    
+    switch(thePostForm.type) {
+      case 'declaration':
+        return(
+          <div>
+            <Form.Field>
+              <Field
+                component={ Input }
+                placeholder="Project Title"
+                name="title"
+              />
+            </Form.Field>
+            <Form.Group>
+              <Form.Field>
+                <Field
+                  component={ Input }
+                  placeholder="MM/DD"
+                  name="dueDate"
+                />
+              </Form.Field>
+              <Form.Field>
+                <Dropdown placeholder='Content type' search selection options={ optionTypes } onChange={ this.handleContentType } />
+              </Form.Field>
+            </Form.Group>
+          </div>
+        )
+      case 'delivery':
+        return (
+          <div>
+            <Form.Field>
+              <Dropdown placeholder='Which project?' search selection options={ optionTypes } onChange={ this.handleWhichProject } />
+            </Form.Field>
+            <Form.Field>
+              <Field component={ Input } name="link" placeholder="Delivery link" fluid />
+            </Form.Field>
+            <Form.Field>
+              <Embed id={ getEmbedId(thePostForm.link) } placeholder='' source='youtube' active autoplay={ false } />
+            </Form.Field>
+            <br />
+          </div>
+        )
+      case 'extension':
+        return (
+          <div>
+            extension
+          </div>
+        )
     }
   }
 
-  setExtraFields = (event, data) => {
-    this.setState({
-      type: data.value,
-    })
+  handleSelect = (event, data) => {
+    this.props.dispatch(change('post', 'type', data.value))
   }
 
-  setPost = (event, data) => {
-    this.setState({
-      body: data.value,
-    })
+  handleContentType = (event, data) => {
+    this.props.dispatch(change('post', 'contentType', data.value))
   }
 
-  setTitle = (event, data) => {
-    this.setState({
-      projectTitle: data.value,
-    })
-  }
-
-  setDueDate = (event, data) => {
-    this.setState({
-      dueDate: data.value,
-    })
-  }
-
-  setLink = (event, data) => {
-    this.setState({
-      link: data.value,
-    })
+  handleWhichProject = (event, data) => {
+    this.props.dispatch(change('post', 'deliveredProject', data.value))
   }
 
   render() {
-    const { hasChannel, post } = this.props
+    const { hasChannel, post, thePostForm } = this.props
     const options = [
       {
         text: 'Social',
@@ -90,23 +96,22 @@ class PostForm extends Component {
     return (
       <Form>
         <Form.Field>
-          <Form.TextArea name='body' label='Your Post' type="text" placeholder={ 'What\'s going on?' } onChange={ this.setPost } />
+          <Field
+            name="body"
+            type="text"
+            placeholder="What's going on?"
+            component="textarea"
+          />
         </Form.Field>
-        <Form.Field  
-          name='type' 
-          control={ Select } 
-          label='Post Type' 
-          options={ hasChannel ? options : [options[0]] } 
-          placeholder='Post Type' 
-          defaultValue={ 'social' } 
-          onChange={ this.setExtraFields }
-        />
+        <Form.Field>
+          <Form.Select options={ hasChannel ? options : options[0] } defaultValue={ 'social' } onChange={ this.handleSelect } />
+        </Form.Field>
         { this.getExtraFields() }
         <Button 
           type='submit' 
           onClick={ () => post(
             { 
-              ...this.state,
+              ...thePostForm,
             }
           ) }
         >
@@ -117,4 +122,10 @@ class PostForm extends Component {
   }
 }
 
-export default PostForm
+const theForm = reduxForm({
+  form: 'post',
+  destroyOnUnmount: true,
+  enableReinitialize: true,
+})(PostForm)
+
+export default theForm
