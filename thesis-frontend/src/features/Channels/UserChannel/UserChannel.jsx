@@ -55,7 +55,11 @@ class UserChannel extends Component {
         </AuthedApp>
       )
     }
-    return <CreateChannel { ...this.props } />
+    return (
+      <AuthedApp>
+        <CreateChannel { ...this.props } />
+      </AuthedApp>
+    )
     
   }
 }
