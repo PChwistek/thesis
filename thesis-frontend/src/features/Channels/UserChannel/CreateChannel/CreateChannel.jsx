@@ -14,8 +14,7 @@ class CreateChannel extends Component {
 
   handleOpen() {
     const { openChannel } = this.props
-    const { price, limit } = this.state
-    openChannel(limit, price)
+    openChannel(this.state)
   }
 
   inputPrice = e => {
@@ -61,7 +60,6 @@ class CreateChannel extends Component {
     </Button.Group>
   )
     
-
   nextStep() {
     const { index } = this.state
     const inputStyle = { maxWidth: '50%', margin: 'auto' }
@@ -161,7 +159,7 @@ class CreateChannel extends Component {
             <br />
             <Button.Group>
               <Button secondary onClick={ () => this.previous(index) }> Back </Button>
-              <Button primary> Submit </Button>
+              <Button primary onClick={ () => this.handleOpen() }> Submit </Button>
             </Button.Group>
           </div>
         )

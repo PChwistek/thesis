@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Button, Dropdown, Grid, Item, Input, Segment } from 'semantic-ui-react'
-import AuthedApp from '../../components/AuthedApp'
+import AuthedApp from '../AuthedApp'
 import { options } from './ChannelTags'
 
 class Channels extends Component {
@@ -20,11 +20,11 @@ class Channels extends Component {
     const items = channels.map((channel,index) => ({
       childKey: index,
       image: '/',
-      description: '',
-      header: 'channel name',
-      meta: channel.key,
-      extra: 'Projects Declared: ' + channel.total_proj,
-      onClick: () => this.toChannel(channel.key),
+      description: channel.description,
+      header: channel.channelName,
+      meta: channel.username,
+      extra: 'Subscribers: ' + channel.subscriptions,
+      onClick: () => this.toChannel(channel.account),
     }))
   
     return (
@@ -43,7 +43,7 @@ class Channels extends Component {
           </Grid>
         </Segment>
         <Segment>
-          <Item.Group link items={ items } />
+          { items.length > 0 ? <Item.Group link items={ items } /> : <div> Trouble loading channels! </div> }
         </Segment>
       </AuthedApp>
     )

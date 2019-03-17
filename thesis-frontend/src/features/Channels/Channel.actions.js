@@ -10,6 +10,23 @@ export const goToChannel = key  => (dispatch) => {
   )
 }
 
+export const getChannels = (terms, tags) => dispatch => {
+  return dispatch({
+    type: 'CHANNEL/GET_CHANNELS',
+    payload: axios({
+      method: 'POST',
+      url: 'http://localhost:3009/api/channel/list',
+      data: {
+        terms,
+        tags,
+      }
+    }).then(res => dispatch({
+      type: 'CHANNEL/GET_CHANNELS_FULFILLED',
+      payload: res.data
+    }))
+  })
+}
+
 export const getUserChannel = account => dispatch => {
   return dispatch({
     type: 'CHANNEL/GET_USER_CHANNEL',

@@ -10,6 +10,12 @@ export class ChannelController {
     return this.channelService.root()
   }
 
+  @Post('/list')
+  getChannels(@Body() body: any) {
+    const { tags, terms } = body
+    return this.channelService.getChannels(terms, tags)
+  }
+
   @Post('/')
   createChannel(@Body() body: any) {
     console.log(body)

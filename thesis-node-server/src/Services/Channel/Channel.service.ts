@@ -1,4 +1,4 @@
-import { getSpecificDoc, merge, save } from 'helpers/firestore'
+import { getCollection, getSpecificDoc, merge, save } from 'helpers/firestore'
 import { IFirestoreFile } from 'Models/Storage/Storage.model'
 
 export class ChannelService {
@@ -12,6 +12,14 @@ export class ChannelService {
     return theDoc
   }
 
+  async getChannels(terms, tags): Promise<any> {
+    const theChannels = await getCollection('channel')
+    console.log(theChannels)
+    // search according to terms, tags
+    if (!theChannels) return []
+    return theChannels
+  }
+
   async merge(body: any) {
     const { username, dataToMerge } = body
     // const theDoc = await getSpecificDoc('channel', username)
@@ -19,15 +27,21 @@ export class ChannelService {
   }
 
   saveChannel(body: any) {
-    const { username, minimumPrice } = body
+    const { account, username, minimumPrice, description, tags, channelName } = body
     const toFile = {
       collectionKey: 'channel',
-      documentKey: username,
+      documentKey: account,
       documentBody: {
+        account,
         username,
         minimumPrice,
+        description,
+        channelName,
+        tags,
+        subscriptions: 0,
       },
     }
-    return save(toFile)
+    save(toFile)
+    return body
   }
 }

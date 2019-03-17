@@ -1,11 +1,10 @@
 import { connect } from 'react-redux'
-import { getChannels } from '../RPC/RPC.actions'
-import { goToChannel } from './Channel.actions'
+import { goToChannel, getChannels } from './Channel.actions'
 import Channels from './Channels'
 import { get } from 'lodash'
 
-const stateToProps = ({ rpc }) => ({
-  channels: get(rpc, 'channels', []),
+const stateToProps = ({ channels }) => ({
+  channels: get(channels, 'channels', []),
 })
 
 const dispatchToProps = {

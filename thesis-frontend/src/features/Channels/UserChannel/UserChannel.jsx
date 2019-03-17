@@ -3,7 +3,7 @@ import { Grid, Header, Segment } from 'semantic-ui-react'
 import PersonalSummary from '../../PersonalSummary'
 import UserSummary from './UserSummary'
 import PostForm from '../../PostForm'
-import AuthedApp from '../../../components/AuthedApp'
+import AuthedApp from '../../AuthedApp'
 import CreateChannel from './CreateChannel'
 import DashboardFeed from '../../Dashboard/DashboardFeed'
 

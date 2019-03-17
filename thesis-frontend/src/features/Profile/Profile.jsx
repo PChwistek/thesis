@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import AuthedApp from '../../components/AuthedApp'
+import AuthedApp from '../AuthedApp'
 
 class Profile extends Component {
 
