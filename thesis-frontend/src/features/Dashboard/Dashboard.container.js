@@ -7,10 +7,11 @@ import { getFeed } from '../Social/Social.actions'
 import Dashboard from './Dashboard'
 import { get } from 'lodash'
 
-const stateToProps = ({ auth, rpc, social }) => ({
+const stateToProps = ({ auth, rpc, social, channels }) => ({
   auth,
   stores: rpc.stores,
-  posts: get(social, 'posts', [])
+  posts: get(social, 'posts', []),
+  subbedChannels: channels.subscribedTo,
 })
 
 const dispatchToProps = {

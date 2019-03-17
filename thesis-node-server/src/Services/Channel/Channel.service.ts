@@ -20,6 +20,22 @@ export class ChannelService {
     return theChannels
   }
 
+  async getMultiple(account, subscribedTo): Promise<any> {
+
+    const subbedChannels = []
+    subscribedTo.forEach(async element => {
+      return subbedChannels.push(await this.findByKey(element))
+    })
+    const userChannel = await this.findByKey(account)
+
+    const response = {
+      ...userChannel,
+      subscribedTo: subbedChannels,
+    }
+
+    return response
+  }
+
   async merge(body: any) {
     const { username, dataToMerge } = body
     // const theDoc = await getSpecificDoc('channel', username)

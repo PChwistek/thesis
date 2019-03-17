@@ -2,6 +2,7 @@ import axios from 'axios'
 import { Api, JsonRpc } from 'eosjs'
 import { endpoint, network } from '../../api/scatterConfig'
 import { transaction } from './Blockchain.utils'
+import { logSubscribe } from '../Subscribe/Subscribe.actions'
 
 export const sayHello = () => (dispatch, getState) => {
   const store = getState()
@@ -59,9 +60,12 @@ export const subscribe = (contentCreator, amount) => (dispatch, getState) => {
   const rpc = new JsonRpc(endpoint)
   const api = scatter.eos(network, Api, { rpc })
   dispatch({ type: 'BLOCKCHAIN/SUBSCRIBE_PENDING' })
-  return transaction(api, 'eosio.token', 'transfer', account, { from: account.name, to: 'submanager', quantity: `${amount}`, memo: contentCreator})
+  return transaction(api, 'eosio.token', 'transfer', account, { from: account.name, to: 'submerged', quantity: `${amount}`, memo: contentCreator})
     .then(
-      response => dispatch({ type: 'BLOCKCHAIN/SUBSCRIBE_FULFILLED', payload: response}),
+      response => {
+        dispatch({ type: 'BLOCKCHAIN/SUBSCRIBE_FULFILLED', payload: response})
+        return dispatch(logSubscribe(contentCreator, response))
+      },
       error => dispatch({ type: 'BLOCKCHAIN/SUBSCRIBE_REJECTED', payload: error}),
     )
 }

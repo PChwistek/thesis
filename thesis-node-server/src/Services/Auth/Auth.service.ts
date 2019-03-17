@@ -14,12 +14,12 @@ export class AuthService {
   }
 
   createScatterAccount(body: ScatterAccountReqBody): any {
-    const { hash, username, first, last, email, account } = body
-    const user: IJwtPayloadScatter = { publicKey: body.publicKey }
+    const { hash, username, first, last, email, account, publicKey } = body
+    const user: IJwtPayloadScatter = { account }
     const token = this.jwtService.sign(user)
     const toFile = {
       collectionKey: 'scatter',
-      documentKey: body.publicKey,
+      documentKey: account,
       documentBody: {
         username,
         hash,
@@ -27,26 +27,29 @@ export class AuthService {
         last,
         email,
         account,
+        publicKey,
         token,
       },
     }
     this.userService.saveScatterAccount(toFile)
     return {
       username,
+      hash,
       first,
       last,
       email,
-      token,
       account,
+      publicKey,
+      token,
     }
   }
 
   async signInScatter(body: GetScatterAccountReqBody): Promise<any> {
-    const foundUser = await this.userService.findOneByPublicKey(body.publicKey)
+    const foundUser = await this.userService.findByIndex(body.account)
     if (foundUser) {
-      const user: IJwtPayloadScatter = { publicKey: body.publicKey }
+      const user: IJwtPayloadScatter = { account: body.account }
       const token = this.jwtService.sign(user)
-      this.userService.merge(body.publicKey, { token })
+      this.userService.merge(body.account, { token })
       return {
         ...foundUser,
         token,
@@ -56,7 +59,7 @@ export class AuthService {
   }
 
   async validateUser(payload: IJwtPayloadScatter): Promise<any> {
-    const theUser = await this.userService.findOneByPublicKey(payload.publicKey)
+    const theUser = await this.userService.findByIndex(payload.account)
     const isValidToken = this.jwtService.verify(theUser.token)
     if (isValidToken) {
       return theUser

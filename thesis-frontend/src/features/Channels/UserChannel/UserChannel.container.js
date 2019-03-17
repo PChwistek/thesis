@@ -1,6 +1,7 @@
 import { connect } from 'react-redux'
 import { openChannel, subscribe } from '../../Blockchain/Blockchain.actions'
 import { setScatter } from '../../Scatter/Scatter.actions'
+import { getChannel } from '../../Channels/Channel.actions'
 import { getChannelFeed } from '../../Social/Social.actions'
 import UserChannel from './UserChannel'
 import { get } from 'lodash'
@@ -20,6 +21,7 @@ const dispatchToProps = {
   openChannel,
   subscribe,
   getChannelFeed,
+  getChannel,
   setScatter,
 }
 

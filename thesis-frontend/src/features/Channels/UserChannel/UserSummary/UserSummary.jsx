@@ -2,20 +2,32 @@ import React, { Component } from 'react'
 import { Button, Card, Feed } from 'semantic-ui-react'
 
 class UserSummary extends Component {
+
+  componentDidMount() {
+    const { channelAccount, getChannel, isScatterAccount, setScatter } = this.props
+    getChannel(channelAccount)
+    if (!isScatterAccount) {
+      setScatter()
+    }
+  }
   render() {
-    const { subscribe } = this.props
+    const {  viewing, subscribe, auth } = this.props    
+    const subscribed = auth.subscribedTo.indexOf(viewing.account) != -1
     const extra = ( 
-      <a>
-        <Button primary onClick={ subscribe }>Subscribe</Button>
-      </a>
+      <div>
+        <p> { viewing.subscriptions } Backers </p>
+        <a>
+          { subscribed ? <div> Subscribed </div> : <Button primary onClick={ () => subscribe(viewing.account, viewing.minimumPrice) }> Subscribe </Button> }
+        </a>
+      </div>
     )
     return (
       <div>
         <Card
           image=''
-          header='Elliot Baker'
-          meta='Creator'
-          description='Elliot is a sound engineer living in Nashville who enjoys playing guitar and hanging with his cat.'
+          header={ viewing.channelName }
+          meta={ viewing.username }
+          description={ viewing.description }
           extra={ extra }
         />
         <Card>

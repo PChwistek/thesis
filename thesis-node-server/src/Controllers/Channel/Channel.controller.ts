@@ -29,7 +29,10 @@ export class ChannelController {
 
   @Post('/user')
   getChannel(@Body() body: any) {
-    const { account } = body
+    const { account, subscribedTo } = body
+    if (subscribedTo) {
+      return this.channelService.getMultiple(account, subscribedTo)
+    }
     return this.channelService.findByKey(account)
   }
 }

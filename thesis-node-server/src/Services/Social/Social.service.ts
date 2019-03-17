@@ -18,7 +18,9 @@ export class SocialService {
     const theDoc = await this.findByKey(username)
     const feed = []
     // get feed from subscriptions too
-    feed.push(theDoc.posts)
+    if (theDoc) {
+      feed.push(theDoc.posts)
+    }
     // sort appropriately
     return feed
   }

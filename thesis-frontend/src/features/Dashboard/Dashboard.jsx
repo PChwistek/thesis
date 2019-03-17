@@ -31,7 +31,7 @@ class Dashboard extends Component {
   }
 
   render() {
-    const { auth, posts } = this.props
+    const { auth, posts, subbedChannels } = this.props
     return (
       <AuthedApp>
         <Grid columns="equal">
@@ -49,6 +49,16 @@ class Dashboard extends Component {
           <Grid.Column>
             <Segment>
               Subscriptions
+              {
+                subbedChannels.map((channel, index) => {
+                  return (
+                    <div key={ index }>
+                      <br />
+                      <p> { channel.channelName } </p>
+                    </div>
+                  )
+                })
+              }
             </Segment>
           </Grid.Column>
         </Grid>

@@ -27,7 +27,9 @@ export const getChannels = (terms, tags) => dispatch => {
   })
 }
 
-export const getUserChannel = account => dispatch => {
+export const getUserChannel = account => (dispatch, getState) => {
+  const store = getState()
+  const { auth: { subscribedTo } } = store 
   return dispatch({
     type: 'CHANNEL/GET_USER_CHANNEL',
     payload: axios({
@@ -35,6 +37,7 @@ export const getUserChannel = account => dispatch => {
       url: 'http://localhost:3009/api/channel/user',
       data: {
         account,
+        subscribedTo,
       }
     }).then(res => dispatch({
       type: 'CHANNEL/GET_USER_CHANNEL_FULFILLED',

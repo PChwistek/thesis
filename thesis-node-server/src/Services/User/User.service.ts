@@ -4,15 +4,43 @@ import { IFirestoreFile } from 'Models/Storage/Storage.model'
 
 @Injectable()
 export class UserService {
-  async findOneByPublicKey(publicKey: string): Promise<FirebaseFirestore.DocumentData> {
-    const theDoc = await getSpecificDoc('scatter', publicKey)
+
+  root() {
+    return 'At user!'
+  }
+
+  async subscribe(body): Promise<any> {
+    const { subscriber, creator } = body
+    console.log(body)
+    const userData = await this.findByIndex(subscriber)
+    if (!userData.subscribedTo) {
+      userData.subscribedTo = []
+    }
+    userData.subscribedTo.push(creator)
+    this.merge(subscriber, userData)
+    return userData.subscribedTo
+  }
+
+  async unsubscribe(body): Promise<any> {
+    const { subscriber, creator } = body
+    const userData = await this.findByIndex(subscriber)
+    if (!userData.subscribedTo) {
+      userData.subscribedTo = []
+    }
+    userData.subscribedTo = userData.subscribedTo.filter(value => value !== creator)
+    this.merge(subscriber, userData)
+    return userData.subscribedTo
+  }
+
+  async findByIndex(account: string): Promise<FirebaseFirestore.DocumentData> {
+    const theDoc = await getSpecificDoc('scatter', account)
     if (!theDoc) return null
     return theDoc
   }
 
-  async merge(publicKey: string, dataToMerge: object) {
-    const theDoc = await getSpecificDoc('scatter', publicKey)
-    return merge('scatter', publicKey, dataToMerge)
+  async merge(account: string, dataToMerge: object) {
+    const theDoc = await getSpecificDoc('scatter', account)
+    return merge('scatter', account, dataToMerge)
   }
 
   saveScatterAccount(toFile: IFirestoreFile) {

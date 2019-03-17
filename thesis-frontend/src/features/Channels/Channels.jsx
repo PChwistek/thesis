@@ -16,6 +16,15 @@ class Channels extends Component {
 
   render() {
     const { channels } = this.props
+
+    const extra = (channel) => (
+      <div>
+        <br />
+        <span> { channel.subscriptions } Subscribed </span>
+        <br />
+        <span> { channel.minimumPrice } Per Cycle </span>
+      </div>
+    )
    
     const items = channels.map((channel,index) => ({
       childKey: index,
@@ -23,7 +32,7 @@ class Channels extends Component {
       description: channel.description,
       header: channel.channelName,
       meta: channel.username,
-      extra: 'Subscribers: ' + channel.subscriptions,
+      extra: extra(channel),
       onClick: () => this.toChannel(channel.account),
     }))
   

@@ -54,15 +54,15 @@ export const verifyAccountByToken = () => (dispatch, getState) => {
 
 export const loginScatter = () => (dispatch, getState) => {
   const scatter = getState().scatter
-  const { identity: { publicKey, hash } } = scatter
+  const { identity: { accounts } } = scatter
+  console.log(get(accounts[0], 'name'))
   return dispatch({
     type: 'AUTH/LOGIN_WITH_SCATTER',
     payload: axios({
       method: 'POST',
       url: 'http://localhost:3009/api/auth/sign-in-scatter',
       data: {
-        publicKey,
-        hash,
+        account: get(accounts[0], 'name'),
       },
     }).then(res => {
       dispatch({
@@ -77,14 +77,15 @@ export const loginScatter = () => (dispatch, getState) => {
 }
 
 export const logout = () => (dispatch, getState) => {
-  const token = getState().auth.token
-  const publicKey = getState().scatter.identity.publicKey
+  const store = getState()
+  const token = store.auth.token
+  const { scatter: { identity: { accounts } } } = store
   const logout = () => {
     axios({
       method: 'POST',
       url: 'http://localhost:3009/api/auth/logout',
       data: {
-        publicKey,
+        account: get(accounts[0], 'name'),
       },
       headers: { 'Authorization' : `Bearer ${token}`},
     })

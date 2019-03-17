@@ -11,7 +11,7 @@ const initialState = {
   email: '',
   username: '',
   token: '',
-  subscribedTo: '',
+  subscribedTo: [],
 }
 
 export default function auth (state = initialState, action) {
@@ -57,6 +57,8 @@ export default function auth (state = initialState, action) {
         .value()
     case 'BLOCKCHAIN/OPEN_STORE_FULFILLED':
       return i.assoc(state, 'hasChannel', true)
+    case 'SUBSCRIBE/NEW_SUBSCRIPTION_FULFILLED':
+      return i.assoc(state, 'subscribedTo', action.payload)
     default:
       return state
   }

@@ -13,16 +13,17 @@ class UserChannel extends Component {
   componentDidMount() {
     const { channelAccount, getChannelFeed } = this.props
     getChannelFeed(channelAccount)
+
   }
 
   render() {
-    const { hasChannel, theirAccount, posts, subscribe, viewing } = this.props
+    const { hasChannel, theirAccount, posts } = this.props
     if(!theirAccount) {
       return ( 
         <AuthedApp>
           <Grid columns="equal">
             <Grid.Column width={ 4 }>
-              <UserSummary subscribe={ subscribe } viewing={ viewing }/>
+              <UserSummary { ...this.props } />
             </Grid.Column>
             <Grid.Column>
               <Segment>
