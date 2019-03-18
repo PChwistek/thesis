@@ -10,9 +10,10 @@ import DashboardFeed from '../../Dashboard/DashboardFeed'
 class UserChannel extends Component {
   
   componentDidMount() {
-    const { channelAccount, getChannelFeed } = this.props
+    const { channelAccount, getChannelFeed, getProjects } = this.props
+    console.log('channelAccount', channelAccount)
     getChannelFeed(channelAccount)
-
+    getProjects(channelAccount)
   }
 
   render() {

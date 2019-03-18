@@ -48,6 +48,7 @@ export const post = thePost => (dispatch, getState) => {
   const { auth: { account, username } } = store
   thePost.time = new Date(Date.now())
   thePost.user = username
+  thePost.account = account
   dispatch({
     type: 'SOCIAL/NEW_POST',
     payload: axios({
@@ -64,7 +65,7 @@ export const post = thePost => (dispatch, getState) => {
   return dispatch(destroy('post'))
 }
 
-export const getProjects = () => (dispatch, getState) => {
+export const getProjects = (channelAccount) => (dispatch, getState) => {
   const store = getState()
   const { auth: { account } } = store
   dispatch({
@@ -73,7 +74,7 @@ export const getProjects = () => (dispatch, getState) => {
       method: 'POST',
       url: 'http://localhost:3009/api/project/all',
       data: {
-        account,
+        account: channelAccount || account,
       }
     }).then(res => {
       return dispatch({

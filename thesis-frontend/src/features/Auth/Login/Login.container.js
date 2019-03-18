@@ -7,6 +7,7 @@ const stateToProps = ({ scatter, auth }) => ({
   auth,
   identity: scatter.identity,
   available: scatter.available,
+  isFetchingAccount: scatter.isFetchingAccount,
 })
 
 const dispatchToProps = {

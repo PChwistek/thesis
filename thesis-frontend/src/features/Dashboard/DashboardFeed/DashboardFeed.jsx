@@ -2,8 +2,16 @@ import React, { Component, Fragment } from 'react'
 
 import { Button, Divider, Embed, Feed } from 'semantic-ui-react'
 import { getEmbedId } from '../../../helpers/utils'
+import { getPoll } from '../../RPC/RPC.actions'
 
 class DashboardFeed extends Component {
+
+  handleVote = (satisfied, post) => {
+    const { vote } = this.props
+    getPoll(post.account, post.projectKey, 'nps').then(res => {
+      vote(satisfied, post.account, post.projectKey, res.key)
+    })
+  }
 
   getAppropriateSummary(post) {
     switch(post.type) {
@@ -41,9 +49,9 @@ class DashboardFeed extends Component {
             Satisfied?
             <br />
             <Button.Group size='small'>
-              <Button>Yes</Button>
+              <Button onClick={ () => this.handleVote(true, post) }>Yes</Button>
               <Button.Or />
-              <Button>No</Button>
+              <Button onClick={ () => this.handleVote(false, post) }>No</Button>
             </Button.Group>
           </div>
         )

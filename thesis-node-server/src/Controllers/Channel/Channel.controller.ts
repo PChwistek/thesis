@@ -31,6 +31,7 @@ export class ChannelController {
   getChannel(@Body() body: any) {
     const { account, subscribedTo } = body
     if (subscribedTo) {
+      console.log('getting multiple')
       return this.channelService.getMultiple(account, subscribedTo)
     }
     return this.channelService.findByKey(account)

@@ -30,7 +30,7 @@ cleos create account eosio submerged2 EOS6N2sW39eCpbWFzQ8uFiYfwKhEKmVqYg6KW5H2Jb
 // clear stuff for debugging
 cleos push action submerged erasesub '["bob", "alice"]' -p bob@active
 cleos push action submerged erasechan '["bob"]' -p bob@active
-cleos push action submerged2 eraseprojs '["alice"]' -p alice@active
+cleos push action submerged eraseprojs '["bob"]' -p bob@active
 cleos push action submerged2 erasecred '[]' -p alice@active
 cleos push action submerged2 erasevote '["alice"]' -p alice@active
 

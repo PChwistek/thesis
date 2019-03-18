@@ -3,7 +3,8 @@ import i from 'icepick'
 const initialState = {
   posts: [],
   channelPosts: [],
-  projects: []
+  projects: [],
+  fetchingChannel: false,
 }
 
 export default function scatter (state = initialState, action) {
@@ -13,9 +14,13 @@ export default function scatter (state = initialState, action) {
         return i.assoc(state, 'posts', action.payload[0])
       }
       return state
+    case 'SOCIAL/GET_CHANNEL_FEED':
+      return i.assoc(state, 'fetchingChannel', true)
     case 'SOCIAL/GET_CHANNEL_FEED_FULFILLED':
       if(action.payload[0]) {
-        return i.assoc(state, 'channelPosts', action.payload[0])
+        return i.chain(state)
+          .assoc('channelPosts', action.payload[0])
+          .assoc('fetchingChannel', false)
       }
       return state
     case 'SOCIAL/GET_PROJECTS_FULFILLED':

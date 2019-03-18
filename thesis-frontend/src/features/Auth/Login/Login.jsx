@@ -5,6 +5,7 @@ import Navigation from '../../Navigation/Navigation'
 import { 
   Container,
   Header,
+  Segment,
 } from 'semantic-ui-react'
 
 class Login extends Component {
@@ -15,7 +16,19 @@ class Login extends Component {
   }
   
   render() {
-    const { loginScatter } = this.props
+    const { loginScatter, isFetchingAccount } = this.props
+
+    if(isFetchingAccount) {
+      return (
+        <Container>
+          <Navigation onboarding/>
+          <Segment placeholder textAlign="center">
+            <Header as="h4" content="Please select an account in Scatter" />
+          </Segment>
+        </Container>
+      )
+    }
+
     return (
       <Container>
         <Navigation onboarding />
