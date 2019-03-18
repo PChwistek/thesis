@@ -1,49 +1,55 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { 
-  Navbar, 
-  NavbarBrand, 
-  NavbarEnd, 
-  NavbarItem 
-} from 'bloomer'
+import { Menu } from 'semantic-ui-react'
 
-import s from './HeaderAuthed.scss'
+//import s from './HeaderAuthed.scss'
 
 export default class HeaderAuthed extends Component {
   render() {
-    const { logout } = this.props
+    const { logout, account } = this.props
     return (
-      <Navbar className={ s.header }>
-        <NavbarBrand>
-          <NavbarItem>
-            <Link to="/">
-              Thesis
-            </Link>
-          </NavbarItem>
-        </NavbarBrand>
-        <NavbarEnd>
-          <NavbarItem>
+      <Menu secondary>
+        <Menu.Item>
+          <Link to="/">
+            Submerged
+          </Link>
+        </Menu.Item>
+        <Menu.Menu position="right">
+          <Menu.Item>
             <Link to="/dashboard">
               Dashboard
             </Link>
-          </NavbarItem>
-          <NavbarItem>
-            <Link to="/get-started">
-              Your Subscriptions
+          </Menu.Item>
+          <Menu.Item>
+            <Link to="/channels">
+              Channels
             </Link>
-          </NavbarItem>
-          <NavbarItem>
-            <Link to="/">
-              Your Profile
+          </Menu.Item>
+          <Menu.Item>
+            <Link to={
+              {
+                pathname: '/channel',
+                state: {
+                  key: account,
+                }
+              }
+            }
+            >
+              Your Channel
             </Link>
-          </NavbarItem>
-          <NavbarItem onClick={ logout }>
-            <Link to="/">
+          </Menu.Item>
+          <Menu.Item>
+            <Link to="/account">
+              Account
+            </Link>
+          </Menu.Item>
+          <Menu.Item>
+            <Link to="/logout" onClick={ logout }>
               Logout
             </Link>
-          </NavbarItem>
-        </NavbarEnd>
-      </Navbar>
+          </Menu.Item>
+        </Menu.Menu>
+      </Menu>
     )
   }
 }

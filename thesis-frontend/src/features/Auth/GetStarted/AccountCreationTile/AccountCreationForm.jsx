@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Field, reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
 import { get } from 'lodash'
-import { Button } from 'bloomer'
+import { Button, Form, Header, Segment, Input } from 'semantic-ui-react'
 
 import './AccountCreationTile.scss'
 
@@ -13,53 +13,54 @@ class AccountCreationForm extends Component {
     getStartedNext()
   }
   render() {
-    const { identity } = this.props
+    const { identity: { accounts } } = this.props
+    const fieldStyle = {
+      minWidth: '50%',
+    }
     return (
-      <form>
-        <div>
+      <Form>
+        <Segment placeholder textAlign="center">
           {
-            identity && 
-            <div>
-                We will connect your account with this public key: 
-              { identity.publicKey }
-            </div>
+            accounts && 
+            <Header as="h4">
+                We will connect your Submerged profile with this EOS account:  { accounts[0].name }
+            </Header>
           }
-          <label>First Name</label>
-          <div>
+          <Form.Field style={ fieldStyle }>
+            <label>First Name</label>
             <Field
               name="firstname"
-              component="input"
               type="text"
               placeholder="First Name"
+              component={ Input }
             />
-          </div>
-        </div>
-        <div>
-          <label>Last Name</label>
-          <div>
+          </Form.Field>
+          <Form.Field style={ fieldStyle }>
+            <label>Last Name</label>
             <Field
               name="lastname"
-              component="input"
+              component={ Input }
               type="text"
               placeholder="Last Name"
             />
-          </div>
-        </div>
-        <div>
-          <label>Email</label>
-          <div>
+          </Form.Field>
+          <Form.Field style={ fieldStyle }>
+            <label>Email</label>
             <Field
               name="email"
-              component="input"
+              component={ Input }
               type="text"
               placeholder="Email"
             />
+          </Form.Field>
+          <div className={ 'continue-button' }>
+            <Button.Group>
+              <Button secondary onClick={ this.props.getStartedBack }> Back </Button>
+              <Button primary onClick={ this.handleClick }> Continue </Button>
+            </Button.Group>
           </div>
-        </div>
-        <div className={ 'continue-button' }>
-          <Button isColor='info' isOutlined onClick={ this.handleClick }> Continue </Button>
-        </div>
-      </form>
+        </Segment>
+      </Form>
     )
   }
 }

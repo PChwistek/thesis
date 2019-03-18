@@ -4,6 +4,7 @@ import Navigation from './Navigation'
 
 const stateToProps = ({ auth }) => ({
   token: auth.token,
+  account: auth.account,
 })
 
 const dispatchToProps = {

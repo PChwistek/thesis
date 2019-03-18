@@ -1,24 +1,27 @@
 import { connect } from 'react-redux'
-import { getStores } from '../Market/Market.actions'
 import { authCompleted } from '../Auth/Auth.actions'
-import { openStore, sayHello, subscribe } from '../Blockchain/Blockchain.actions'
+import { sayHello, subscribe } from '../Blockchain/Blockchain.actions'
 import { setScatter, setScatterAccount } from '../Scatter/Scatter.actions'
+import { getUserChannel } from '../Channels/Channel.actions'
+import { getFeed } from '../Social/Social.actions' 
 import Dashboard from './Dashboard'
+import { get } from 'lodash'
 
-const stateToProps = ({ market, scatter }) => ({
-  stores: market.stores,
-  isScatterSet: !!scatter.ref,
-  isScatterAccount: !!scatter.account,
+const stateToProps = ({ auth, rpc, social, channels }) => ({
+  auth,
+  stores: rpc.stores,
+  posts: get(social, 'posts', []),
+  subbedChannels: channels.subscribedTo,
 })
 
 const dispatchToProps = {
-  getStores,
+  getUserChannel,
+  getFeed,
   authCompleted,
   setScatter,
   setScatterAccount,
   sayHello,
   subscribe,
-  openStore,
 }
 
 export default connect(stateToProps, dispatchToProps)(Dashboard)

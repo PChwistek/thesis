@@ -7,11 +7,12 @@ export interface IScatterAccountReqBody {
   username: string,
   first: string,
   last: string,
+  account: string,
+  hasChannel: boolean,
 }
 
 export interface IGetScatterAccountReqBody {
-  publicKey: string,
-  hash: string,
+  account: string
 }
 
 // there needs to be some for regular accounts later, with hashed passwords (Argon2) and the like
@@ -41,6 +42,12 @@ export class ScatterAccountReqBody implements IScatterAccountReqBody {
   @Length(1, 30)
   last: string
 
+  @IsString()
+  @Length(1, 12)
+  account: string
+
+  hasChannel: boolean
+
   constructor(data: IScatterAccountReqBody) {
       Object.assign(this, data)
   }
@@ -48,13 +55,7 @@ export class ScatterAccountReqBody implements IScatterAccountReqBody {
 
 export class GetScatterAccountReqBody implements IGetScatterAccountReqBody {
 
-  @IsString()
-  @Length(53, 53)
-  publicKey: string
-
-  @IsString()
-  @Length(64, 64)
-  hash: string
+  account: string
 
   constructor(data: IGetScatterAccountReqBody) {
       Object.assign(this, data)
@@ -62,5 +63,5 @@ export class GetScatterAccountReqBody implements IGetScatterAccountReqBody {
 }
 
 export interface IJwtPayloadScatter {
-  publicKey: string
+  account: string
 }

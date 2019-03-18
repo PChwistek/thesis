@@ -4,22 +4,22 @@ import registerServiceWorker from './registerServiceWorker'
 import { Provider } from 'react-redux'
 import Routes from './features/Routes'
 import { ConnectedRouter } from 'connected-react-router'
-import { history, store } from './store/configureStore'
-import Navigation from './features/Navigation'
-import 'bulma/css/bulma.css'
+import { history, store, persistor } from './store/configureStore'
+import 'semantic-ui-css/semantic.min.css'
+import { PersistGate } from 'redux-persist/integration/react'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faEnvelope, faKey, faPenSquare } from '@fortawesome/free-solid-svg-icons'
-
 library.add(faEnvelope, faKey, faPenSquare)
 
 ReactDOM.render(
   <Provider store={ store }>
-    <ConnectedRouter history={ history }>
-      <div>
-        <Navigation />
-        <Routes />
-      </div>
-    </ConnectedRouter>
+    <PersistGate loading={ null } persistor={ persistor }>
+      <ConnectedRouter history={ history }>
+        <div>
+          <Routes />
+        </div>
+      </ConnectedRouter>
+    </PersistGate>
   </Provider>,
   document.getElementById('root')
 )
