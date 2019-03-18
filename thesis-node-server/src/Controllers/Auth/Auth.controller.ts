@@ -25,7 +25,7 @@ export class AuthController {
   @Post('/logout')
   @UseGuards(AuthGuard())
   logout(@Body() body: any) {
-    return this.authService.logout(body.publicKey)
+    return this.authService.logout(body.account)
   }
 
   @Get('/forbidden')

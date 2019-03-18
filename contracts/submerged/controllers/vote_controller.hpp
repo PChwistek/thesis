@@ -104,8 +104,8 @@ class vote_controller: public controller {
         project the_project = the_project_controller.get_project(creator.value, project_key);
 
         if(the_vote.vote_type == "nps") {
+          bool completed_month = the_channel.num_proj_promised == the_project_controller.get_active_projects(creator);
           if(passed) {
-            bool completed_month = the_channel.num_proj_promised == the_channel_controller.get_active_projects(creator);
             print("================== PASSED ======================");
             the_channel.total_proj_fulfilled = (the_channel.total_proj_fulfilled + 1) & 0xFF;
             the_channel_controller.set_channel(creator.value, the_channel);

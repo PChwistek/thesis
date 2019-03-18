@@ -7,6 +7,7 @@ import { createScatterAssocAccount, getStartedAt, getStartedBack, getStartedNext
 const stateToProps = ({ scatter, auth }) => ({
   identity: scatter.identity,
   available: scatter.available,
+  isFetchingAccount: scatter.isFetchingAccount,
   activeIndex: get(auth, 'activeIndex', 0),
 })
 

@@ -19,6 +19,16 @@ export function save(file: IFirestoreFile) {
   })
 }
 
+export async function getCollection(collectionKey: string): Promise<any> {
+  return firestore.collection(collectionKey).get().then(snapshot => {
+    const channels = []
+    snapshot.forEach(doc => {
+      channels.push(doc.data())
+    })
+    return channels
+  })
+}
+
 export async function getSpecificDoc(collectionKey: string, documentKey: string): Promise<FirebaseFirestore.DocumentData> {
   const theDocRef = await firestore.collection(collectionKey).doc(documentKey).get()
   return theDocRef.data()
@@ -30,3 +40,21 @@ export async function merge(collectionKey: string, documentKey: string, dataToMe
     ...dataToMerge,
   }, { merge: true });
 }
+
+/*
+
+var query = citiesRef.where('capital', '==', true).get()
+  .then(snapshot => {
+    if (snapshot.empty) {
+      console.log('No matching documents.');
+      return;
+    }
+
+    snapshot.forEach(doc => {
+      console.log(doc.id, '=>', doc.data());
+    });
+  })
+  .catch(err => {
+    console.log('Error getting documents', err);
+  });
+*/

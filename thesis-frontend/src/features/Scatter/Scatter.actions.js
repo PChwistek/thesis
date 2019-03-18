@@ -6,12 +6,13 @@ ScatterJS.plugins( new ScatterEOS() )
 
 export const setScatter = () => (dispatch) => {
   dispatch({type: 'SCATTER/CONNECT_SCATTER_PENDING'})
-  ScatterJS.scatter.connect('thesis').then(connected => {
+  ScatterJS.scatter.connect('Submerged').then(connected => {
     if(!connected) return dispatch({ type: 'SCATTER/CONNECT_SCATTER_REJECTED' })
-    return dispatch({
+    dispatch({
       type: 'SCATTER/CONNECT_SCATTER_SUCCEEDED',
       payload: ScatterJS.scatter,
     })
+    return dispatch(setScatterAccount())
   }).catch(err => console.log('error', err))
   window.scatter = null
 

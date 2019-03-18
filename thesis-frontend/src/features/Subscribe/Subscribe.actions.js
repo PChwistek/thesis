@@ -1,13 +1,23 @@
-export const addSubscriptionToCart = creator => (dispatch) => dispatch({
-  type: 'SUBSCRIBE/ADD_SUBSCRIPTION_TO_CART',
-  payload: creator,
-})
+import axios from 'axios'
 
-export const removingSubscriptionFromCart = creator => (dispatch) => dispatch({
-  type: 'SUBSCRIBE/REMOVE_SUBCRIPTION_FROM_CART',
-  payload: creator,
-})
-
-export const clearSubscriptionCart = () => dispatch => dispatch({
-  type: 'SUBSCRIBE/CLEAR_SUBSCRIPTION_CART',
-})
+export const logSubscribe = (creator, transactionId) => (dispatch, getState) => {
+  const store = getState()
+  const { auth:{ account } } = store
+  console.log('transax', transactionId)
+  return dispatch({
+    type: 'SUBSCRIBE/NEW_SUBSCRIPTION',
+    payload: axios({
+      method: 'POST',
+      url: 'http://localhost:3009/api/user/subscribe',
+      data: {
+        subscriber: account,
+        creator,
+      }
+    }).then(res => {
+      return dispatch({
+        type: 'SUBSCRIBE/NEW_SUBSCRIPTION_FULFILLED',
+        payload: res.data,
+      })
+    })
+  }) 
+}
