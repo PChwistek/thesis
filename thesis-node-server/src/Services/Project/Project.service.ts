@@ -12,20 +12,32 @@ export class ProjectService {
     return []
   }
 
-  getAll(): any {
-    return []
+  async getAll(body): Promise<any> {
+    const { account } = body
+    const theDoc = await this.findByKey(account)
+    const projects = []
+    if (theDoc) {
+      projects.push(theDoc.projects)
+    }
+    return projects
   }
 
-  async declareProject(post): Promise<any> {
-    const { user } = post
-    const theDoc = await getSpecificDoc('projects', user)
+  async findByKey(key: string): Promise<FirebaseFirestore.DocumentData> {
+    const theDoc = await getSpecificDoc('projects', key)
+    if (!theDoc) return null
+    return theDoc
+  }
+
+  async declareProject(account, post): Promise<any> {
+    const theDoc = await getSpecificDoc('projects', account)
+    post.active = true
     const projects = !theDoc ? [] : theDoc.projects
 
     projects.push( post )
 
     const toFile = {
       collectionKey: 'projects',
-      documentKey: user,
+      documentKey: account,
       documentBody: {
         projects,
       },
@@ -38,8 +50,13 @@ export class ProjectService {
     return true
   }
 
-  fulfillProject(body): any {
-    return true
+  async fulfillProject(account, post): Promise<any> {
+    const theDoc = await this.findByKey(account)
+    const foundIndex = theDoc.projects.findIndex(x => x.projectTitle === post.title)
+    const theProject = theDoc.projects[foundIndex]
+    theProject.active = false
+    theDoc.projects[foundIndex] = theProject
+    return merge('projects', account, theDoc)
   }
 
 }

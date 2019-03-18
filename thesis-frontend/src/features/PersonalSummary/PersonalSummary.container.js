@@ -1,18 +1,17 @@
 import { connect } from 'react-redux'
 import { get } from 'lodash'
-import { getSubscribers } from '../RPC/RPC.actions'
 import PersonalSummary from './PersonalSummary'
 
-const stateToProps = ({ auth, rpc }) => ({
+const stateToProps = ({ auth, channels }) => ({
   account: get(auth, 'account'),
-  subs: get(rpc, 'subscribers'),
+  subs: get(channels, 'subscriptions', 0),
   first: get(auth, 'first'),
   last: get(auth, 'last'),
   username: get(auth, 'username')
 })
 
 const dispatchToProps = {
-  getSubscribers,
+  
 }
 
 export default connect(stateToProps, dispatchToProps)(PersonalSummary)

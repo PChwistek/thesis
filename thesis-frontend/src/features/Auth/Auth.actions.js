@@ -40,11 +40,10 @@ export const createScatterAssocAccount = () => (dispatch, getState) => {
         email,
       }
     }).then(response => {
-      dispatch({
+      return dispatch({
         type: 'AUTH/CREATE_SCATTER_ASSOCIATED_ACCOUNT_FULFILLED',
         payload: response.data,
       })
-      return dispatch(loginScatter())
     }).catch(() => dispatch({ type: 'AUTH/CREATE_SCATTER_ASSOCIATED_ACCOUNT_REJECTED' })),
   })
 }

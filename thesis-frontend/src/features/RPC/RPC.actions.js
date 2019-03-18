@@ -17,6 +17,19 @@ export const getChannels = () => dispatch => {
   }))
 }
 
+export function getProject (creator, projectTitle) {
+  const rpc = new JsonRpc(endpoint)
+  return rpc.get_table_rows({
+    code: 'submerged',
+    scope: creator,
+    table: 'projects',
+    json: true
+  }).then(res => {
+    const { rows } = res
+    return rows.filter(row => row.project_name === projectTitle)[0]
+  })
+}
+
 export const getSubscribers = (user) => dispatch => {
   const rpc = new JsonRpc(endpoint)
   console.log(user)

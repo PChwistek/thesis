@@ -3,12 +3,11 @@ import { Card, Icon } from 'semantic-ui-react'
 
 class PersonalSummary extends Component {
   render() {
-    const { first, last, username, bio, subs, account, getSubscribers } = this.props
-    getSubscribers(account)
+    const { first, last, username, bio, subs } = this.props
     const extra = ( 
       <a>
         <Icon name='user' />
-        { subs } Subscribers
+        { subs } Subscribed
       </a>
     )
     return (

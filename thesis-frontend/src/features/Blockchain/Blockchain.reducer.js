@@ -24,6 +24,12 @@ export default function blockchain (state = initialState, action) {
       return i.assoc(state, 'showScatterModal', false)
     case 'BLOCKCHAIN/SUBSCRIBE_REJECTED':
       return i.assoc(state, 'showScatterModal', false)
+    case 'BLOCKCHAIN/DECLARE_PROJECT_PENDING':
+      return i.assoc(state, 'showScatterModal', true)
+    case 'BLOCKCHAIN/DECLARE_PROJECT_FULFILLED':
+      return i.assoc(state, 'showScatterModal', false)
+    case 'BLOCKCHAIN/DECLARE_PROJECT_REJECTED':
+      return i.assoc(state, 'showScatterModal', false)
     default:
       return state
   }

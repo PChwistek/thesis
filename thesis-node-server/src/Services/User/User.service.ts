@@ -1,9 +1,12 @@
 import { Injectable } from '@nestjs/common'
 import { getSpecificDoc, merge, save } from 'helpers/firestore'
 import { IFirestoreFile } from 'Models/Storage/Storage.model'
-
+import { ChannelService } from 'Services/Channel/Channel.service'
 @Injectable()
 export class UserService {
+  constructor(
+    private readonly channelServce: ChannelService,
+  ) {}
 
   root() {
     return 'At user!'
@@ -18,6 +21,7 @@ export class UserService {
     }
     userData.subscribedTo.push(creator)
     this.merge(subscriber, userData)
+    this.channelServce.incrementSubs(creator)
     return userData.subscribedTo
   }
 

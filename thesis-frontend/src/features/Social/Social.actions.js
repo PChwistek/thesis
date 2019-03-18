@@ -57,7 +57,30 @@ export const post = thePost => (dispatch, getState) => {
         account,
         newPost: thePost,
       }
+    }).then(() => {
+      return dispatch(getFeed())
     })
-  }) 
+  })
   return dispatch(destroy('post'))
+}
+
+export const getProjects = () => (dispatch, getState) => {
+  const store = getState()
+  const { auth: { account } } = store
+  dispatch({
+    type: 'SOCIAL/GET_PROJECTS',
+    payload: axios({
+      method: 'POST',
+      url: 'http://localhost:3009/api/project/all',
+      data: {
+        account,
+      }
+    }).then(res => {
+      return dispatch({
+        type: 'SOCIAL/GET_PROJECTS_FULFILLED',
+        payload: res.data,
+      })
+    })
+  })
+
 }

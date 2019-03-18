@@ -29,6 +29,7 @@ export class AuthService {
         account,
         publicKey,
         token,
+        subscribedTo: [],
       },
     }
     this.userService.saveScatterAccount(toFile)
@@ -41,6 +42,7 @@ export class AuthService {
       account,
       publicKey,
       token,
+      subscribedTo: [],
     }
   }
 

@@ -63,10 +63,9 @@ export class SocialService {
         posts,
       },
     }
-    console.log('New Post', newPost)
     switch (newPost.type) {
       case 'declaration':
-        this.projectService.declareProject(newPost)
+        this.projectService.declareProject(account, newPost)
         break
       case 'delivery':
         this.projectService.fulfillProject(newPost)

@@ -1,12 +1,34 @@
 import React, { Component } from 'react'
-import { Button, Dropdown, Embed, Form, Input } from 'semantic-ui-react'
+import { Button, Dropdown, Embed, Form, Input, Select } from 'semantic-ui-react'
 import { Field, reduxForm, change } from 'redux-form'
 import { getEmbedId } from '../../helpers/utils' 
 
 class PostForm extends Component {
 
+  componentDidMount(){
+    const { setScatter, isScatterAccount } = this.props
+    if(!isScatterAccount) {
+      setScatter()
+    }
+  }
+
+  handlePost = () => {
+    const { thePostForm, post, declareProject, deliverProject } = this.props
+    switch(thePostForm.type) {
+      case 'declaration':
+        return declareProject(thePostForm)
+      case 'delivery':
+        return deliverProject(thePostForm)
+      case 'extension':
+        return post(thePostForm)
+      default: 
+        return post(thePostForm)
+    }
+  }
+
   getExtraFields = () => {
-    const { thePostForm } = this.props
+    const { thePostForm, projects, getProjects } = this.props
+    getProjects()
     const optionTypes = [ 
       { key: 'video', value: 'video', text: 'Video' },
       { key: 'podcast', value: 'podcast', text: 'Podcast ' }
@@ -38,10 +60,11 @@ class PostForm extends Component {
           </div>
         )
       case 'delivery':
+        const activeProjects = projects.filter(project => project.active).map(project => ({ key: project.title, value: project.title, text: project.title }))
         return (
           <div>
             <Form.Field>
-              <Dropdown placeholder='Which project?' search selection options={ optionTypes } onChange={ this.handleWhichProject } />
+              <Dropdown name="title" placeholder='Which project?' search selection options={ activeProjects } onChange={ this.handleWhichProject } />
             </Form.Field>
             <Form.Field>
               <Field component={ Input } name="link" placeholder="Delivery link" fluid />
@@ -70,11 +93,11 @@ class PostForm extends Component {
   }
 
   handleWhichProject = (event, data) => {
-    this.props.dispatch(change('post', 'deliveredProject', data.value))
+    this.props.dispatch(change('post', 'title', data.value))
   }
 
   render() {
-    const { hasChannel, post, thePostForm } = this.props
+    const { hasChannel } = this.props
     const options = [
       {
         text: 'Social',
@@ -104,16 +127,12 @@ class PostForm extends Component {
           />
         </Form.Field>
         <Form.Field>
-          <Form.Select options={ hasChannel ? options : options[0] } defaultValue={ 'social' } onChange={ this.handleSelect } />
+          <Select options={ hasChannel ? options : [options[0]] } defaultValue={ 'social' } onChange={ this.handleSelect } />
         </Form.Field>
         { this.getExtraFields() }
         <Button 
           type='submit' 
-          onClick={ () => post(
-            { 
-              ...thePostForm,
-            }
-          ) }
+          onClick={ this.handlePost }
         >
           Submit
         </Button>

@@ -14,4 +14,9 @@ export class ProjectController {
   getActive(@Body() body): any {
     return this.projectService.getActive()
   }
+
+  @Post('/all')
+  getAll(@Body() body): any {
+    return this.projectService.getAll(body)
+  }
 }

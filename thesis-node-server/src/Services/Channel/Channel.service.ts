@@ -42,6 +42,18 @@ export class ChannelService {
     return merge('channel', username, dataToMerge)
   }
 
+  async incrementSubs(key: string) {
+    const theDoc = await this.findByKey(key)
+    theDoc.subscriptions = theDoc.subscriptions + 1
+    return this.merge({dataToMerge: theDoc, username: key})
+  }
+
+  async decrementSubs(key: string) {
+    const theDoc = await this.findByKey(key)
+    theDoc.subscriptions = theDoc.subscriptions - 1
+    return this.merge({dataToMerge: theDoc, username: key})
+  }
+
   saveChannel(body: any) {
     const { account, username, minimumPrice, description, tags, channelName } = body
     const toFile = {

@@ -50,14 +50,14 @@ class Dashboard extends Component {
             <Segment>
               Subscriptions
               {
-                subbedChannels.map((channel, index) => {
-                  return (
-                    <div key={ index }>
-                      <br />
-                      <p> { channel.channelName } </p>
-                    </div>
-                  )
-                })
+                subbedChannels && subbedChannels.map((channel, index) => {
+                return (
+                  <div key={ index }>
+                    <br />
+                    <p> { channel.channelName } </p>
+                  </div>
+                )
+              })
               }
             </Segment>
           </Grid.Column>

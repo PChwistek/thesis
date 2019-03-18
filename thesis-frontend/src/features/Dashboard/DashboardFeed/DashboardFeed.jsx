@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 
-import { Feed, Icon } from 'semantic-ui-react'
+import { Embed, Feed, Icon } from 'semantic-ui-react'
+import { getEmbedId } from '../../../helpers/utils'
 
 class DashboardFeed extends Component {
 
@@ -16,9 +17,46 @@ class DashboardFeed extends Component {
         return (<span> posted an update </span>)
     }
   }
+
+  getAppropriatePostBody(post) {
+    switch(post.type) {
+      case 'declaration':
+        return (
+          <div> 
+            <p> { post.body } </p>
+            <p> { post.title } </p>
+            <p> { post.dueDate } </p>
+            <p> { post.contentType } </p>
+          </div>
+        )
+      case 'delivery':
+        return (
+          <div> 
+            <p> { post.title } </p>
+            <p> { post.dueDate } </p>
+            <p> { post.contentType } </p>
+            <p> { post.body } </p>
+            <Embed id={ getEmbedId(post.link) } placeholder='' source='youtube' active autoplay={ false } />
+          </div>
+        )
+      case 'extension':
+        return (
+          <div> 
+            plz be merciful 
+          </div> 
+        )
+      default:
+        return (
+          <div> 
+            <p> { post.body } </p>
+          </div>
+        )
+    }
+  }
   
   render() {
     const { posts } = this.props
+    console.log(posts)
     return (
       <Feed>
         { posts[0] && posts.length > 0
@@ -30,8 +68,7 @@ class DashboardFeed extends Component {
                   <Feed.Date>{ post.time } </Feed.Date>
                 </Feed.Summary>
                 <Feed.Extra text>
-                  { post.projectTitle }
-                  { post.body }
+                  { this.getAppropriatePostBody(post) }
                 </Feed.Extra>
                 <Feed.Meta>
                   <Feed.Like>

@@ -10,7 +10,7 @@ const initialState = {
   delivered: '',
   viewing: {},
   channels: [],
-  subscribedTo: [],
+  subscriptions: [],
 }
 
 export default function channel (state = initialState, action) {
@@ -24,7 +24,7 @@ export default function channel (state = initialState, action) {
         .assoc('tags', action.payload.tags)
         .assoc('projects', action.payload.projects)
         .assoc('delivered', action.payload.delivered)
-        .assoc('subscribedTo', action.payload.subscribedTo)
+        .assoc('subscriptions', action.payload.subscriptions)
         .value()
     case 'CHANNEL/GET_CHANNEL_DETAILS_FULFILLED':
       return i.assoc(state, 'viewing', action.payload)
