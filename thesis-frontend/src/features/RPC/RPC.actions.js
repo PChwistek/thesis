@@ -30,6 +30,19 @@ export function getProject (creator, projectTitle) {
   })
 }
 
+export function getPoll (creator, projectKey, voteType) {
+  const rpc = new JsonRpc(endpoint)
+  return rpc.get_table_rows({
+    code: 'submerged',
+    scope: creator,
+    table: 'polls',
+    json: true
+  }).then(res => {
+    const { rows } = res
+    return rows.filter(row => row.project_key === projectKey && row.vote_type === voteType)[0]
+  })
+}
+
 export const getSubscribers = (user) => dispatch => {
   const rpc = new JsonRpc(endpoint)
   console.log(user)

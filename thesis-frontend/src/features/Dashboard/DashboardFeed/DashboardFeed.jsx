@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 
-import { Embed, Feed, Icon } from 'semantic-ui-react'
+import { Button, Divider, Embed, Feed } from 'semantic-ui-react'
 import { getEmbedId } from '../../../helpers/utils'
 
 class DashboardFeed extends Component {
@@ -37,6 +37,14 @@ class DashboardFeed extends Component {
             <p> { post.contentType } </p>
             <p> { post.body } </p>
             <Embed id={ getEmbedId(post.link) } placeholder='' source='youtube' active autoplay={ false } />
+            <br />
+            Satisfied?
+            <br />
+            <Button.Group size='small'>
+              <Button>Yes</Button>
+              <Button.Or />
+              <Button>No</Button>
+            </Button.Group>
           </div>
         )
       case 'extension':
@@ -56,28 +64,24 @@ class DashboardFeed extends Component {
   
   render() {
     const { posts } = this.props
-    console.log(posts)
     return (
       <Feed>
         { posts[0] && posts.length > 0
           ? posts.map((post,index) => (
-            <Feed.Event key={ index }>
-              <Feed.Content>
-                <Feed.Summary>
-                  <Feed.User>{ post.user } </Feed.User> { this.getAppropriateSummary(post) }
-                  <Feed.Date>{ post.time } </Feed.Date>
-                </Feed.Summary>
-                <Feed.Extra text>
-                  { this.getAppropriatePostBody(post) }
-                </Feed.Extra>
-                <Feed.Meta>
-                  <Feed.Like>
-                    <Icon name='like' />
-                    0 Likes
-                  </Feed.Like>
-                </Feed.Meta>
-              </Feed.Content>
-            </Feed.Event>
+            <Fragment>
+              <Feed.Event key={ index }>
+                <Feed.Content>
+                  <Feed.Summary>
+                    <Feed.User>{ post.user } </Feed.User> { this.getAppropriateSummary(post) }
+                    <Feed.Date>{ post.time } </Feed.Date>
+                  </Feed.Summary>
+                  <Feed.Extra text>
+                    { this.getAppropriatePostBody(post) }
+                  </Feed.Extra>
+                </Feed.Content>
+              </Feed.Event>
+              <Divider />
+            </Fragment>
           ))
           : <div> Nothing here! </div>
         }

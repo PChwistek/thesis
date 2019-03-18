@@ -31,6 +31,7 @@ export class ProjectService {
   async declareProject(account, post): Promise<any> {
     const theDoc = await getSpecificDoc('projects', account)
     post.active = true
+    post.status = 'awaiting delivery'
     const projects = !theDoc ? [] : theDoc.projects
 
     projects.push( post )
@@ -52,9 +53,10 @@ export class ProjectService {
 
   async fulfillProject(account, post): Promise<any> {
     const theDoc = await this.findByKey(account)
-    const foundIndex = theDoc.projects.findIndex(x => x.projectTitle === post.title)
+    const foundIndex = theDoc.projects.findIndex(x => x.title === post.title)
     const theProject = theDoc.projects[foundIndex]
     theProject.active = false
+    theProject.status = 'voting'
     theDoc.projects[foundIndex] = theProject
     return merge('projects', account, theDoc)
   }

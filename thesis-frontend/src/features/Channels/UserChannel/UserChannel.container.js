@@ -9,6 +9,7 @@ import { get } from 'lodash'
 const stateToProps = ({ auth, router, social, channels, scatter }) => ({
   auth,
   account: auth.account,
+  projects: get(social, 'projects', []),
   hasChannel: get(channels, 'minimumPrice', false),
   isScatterAccount: !!scatter.account,
   posts: get(social, 'channelPosts', []),

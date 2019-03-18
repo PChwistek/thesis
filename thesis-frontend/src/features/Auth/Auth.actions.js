@@ -1,6 +1,8 @@
 import axios from 'axios'
 import { get } from 'lodash'
 import { signOutScatter } from '../Scatter/Scatter.actions'
+import { clearSocial } from '../Social/Social.actions'
+import { clearChannels } from '../Channels/Channel.actions'
 import { push } from 'connected-react-router'
 
 export const getStartedNext = () => ({
@@ -91,14 +93,8 @@ export const logout = () => (dispatch, getState) => {
       headers: { 'Authorization' : `Bearer ${token}`},
     })
   }
+  dispatch([signOutScatter(), logout(), clearChannels(), clearSocial()])
   return dispatch({
     type: 'AUTH/LOGOUT',
-    payload: [signOutScatter(), logout()],
   })
 }
-
-/*
-export const updateUser = () => (dispatch, getState) => {
-  
-} 
-*/

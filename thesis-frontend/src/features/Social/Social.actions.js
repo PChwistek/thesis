@@ -82,5 +82,10 @@ export const getProjects = () => (dispatch, getState) => {
       })
     })
   })
+}
 
+export const clearSocial = () => dispatch => {
+  dispatch({
+    type: 'SOCIAL/CLEAR'
+  })
 }

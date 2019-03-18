@@ -20,6 +20,8 @@ export default function scatter (state = initialState, action) {
       return state
     case 'SOCIAL/GET_PROJECTS_FULFILLED':
       return i.assoc(state, 'projects', action.payload[0])
+    case 'SOCIAl/CLEAR':
+      return initialState
     default:
       return state
   }

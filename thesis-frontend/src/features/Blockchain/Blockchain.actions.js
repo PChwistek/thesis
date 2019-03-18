@@ -4,7 +4,7 @@ import { endpoint, network } from '../../api/scatterConfig'
 import { transaction } from './Blockchain.utils'
 import { logSubscribe } from '../Subscribe/Subscribe.actions'
 import { post } from '../Social/Social.actions'
-import { getProject } from '../RPC/RPC.actions'
+import { getProject, getPoll } from '../RPC/RPC.actions'
 
 export const sayHello = () => (dispatch, getState) => {
   const store = getState()
@@ -89,7 +89,11 @@ export const declareProject = (thePost) => (dispatch, getState) => {
     month: 0,
   } )
     .then(
-      response => {
+      async response => {
+        const project = await getProject(account.name, thePost.title)
+        const { key } = project
+        thePost.blockchainKey = key
+        thePost.blockchain = project
         dispatch({ type: 'BLOCKCHAIN/DECLARE_PROJECT_FULFILLED', payload: response, })
         return dispatch(post(thePost))
       },
@@ -102,21 +106,58 @@ export const deliverProject = (thePost) => async (dispatch, getState) => {
   const store = getState()
   const scatter = store.scatter.ref
   const account = store.scatter.identity.accounts[0]
+  const projects = store.social.projects
   const rpc = new JsonRpc(endpoint)
   const api = scatter.eos(network, Api, { rpc })
-  const project = await getProject(account.name, thePost.title)
-  const { key } = project
-
+  const theProject = projects.filter(x => x.title === thePost.title)[0]
+  const { blockchainKey } = theProject
+  console.log('theProject', theProject)
   dispatch({ type: 'BLOCKCHAIN/FULFILL_PROJECT_PENDING' })
   return transaction(api, 'submerged', 'fulfill', account, { 
     creator: account.name, 
-    project_key: key,
+    project_key: blockchainKey,
   } )
     .then(
-      response => {
+      async response => {
         dispatch({ type: 'BLOCKCHAIN/FULFILL_PROJECT_FULFILLED', payload: response, })
+        const thePoll = await getPoll(account.name, blockchainKey, 'nps')
+        dispatch({ 
+          type: 'POLL/SAVE_POLL',
+          payload: axios({
+            method: 'POST',
+            url: 'http://localhost:3009/api/poll',
+            data: {
+              account: account.name,
+              thePoll,
+            }
+          }).then(res => dispatch({ type: 'POLL/SAVE_POLL_FULFILLED', payload: res.data, }))
+        })
         return dispatch(post(thePost))
       },
       error => dispatch({ type: 'BLOCKCHAIN/FULFILL_PROJECT_REJECTED', payload: error, })
+    ) 
+}
+
+export const vote = (vote, creator, projectKey) => (dispatch, getState) => {
+  const store = getState()
+  const scatter = store.scatter.ref
+  const account = store.scatter.identity.accounts[0]
+  const rpc = new JsonRpc(endpoint)
+  const api = scatter.eos(network, Api, { rpc })
+  const campaignKey = 0
+
+  dispatch({ type: 'BLOCKCHAIN/VOTE_PENDING' })
+  return transaction(api, 'submerged', 'vote', account, { 
+    voter: account.name,
+    creator: creator,
+    project_key: projectKey,
+    campaign_key: campaignKey,
+    satisfied: vote,
+  } )
+    .then(
+      response => {
+        return dispatch({ type: 'BLOCKCHAIN/VOTE_FULFILLED', payload: response, })
+      },
+      error => dispatch({ type: 'BLOCKCHAIN/VOTE_REJECTED', payload: error, })
     ) 
 }

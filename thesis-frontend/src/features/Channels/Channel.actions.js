@@ -61,3 +61,9 @@ export const getChannel = account => dispatch => {
     }))
   })
 }
+
+export const clearChannels = () => dispatch => {
+  dispatch({
+    type:'CHANNEL/CLEAR'
+  })
+}

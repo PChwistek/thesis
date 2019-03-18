@@ -68,7 +68,7 @@ export class SocialService {
         this.projectService.declareProject(account, newPost)
         break
       case 'delivery':
-        this.projectService.fulfillProject(newPost)
+        this.projectService.fulfillProject(account, newPost)
         break
       case 'extension':
         this.projectService.modifyProject(newPost)

@@ -40,6 +40,8 @@ export default function channel (state = initialState, action) {
         .value()
     case 'CHANNEL/GET_CHANNELS_FULFILLED': 
       return i.assoc(state, 'channels', action.payload)
+    case 'CHANNEL/CLEAR':
+      return initialState
   }
   return state
 }

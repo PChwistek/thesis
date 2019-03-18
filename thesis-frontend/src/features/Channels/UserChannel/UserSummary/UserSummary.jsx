@@ -11,13 +11,14 @@ class UserSummary extends Component {
     }
   }
   render() {
-    const {  viewing, subscribe, auth } = this.props    
-    const subscribed = auth.subscribedTo.indexOf(viewing.account) != -1
+    const {  viewing, subscribe, auth, theirAccount, projects } = this.props    
+    const subscribed = auth.subscribedTo.indexOf(viewing.account) != -1 || theirAccount
     const extra = ( 
       <div>
+        <p> { viewing.minimumPrice } per cycle </p>
         <p> { viewing.subscriptions } Backers </p>
         <a>
-          { subscribed ? <div> Subscribed </div> : <Button primary onClick={ () => subscribe(viewing.account, viewing.minimumPrice) }> Subscribe </Button> }
+          { subscribed  ? <div> Subscribed </div> : <Button primary onClick={ () => subscribe(viewing.account, viewing.minimumPrice) }> Subscribe </Button> }
         </a>
       </div>
     )
@@ -30,6 +31,29 @@ class UserSummary extends Component {
           description={ viewing.description }
           extra={ extra }
         />
+        <Card>
+          <Card.Content>
+            <Card.Header>Projects this cycle</Card.Header>
+          </Card.Content>
+          <Card.Content>
+            <Feed>
+              {
+                projects.map(project => (
+                  <Feed.Event>
+                    <Feed.Content>
+                      <Feed.Summary>
+                        { project.title }
+                      </Feed.Summary>
+                      <Feed.Extra text>
+                        { project.status }
+                      </Feed.Extra>
+                    </Feed.Content>
+                  </Feed.Event>
+                ))
+              }
+            </Feed>
+          </Card.Content>
+        </Card>
         <Card>
           <Card.Content>
             <Card.Header>Channel Statistics</Card.Header>

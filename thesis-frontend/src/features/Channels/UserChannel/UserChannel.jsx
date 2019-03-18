@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Grid, Header, Segment } from 'semantic-ui-react'
-import PersonalSummary from '../../PersonalSummary'
 import UserSummary from './UserSummary'
 import PostForm from '../../PostForm'
 import AuthedApp from '../../AuthedApp'
@@ -42,7 +41,7 @@ class UserChannel extends Component {
         <AuthedApp>
           <Grid columns="equal">
             <Grid.Column width={ 4 }>
-              <PersonalSummary />
+              <UserSummary { ...this.props } />
             </Grid.Column>
             <Grid.Column>
               <Segment>
