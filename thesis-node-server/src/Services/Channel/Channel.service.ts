@@ -14,7 +14,6 @@ export class ChannelService {
 
   async getChannels(terms, tags): Promise<any> {
     const theChannels = await getCollection('channel')
-    console.log(theChannels)
     // search according to terms, tags
     if (!theChannels) return []
     return theChannels
@@ -23,14 +22,14 @@ export class ChannelService {
   async getMultiple(account, subscribedTo): Promise<any> {
 
     const subbedChannels = []
-    subscribedTo.forEach(async element => {
-      return subbedChannels.push(await this.findByKey(element))
+    subscribedTo.forEach(element => {
+      this.findByKey(element).then(val => subbedChannels.push(val))
     })
     const userChannel = await this.findByKey(account)
 
     const response = {
       ...userChannel,
-      subscribedTo: subbedChannels,
+      subscriptions: subbedChannels,
     }
 
     return response

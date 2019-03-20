@@ -4,7 +4,7 @@ import { endpoint, network } from '../../api/scatterConfig'
 import { transaction } from './Blockchain.utils'
 import { logSubscribe } from '../Subscribe/Subscribe.actions'
 import { post } from '../Social/Social.actions'
-import { getProject, getPoll } from '../RPC/RPC.actions'
+import { getProject } from '../RPC/RPC.actions'
 
 export const sayHello = () => (dispatch, getState) => {
   const store = getState()
@@ -111,40 +111,27 @@ export const deliverProject = (thePost) => async (dispatch, getState) => {
   const api = scatter.eos(network, Api, { rpc })
   const theProject = projects.filter(x => x.title === thePost.title)[0]
   const { blockchainKey } = theProject
-  console.log('theProject', theProject)
+  thePost.projectKey = blockchainKey
   dispatch({ type: 'BLOCKCHAIN/FULFILL_PROJECT_PENDING' })
   return transaction(api, 'submerged', 'fulfill', account, { 
     creator: account.name, 
     project_key: blockchainKey,
   } )
     .then(
-      async response => {
+      response => {
         dispatch({ type: 'BLOCKCHAIN/FULFILL_PROJECT_FULFILLED', payload: response, })
-        const thePoll = await getPoll(account.name, blockchainKey, 'nps')
-        dispatch({ 
-          type: 'POLL/SAVE_POLL',
-          payload: axios({
-            method: 'POST',
-            url: 'http://localhost:3009/api/poll',
-            data: {
-              account: account.name,
-              thePoll,
-            }
-          }).then(res => dispatch({ type: 'POLL/SAVE_POLL_FULFILLED', payload: res.data, }))
-        })
         return dispatch(post(thePost))
       },
       error => dispatch({ type: 'BLOCKCHAIN/FULFILL_PROJECT_REJECTED', payload: error, })
     ) 
 }
 
-export const vote = (vote, creator, projectKey) => (dispatch, getState) => {
+export const vote = (vote, creator, projectKey, campaignKey) => (dispatch, getState) => {
   const store = getState()
   const scatter = store.scatter.ref
   const account = store.scatter.identity.accounts[0]
   const rpc = new JsonRpc(endpoint)
   const api = scatter.eos(network, Api, { rpc })
-  const campaignKey = 0
 
   dispatch({ type: 'BLOCKCHAIN/VOTE_PENDING' })
   return transaction(api, 'submerged', 'vote', account, { 

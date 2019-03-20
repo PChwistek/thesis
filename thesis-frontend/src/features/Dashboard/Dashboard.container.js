@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import { authCompleted } from '../Auth/Auth.actions'
-import { sayHello, subscribe } from '../Blockchain/Blockchain.actions'
+import { sayHello, subscribe, vote } from '../Blockchain/Blockchain.actions'
 import { setScatter, setScatterAccount } from '../Scatter/Scatter.actions'
 import { getUserChannel } from '../Channels/Channel.actions'
 import { getFeed } from '../Social/Social.actions' 
@@ -11,7 +11,8 @@ const stateToProps = ({ auth, rpc, social, channels }) => ({
   auth,
   stores: rpc.stores,
   posts: get(social, 'posts', []),
-  subbedChannels: channels.subscribedTo,
+  fetchingChannel: social.fetchingChannel,
+  subbedChannels: get(channels, 'subscriptions', []),
 })
 
 const dispatchToProps = {
@@ -22,6 +23,7 @@ const dispatchToProps = {
   setScatterAccount,
   sayHello,
   subscribe,
+  vote,
 }
 
 export default connect(stateToProps, dispatchToProps)(Dashboard)

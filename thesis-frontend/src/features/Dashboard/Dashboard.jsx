@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Grid, Segment } from 'semantic-ui-react'
 import AuthedApp from '../AuthedApp'
+import { Link } from 'react-router-dom'
 import PersonalSummary from '../PersonalSummary'
 import PostForm from '../PostForm'
 import DashboardFeed from './DashboardFeed'
@@ -24,14 +25,16 @@ class Dashboard extends Component {
   }
 
   componentDidMount() {
-    const { auth, authCompleted, getUserChannel, getFeed } = this.props
+    const { authCompleted, getFeed, getUserChannel, auth } = this.props
     authCompleted()
-    getUserChannel(auth.account)
     getFeed()
+    getUserChannel(auth.account)
+  
   }
 
   render() {
-    const { auth, posts, subbedChannels } = this.props
+    const { auth, subbedChannels } = this.props
+
     return (
       <AuthedApp>
         <Grid columns="equal">
@@ -43,21 +46,30 @@ class Dashboard extends Component {
               <PostForm hasChannel={ auth.hasChannel } />
             </Segment>
             <Segment>
-              <DashboardFeed posts={ posts } />
+              <DashboardFeed { ...this.props } />
             </Segment>
           </Grid.Column>
           <Grid.Column>
             <Segment>
               Subscriptions
               {
-                subbedChannels && subbedChannels.map((channel, index) => {
-                return (
-                  <div key={ index }>
-                    <br />
-                    <p> { channel.channelName } </p>
-                  </div>
-                )
-              })
+                subbedChannels.map((channel, index) => {
+                  return (
+                    <div key={ index }>
+                      <br />
+                      <Link to={
+                        {
+                          pathname: '/channel',
+                          state: {
+                            key: channel.account,
+                          }
+                        }
+                      }>
+                        <p> { channel.channelName } </p>
+                      </Link>
+                    </div>
+                  )
+                })
               }
             </Segment>
           </Grid.Column>
