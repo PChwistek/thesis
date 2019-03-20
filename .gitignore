@@ -4,6 +4,7 @@
 /node_modules
 /contracts/libraries
 /thesis-node-server/node_modules
+/thesis-node-server/src/helpers/
 
 # testing
 /coverage
