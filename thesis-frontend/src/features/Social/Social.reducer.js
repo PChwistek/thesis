@@ -21,6 +21,7 @@ export default function scatter (state = initialState, action) {
         return i.chain(state)
           .assoc('channelPosts', action.payload[0])
           .assoc('fetchingChannel', false)
+          .value()
       }
       return state
     case 'SOCIAL/GET_PROJECTS_FULFILLED':

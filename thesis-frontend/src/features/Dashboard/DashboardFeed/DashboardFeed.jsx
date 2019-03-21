@@ -3,6 +3,7 @@ import { Button, Divider, Header, Embed, Feed, Segment } from 'semantic-ui-react
 import { getEmbedId } from '../../../helpers/utils'
 import { getPoll, getProject } from '../../RPC/RPC.actions'
 import ProjectModal from '../../ProjectModal'
+import { get } from 'lodash'
 
 class DashboardFeed extends Component {
 
@@ -51,7 +52,7 @@ class DashboardFeed extends Component {
 
   getAppropriatePostBody(post) {
     const { auth } = this.props
-    const userOwned = auth.account === post.account
+    const userOwned = get(post, 'account', false) && get(auth, 'account', false) === post.account
     switch(post.type) {
       case 'declaration':
         return (
@@ -61,7 +62,7 @@ class DashboardFeed extends Component {
               <Header> { post.title } </Header>
               <p> Due date: { post.dueDate } </p>
               <p> Content type: { post.contentType } </p>
-              <p> Promised Length: { post.contentType } </p>
+              <p> Promised Length: { post.length } minutes </p>
             </Segment> 
           </div>
         )

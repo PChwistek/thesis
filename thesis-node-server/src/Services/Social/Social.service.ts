@@ -54,7 +54,7 @@ export class SocialService {
     const theDoc = await getSpecificDoc('social', account)
     const posts = !theDoc ? [] : theDoc.posts
 
-    posts.push( newPost )
+    posts.unshift( newPost )
 
     const toFile = {
       collectionKey: 'social',

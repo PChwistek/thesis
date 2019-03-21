@@ -30,6 +30,19 @@ export function getProject (creator, projectTitle) {
   })
 }
 
+export function getProjects (creator) {
+  const rpc = new JsonRpc(endpoint)
+  return rpc.get_table_rows({
+    code: 'submerged',
+    scope: creator,
+    table: 'projects',
+    json: true
+  }).then(res => {
+    const { rows } = res
+    return rows
+  })
+}
+
 export function getPoll (creator, projectKey, voteType) {
   const rpc = new JsonRpc(endpoint)
   return rpc.get_table_rows({

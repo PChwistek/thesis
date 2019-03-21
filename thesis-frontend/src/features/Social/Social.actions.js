@@ -58,8 +58,8 @@ export const post = thePost => (dispatch, getState) => {
         account,
         newPost: thePost,
       }
-    }).then(() => {
-      return dispatch(getFeed())
+    }).then(async () => {
+      return setTimeout(dispatch(getFeed()), 500)
     })
   })
   return dispatch(destroy('post'))

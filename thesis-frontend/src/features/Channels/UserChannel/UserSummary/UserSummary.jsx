@@ -1,7 +1,13 @@
 import React, { Component } from 'react'
-import { Button, Card, Feed } from 'semantic-ui-react'
+import { Button, Card, Feed, Icon  } from 'semantic-ui-react'
+import { getProjects } from '../../../RPC/RPC.actions'
 
 class UserSummary extends Component {
+  state = {
+    projects: [],
+    declared: 0,
+    delivered: 0,
+  }
 
   componentDidMount() {
     const { channelAccount, getChannel, isScatterAccount, setScatter } = this.props
@@ -9,9 +15,39 @@ class UserSummary extends Component {
     if (!isScatterAccount) {
       setScatter()
     }
+    getProjects(channelAccount).then(res => {
+      this.setState({
+        projects: res,
+        declared: res.length,
+        delivered: res.filter(project => project.status === 'cmplt - pass').length
+      })
+    })
   }
+
+  getCorrectSubtitle(project) {
+    switch(project.status) {
+      case 'cmplt - pass':
+        return <div>
+          Delivered and Approved <Icon name="check" color="green" />
+        </div>
+      case 'payment pending':
+        return <div>
+          Payment Pending <Icon name="clock outline" color="blue" />
+        </div>
+      case 'in progress':
+        return <div>
+          Awaiting Delivery <Icon name="clock outline" color="orange" />
+        </div>
+      default:
+        return <div>
+          Failed <Icon name="close" color="red" />
+        </div>
+    }
+  }
+
   render() {
-    const {  viewing, subscribe, auth, theirAccount, projects } = this.props    
+    const {  viewing, subscribe, auth, theirAccount } = this.props
+    const { projects } = this.state
     const subscribed = auth.subscribedTo.indexOf(viewing.account) != -1 || theirAccount
     const extra = ( 
       <div>
@@ -39,13 +75,13 @@ class UserSummary extends Component {
             <Feed>
               {
                 projects.map(project => (
-                  <Feed.Event>
+                  <Feed.Event key={ project.key } >
                     <Feed.Content>
                       <Feed.Summary>
-                        { project.title }
+                        { project.project_name }
                       </Feed.Summary>
                       <Feed.Extra text>
-                        { project.status }
+                        { this.getCorrectSubtitle(project) }
                       </Feed.Extra>
                     </Feed.Content>
                   </Feed.Event>
@@ -61,7 +97,6 @@ class UserSummary extends Component {
           <Card.Content>
             <Feed>
               <Feed.Event>
-                <Feed.Label image='/images/avatar/small/jenny.jpg' />
                 <Feed.Content>
                   <Feed.Summary>
                     Fulfillment Rate: 100%
@@ -69,18 +104,16 @@ class UserSummary extends Component {
                 </Feed.Content>
               </Feed.Event>
               <Feed.Event>
-                <Feed.Label image='/images/avatar/small/jenny.jpg' />
                 <Feed.Content>
                   <Feed.Summary>
-                    Projects declared for this cycle: 
+                    Projects declared for this cycle: { this.state.declared }
                   </Feed.Summary>
                 </Feed.Content>
               </Feed.Event>
               <Feed.Event>
-                <Feed.Label image='/images/avatar/small/jenny.jpg' />
                 <Feed.Content>
                   <Feed.Summary>
-                    Projects delivered this cycle:
+                    Projects delivered this cycle: { this.state.delivered }
                   </Feed.Summary>
                 </Feed.Content>
               </Feed.Event>
