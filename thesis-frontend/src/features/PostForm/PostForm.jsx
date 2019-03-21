@@ -38,19 +38,28 @@ class PostForm extends Component {
       case 'declaration':
         return(
           <div>
-            <Form.Field>
-              <Field
-                component={ Input }
-                placeholder="Project Title"
-                name="title"
-              />
-            </Form.Field>
             <Form.Group>
+              <Form.Field>
+                <Field
+                  component={ Input }
+                  placeholder="Project Title"
+                  name="title"
+                />
+              </Form.Field>
               <Form.Field>
                 <Field
                   component={ Input }
                   placeholder="MM/DD"
                   name="dueDate"
+                />
+              </Form.Field>
+            </Form.Group>
+            <Form.Group>
+              <Form.Field>
+                <Field
+                  component={ Input }
+                  placeholder="Length (min)"
+                  name="length"
                 />
               </Form.Field>
               <Form.Field>

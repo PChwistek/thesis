@@ -10,6 +10,12 @@ export class ProjectController {
     return this.projectService.root()
   }
 
+  @Post('/one')
+  getSpecificProject(@Body() body) {
+    const { account } = body
+    return this.projectService.findByKey(account)
+  }
+
   @Get('/active')
   getActive(@Body() body): any {
     return this.projectService.getActive()

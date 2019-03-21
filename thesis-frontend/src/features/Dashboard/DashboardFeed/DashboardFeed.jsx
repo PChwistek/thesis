@@ -1,10 +1,33 @@
 import React, { Component, Fragment } from 'react'
-
-import { Button, Divider, Embed, Feed } from 'semantic-ui-react'
+import { Button, Divider, Header, Embed, Feed, Segment } from 'semantic-ui-react'
 import { getEmbedId } from '../../../helpers/utils'
-import { getPoll } from '../../RPC/RPC.actions'
+import { getPoll, getProject } from '../../RPC/RPC.actions'
+import ProjectModal from '../../ProjectModal'
 
 class DashboardFeed extends Component {
+
+  state={
+    post: '',
+    open: false,
+  }
+
+  async openModal(post) {
+    const thePoll = await getPoll(post.account, post.blockchainKey, 'nps')
+    const theProject = await getProject(post.account, post.title)
+    this.setState({
+      post: {
+        ...thePoll,
+        ...theProject,
+      },
+      open: true,
+    })
+  }
+
+  closeModal = () => {
+    this.setState({
+      open: false,
+    })
+  }
 
   handleVote = (satisfied, post) => {
     const { vote } = this.props
@@ -27,32 +50,44 @@ class DashboardFeed extends Component {
   }
 
   getAppropriatePostBody(post) {
+    const { auth } = this.props
+    const userOwned = auth.account === post.account
     switch(post.type) {
       case 'declaration':
         return (
-          <div> 
+          <div>
             <p> { post.body } </p>
-            <p> { post.title } </p>
-            <p> { post.dueDate } </p>
-            <p> { post.contentType } </p>
+            <Segment placeholder textAlign="center" onClick={ () => this.openModal(post) } className={ 'clickable' }>
+              <Header> { post.title } </Header>
+              <p> Due date: { post.dueDate } </p>
+              <p> Content type: { post.contentType } </p>
+              <p> Promised Length: { post.contentType } </p>
+            </Segment> 
           </div>
         )
       case 'delivery':
         return (
           <div> 
-            <p> { post.title } </p>
-            <p> { post.dueDate } </p>
-            <p> { post.contentType } </p>
             <p> { post.body } </p>
             <Embed id={ getEmbedId(post.link) } placeholder='' source='youtube' active autoplay={ false } />
-            <br />
-            Satisfied?
-            <br />
-            <Button.Group size='small'>
-              <Button onClick={ () => this.handleVote(true, post) }>Yes</Button>
-              <Button.Or />
-              <Button onClick={ () => this.handleVote(false, post) }>No</Button>
-            </Button.Group>
+            <Segment placeholder textAlign="center" onClick={ () => this.openModal(post) } className={ 'clickable' }>
+              <Header> { post.title } </Header>
+              {
+                !userOwned 
+                  ? <div>
+                    <p> Satisfied? </p>
+                    <Button.Group size='small'>
+                      <Button onClick={ () => this.handleVote(true, post) }>Yes</Button>
+                      <Button.Or />
+                      <Button onClick={ () => this.handleVote(false, post) }>No</Button>
+                    </Button.Group>
+                  </div>
+                  : <div>
+                    Click to view statistics...
+                  </div>
+              }
+             
+            </Segment> 
           </div>
         )
       case 'extension':
@@ -72,8 +107,10 @@ class DashboardFeed extends Component {
   
   render() {
     const { posts } = this.props
+    const { open, post } = this.state
     return (
       <Feed>
+        <ProjectModal open={ open } close={ this.closeModal } post={ post } />
         { posts[0] && posts.length > 0
           ? posts.map((post,index) => (
             <Fragment>
